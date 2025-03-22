@@ -17,6 +17,7 @@ class ParloApp extends StatelessWidget {
         scaffoldBackgroundColor: ColorsManager.black,
         fontFamily: 'Ubuntu',
       ),
+      debugShowCheckedModeBanner: false,
       onGenerateRoute: appRouter.generateRoute,
       initialRoute: Routes.login,
     );
