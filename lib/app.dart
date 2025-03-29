@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parlo/core/routing/app_router.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
+import 'package:parlo/features/auth/services/auth_service.dart';
 
 class ParloApp extends StatelessWidget {
   ParloApp({super.key});
@@ -10,16 +11,23 @@ class ParloApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Parlo',
-      theme: ThemeData(
-        primaryColor: ColorsManager.primary,
-        scaffoldBackgroundColor: ColorsManager.black,
-        fontFamily: 'Ubuntu',
-      ),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: appRouter.generateRoute,
-      initialRoute: Routes.login,
+    return StreamBuilder<String?>(
+      //! it returns the uid only
+      stream: AuthService().uidStream,
+      builder: (context, snapshot) {
+        return MaterialApp(
+          key: ValueKey(snapshot.data),
+          title: 'Parlo',
+          theme: ThemeData(
+            primaryColor: ColorsManager.primary,
+            scaffoldBackgroundColor: ColorsManager.black,
+            fontFamily: 'Ubuntu',
+          ),
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: appRouter.generateRoute,
+          initialRoute: snapshot.hasData ? Routes.voices : Routes.login,
+        );
+      },
     );
   }
 }

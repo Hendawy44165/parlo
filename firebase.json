@@ -1,1 +1,70 @@
-{"firestore":{"rules":"firestore.rules","indexes":"firestore.indexes.json"},"functions":[{"source":"functions","codebase":"default","ignore":["venv",".git","firebase-debug.log","firebase-debug.*.log","*.local"]}],"storage":{"rules":"storage.rules"},"emulators":{"auth":{"port":9099},"functions":{"port":5001},"firestore":{"port":8080},"database":{"port":9000},"pubsub":{"port":8085},"storage":{"port":9199},"ui":{"enabled":true},"singleProjectMode":true},"extensions":{},"database":{"rules":"database.rules.json"},"flutter":{"platforms":{"android":{"default":{"projectId":"parlo-569c5","appId":"1:579507711414:android:39ae3807b32ea4ae992517","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"parlo-569c5","configurations":{"android":"1:579507711414:android:39ae3807b32ea4ae992517","ios":"1:579507711414:ios:b4c0214d5bb90f5c992517"}}}}}}
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "venv",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ],
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "database": {
+      "port": 9000
+    },
+    "pubsub": {
+      "port": 8085
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  },
+  "extensions": {},
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "parlo-569c5",
+          "appId": "1:579507711414:android:39ae3807b32ea4ae992517",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "parlo-569c5",
+          "configurations": {
+            "android": "1:579507711414:android:39ae3807b32ea4ae992517",
+            "ios": "1:579507711414:ios:b4c0214d5bb90f5c992517"
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,7 @@ import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/text.dart';
 import 'package:parlo/features/auth/screens/login_screen.dart';
 import 'package:parlo/features/auth/screens/signup_screen.dart';
+import 'package:parlo/features/chat/screens/rooms_screen.dart';
 
 class AppRouter {
   const AppRouter();
@@ -12,9 +13,12 @@ class AppRouter {
 
     switch (settings.name) {
       case Routes.login:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
+        return MaterialPageRoute(builder: (_) => LoginScreen());
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => const SignupScreen());
+
+      case Routes.voices:
+        return MaterialPageRoute(builder: (_) => const VoicesScreen());
       default:
         return MaterialPageRoute(
           builder:
