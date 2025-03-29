@@ -12,7 +12,7 @@ class AuthFieldsValidatorService {
   }
 
   static bool isValidUsername(String username) {
-    final usernameRegex = RegExp(r'^(?=.{3,20}$)[a-zA-Z0-9._]+$');
+    final usernameRegex = RegExp(r'^.{3,20}$');
     return usernameRegex.hasMatch(username);
   }
 }
