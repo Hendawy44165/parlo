@@ -3,7 +3,6 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -51,7 +50,7 @@ class DefaultFirebaseOptions {
   }
 
   static FirebaseOptions android = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_ANDROID_API_KEY']!,
+    apiKey: 'AIzaSyALTjur6dgyHM_6Nk4yDThhFFtTDaubjcM',
     appId: '1:579507711414:android:39ae3807b32ea4ae992517',
     messagingSenderId: '579507711414',
     projectId: 'parlo-569c5',
@@ -61,7 +60,7 @@ class DefaultFirebaseOptions {
   );
 
   static FirebaseOptions ios = FirebaseOptions(
-    apiKey: dotenv.env['FIREBASE_IOS_API_KEY']!,
+    apiKey: 'AIzaSyDOTiovBl4Uc1EgSBj6akmAjHnHuWF4sbI',
     appId: '1:579507711414:ios:b4c0214d5bb90f5c992517',
     messagingSenderId: '579507711414',
     projectId: 'parlo-569c5',

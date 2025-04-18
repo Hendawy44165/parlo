@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parlo/app.dart';
 import 'package:parlo/core/di.dart';
@@ -16,7 +15,6 @@ void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await dotenv.load();
   setupDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
