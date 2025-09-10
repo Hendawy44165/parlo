@@ -3,6 +3,7 @@ import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/text.dart';
 import 'package:parlo/features/auth/presentation/screens/login_screen.dart';
 import 'package:parlo/features/auth/presentation/screens/signup_screen.dart';
+import 'package:parlo/features/settings/presentation/screens/settings_screen.dart';
 
 class AppRouter {
   const AppRouter();
@@ -15,6 +16,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => SignupScreen());
+      case Routes.settings:
+        return MaterialPageRoute(builder: (_) => SettingsScreen());
 
       default:
         return MaterialPageRoute(

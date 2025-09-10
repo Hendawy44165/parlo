@@ -1,5 +1,5 @@
 class AuthService {
-  Stream<String?>? get uidStream => null;
+  Stream<String?>? get uidStream => Stream.value("somedata");
 
   Future signup({
     required String email,
