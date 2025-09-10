@@ -1,16 +1,11 @@
 {
     "version": "0.2.0",
     "configurations": [
-        
         {
-            "name": "Parlo (Production)",
-            "request": "launch",
+            "name": "Debug main.dart",
             "type": "dart",
-            "program": "lib/main.dart",
-            "args": [
-                "--flavor",
-                "production"
-            ]
+            "request": "launch",
+            "program": "${workspaceFolder}/lib/main.dart"
         }
     ]
 }

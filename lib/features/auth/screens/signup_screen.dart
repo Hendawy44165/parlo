@@ -53,7 +53,6 @@ class SignupScreen extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      _buildLogoSection(context),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.01,
                       ),
@@ -91,16 +90,6 @@ class SignupScreen extends ConsumerWidget {
               ),
             ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildLogoSection(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
-      child: Image.asset(
-        'assets/logos/parrot.png',
-        height: MediaQuery.of(context).size.height * 0.12,
       ),
     );
   }

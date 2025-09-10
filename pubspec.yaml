@@ -11,8 +11,6 @@ dependencies:
   flutter_riverpod: ^2.4.9
   flutter_native_splash: ^2.4.5
   flutter_svg: ^2.0.9
-  cloud_firestore: ^4.13.6
-  google_sign_in: ^6.3.0
   get_it: ^8.0.3
   flutter_easylogger: ^2.3.3
 dev_dependencies:
@@ -38,10 +36,6 @@ flutter:
     - assets/icons/user.svg
     - assets/icons/user_white.svg
     - assets/icons/google.svg
-    - assets/logos/smooth_parrot.png
-    - assets/logos/parrot.png
-    - assets/logos/full_parrot.png
-    - assets/logos/colorful_parrot.png
 
 flutter_native_splash:
   color: "#20242D"
