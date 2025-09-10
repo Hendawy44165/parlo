@@ -11,16 +11,6 @@
                 "--flavor",
                 "production"
             ]
-        },
-        {
-            "name": "Parlo (Development)",
-            "request": "launch",
-            "type": "dart",
-            "program": "lib/main_dev.dart",
-            "args": [
-                "--flavor",
-                "development"
-            ]
-        },
+        }
     ]
 }

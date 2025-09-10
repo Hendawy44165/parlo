@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:parlo/core/di.dart';
-import 'package:parlo/core/extensions/dimensions.dart';
-import 'package:parlo/core/extensions/navigation.dart';
+import 'package:parlo/core/dependency_injection.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
@@ -30,11 +27,7 @@ class LoginScreen extends ConsumerWidget {
             backgroundColor: Colors.red,
           ),
         );
-      } else if (next is AsyncData<UserCredential?>) {
-        if (next.value != null) {
-          context.popAndPushNamed(Routes.voices);
-        }
-      }
+      } else if (next is AsyncData) {}
     });
 
     return Scaffold(
@@ -46,28 +39,41 @@ class LoginScreen extends ConsumerWidget {
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight:
-                      context.height - MediaQuery.of(context).padding.top,
+                      MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top,
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: context.width * 0.06,
-                    vertical: context.height * 0.02,
+                    horizontal: MediaQuery.of(context).size.width * 0.06,
+                    vertical: MediaQuery.of(context).size.height * 0.02,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _buildLogoSection(context),
-                      SizedBox(height: context.height * 0.04),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
                       _buildHeaderSection(),
-                      SizedBox(height: context.height * 0.05),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
                       _buildInputSection(notifier),
-                      SizedBox(height: context.height * 0.07),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.07,
+                      ),
                       _buildLoginButton(context, state, notifier),
-                      SizedBox(height: context.height * 0.02),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
                       _buildSocialLoginSection(context, state, notifier),
-                      SizedBox(height: context.height * 0.04),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
                       _buildSignUpSection(context),
-                      SizedBox(height: context.height * 0.02),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
                     ],
                   ),
                 ),
@@ -88,10 +94,10 @@ class LoginScreen extends ConsumerWidget {
 
   Widget _buildLogoSection(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: context.height * 0.03),
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
       child: Image.asset(
         'assets/logos/smooth_parrot.png',
-        height: context.height * 0.12,
+        height: MediaQuery.of(context).size.height * 0.12,
       ),
     );
   }
@@ -143,7 +149,10 @@ class LoginScreen extends ConsumerWidget {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.primary,
-          minimumSize: Size(double.infinity, context.height * 0.06),
+          minimumSize: Size(
+            double.infinity,
+            MediaQuery.of(context).size.height * 0.06,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),
@@ -163,7 +172,9 @@ class LoginScreen extends ConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: context.height * 0.02),
+          padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height * 0.02,
+          ),
           child: Row(
             children: [
               const Expanded(
@@ -236,7 +247,8 @@ class LoginScreen extends ConsumerWidget {
             style: TextStyleManger.dimmed14Regular,
           ),
           TextButton(
-            onPressed: () => context.popAndPushNamed(Routes.signup),
+            onPressed:
+                () => Navigator.of(context).popAndPushNamed(Routes.signup),
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               minimumSize: const Size(50, 30),

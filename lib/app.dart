@@ -25,7 +25,7 @@ class ParloApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: appRouter.generateRoute,
-          initialRoute: snapshot.hasData ? Routes.voices : Routes.login,
+          initialRoute: snapshot.hasData ? Routes.voiceRooms : Routes.login,
         );
       },
     );

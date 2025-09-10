@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:parlo/core/extensions/dimensions.dart';
-import 'package:parlo/core/extensions/navigation.dart';
+
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
@@ -28,9 +26,9 @@ class SignupScreen extends ConsumerWidget {
             backgroundColor: Colors.red,
           ),
         );
-      } else if (next is AsyncData<UserCredential?>) {
+      } else if (next is AsyncData) {
         if (next.value != null) {
-          context.popAndPushNamed(Routes.voices);
+          Navigator.of(context).popAndPushNamed(Routes.voiceRooms);
         }
       }
     });
@@ -44,28 +42,41 @@ class SignupScreen extends ConsumerWidget {
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight:
-                      context.height - MediaQuery.of(context).padding.top,
+                      MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top,
                 ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: context.width * 0.06,
-                    vertical: context.height * 0.02,
+                    horizontal: MediaQuery.of(context).size.width * 0.06,
+                    vertical: MediaQuery.of(context).size.height * 0.02,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _buildLogoSection(context),
-                      SizedBox(height: context.height * 0.01),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
                       _buildHeaderSection(),
-                      SizedBox(height: context.height * 0.03),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      ),
                       _buildInputSection(notifier),
-                      SizedBox(height: context.height * 0.07),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.07,
+                      ),
                       _buildSignupButton(context, state, notifier),
-                      SizedBox(height: context.height * 0.02),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
                       _buildSocialLoginSection(context, state, notifier),
-                      SizedBox(height: context.height * 0.04),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                      ),
                       _buildLoginSection(context),
-                      SizedBox(height: context.height * 0.02),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
                     ],
                   ),
                 ),
@@ -86,10 +97,10 @@ class SignupScreen extends ConsumerWidget {
 
   Widget _buildLogoSection(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: context.height * 0.03),
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
       child: Image.asset(
         'assets/logos/parrot.png',
-        height: context.height * 0.12,
+        height: MediaQuery.of(context).size.height * 0.12,
       ),
     );
   }
@@ -147,7 +158,10 @@ class SignupScreen extends ConsumerWidget {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.primary,
-          minimumSize: Size(double.infinity, context.height * 0.06),
+          minimumSize: Size(
+            double.infinity,
+            MediaQuery.of(context).size.height * 0.06,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),
@@ -167,7 +181,9 @@ class SignupScreen extends ConsumerWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: context.height * 0.02),
+          padding: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height * 0.02,
+          ),
           child: Row(
             children: [
               const Expanded(
@@ -240,7 +256,8 @@ class SignupScreen extends ConsumerWidget {
             style: TextStyleManger.dimmed14Regular,
           ),
           TextButton(
-            onPressed: () => context.popAndPushNamed(Routes.login),
+            onPressed:
+                () => Navigator.of(context).popAndPushNamed(Routes.login),
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               minimumSize: const Size(50, 30),

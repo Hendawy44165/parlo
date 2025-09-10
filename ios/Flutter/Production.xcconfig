@@ -1,5 +1,0 @@
-#include "Generated.xcconfig"
-FLUTTER_TARGET=lib/main.dart
-FLUTTER_FLAVOR=production
-PRODUCT_BUNDLE_IDENTIFIER=com.example.parlo
-DISPLAY_NAME=Parlo

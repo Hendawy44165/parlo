@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parlo/app.dart';
-import 'package:parlo/core/di.dart';
+import 'package:parlo/core/dependency_injection.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:parlo/firebase_options.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   setupDependencies();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: ColorsManager.black,

@@ -12,40 +12,9 @@ class LoginNotifier extends StateNotifier<AsyncValue> {
   final TextEditingController passwordController = TextEditingController();
   final AuthService _service;
 
-  login() async {
-    if (state.isLoading) return;
-    state = const AsyncLoading();
+  login() async {}
 
-    final email = emailController.text.trim();
-    final password = passwordController.text.trim();
-
-    if (!AuthFieldsValidatorService.isValidEmail(email))
-      return state = AsyncError('Invalid email format', StackTrace.current);
-
-    if (!AuthFieldsValidatorService.isValidPassword(password))
-      return state = AsyncError('Invalid password format', StackTrace.current);
-
-    final response = await _service.login(email: email, password: password);
-
-    if (response.isSuccess) {
-      state = AsyncData(response.data);
-    } else {
-      state = AsyncError(response.error!, StackTrace.current);
-    }
-  }
-
-  signinWithGoogle() async {
-    if (state.isLoading) return;
-    state = const AsyncLoading();
-
-    final response = await _service.signInWithGoogle();
-
-    if (response.isSuccess) {
-      state = AsyncData(response.data);
-    } else {
-      state = AsyncError(response.error!, StackTrace.current);
-    }
-  }
+  signinWithGoogle() async {}
 }
 
 StateNotifierProvider<LoginNotifier, AsyncValue> getLoginProvider(
