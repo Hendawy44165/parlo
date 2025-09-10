@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:parlo/core/dependency_injection.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
-import 'package:parlo/features/auth/providers/signup_provider.dart';
-import 'package:parlo/features/auth/widgets/custom_input_field.dart';
+import 'package:parlo/features/auth/presentation/providers/login_provider.dart';
+import 'package:parlo/features/auth/logic/services/auth_service.dart';
+import 'package:parlo/features/auth/presentation/widgets/custom_input_field.dart';
 
-class SignupScreen extends ConsumerWidget {
-  SignupScreen({super.key});
+class LoginScreen extends ConsumerWidget {
+  LoginScreen({super.key});
 
-  final provider = getSignupProvider();
+  final provider = getLoginProvider(getIt<AuthService>());
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,11 +27,7 @@ class SignupScreen extends ConsumerWidget {
             backgroundColor: Colors.red,
           ),
         );
-      } else if (next is AsyncData) {
-        if (next.value != null) {
-          Navigator.of(context).popAndPushNamed(Routes.voiceRooms);
-        }
-      }
+      } else if (next is AsyncData) {}
     });
 
     return Scaffold(
@@ -54,17 +51,17 @@ class SignupScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
+                        height: MediaQuery.of(context).size.height * 0.04,
                       ),
                       _buildHeaderSection(),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
+                        height: MediaQuery.of(context).size.height * 0.05,
                       ),
                       _buildInputSection(notifier),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.07,
                       ),
-                      _buildSignupButton(context, state, notifier),
+                      _buildLoginButton(context, state, notifier),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
@@ -72,7 +69,7 @@ class SignupScreen extends ConsumerWidget {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.04,
                       ),
-                      _buildLoginSection(context),
+                      _buildSignUpSection(context),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
@@ -97,10 +94,10 @@ class SignupScreen extends ConsumerWidget {
   Widget _buildHeaderSection() {
     return Column(
       children: [
-        Text('Sign Up', style: TextStyleManger.white32Regular),
+        Text('Login', style: TextStyleManger.white32Regular),
         const SizedBox(height: 8),
         Text(
-          'Create an account to get started!',
+          'Sign in to connect and share your voice!',
           style: TextStyleManger.white16Regular,
           textAlign: TextAlign.center,
         ),
@@ -108,21 +105,15 @@ class SignupScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildInputSection(SignupNotifier notifier) {
+  Widget _buildInputSection(LoginNotifier notifier) {
     return Column(
       children: [
-        CustomInputField(
-          hint: 'Username',
-          prefixIcon: 'assets/icons/user.svg',
-          controller: notifier.usernameController,
-        ),
-        const SizedBox(height: 12),
         CustomInputField(
           hint: 'Email',
           prefixIcon: 'assets/icons/mail.svg',
           controller: notifier.emailController,
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         CustomInputField(
           hint: 'Password',
           prefixIcon: 'assets/icons/lock.svg',
@@ -133,17 +124,17 @@ class SignupScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSignupButton(
+  Widget _buildLoginButton(
     BuildContext context,
     AsyncValue state,
-    SignupNotifier notifier,
+    LoginNotifier notifier,
   ) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
           if (state is AsyncLoading) return;
-          await notifier.signup();
+          await notifier.login();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.primary,
@@ -157,7 +148,7 @@ class SignupScreen extends ConsumerWidget {
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
-        child: Text('Sign Up', style: TextStyleManger.white16Medium),
+        child: Text('Login', style: TextStyleManger.white16Medium),
       ),
     );
   }
@@ -165,7 +156,7 @@ class SignupScreen extends ConsumerWidget {
   Widget _buildSocialLoginSection(
     BuildContext context,
     AsyncValue state,
-    SignupNotifier notifier,
+    LoginNotifier notifier,
   ) {
     return Column(
       children: [
@@ -181,7 +172,7 @@ class SignupScreen extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  'or sign up with',
+                  'or sign in with',
                   style: TextStyleManger.dimmed14Medium,
                 ),
               ),
@@ -199,7 +190,7 @@ class SignupScreen extends ConsumerWidget {
   Widget _buildSocialButton(
     BuildContext context,
     AsyncValue state,
-    SignupNotifier notifier,
+    LoginNotifier notifier,
   ) {
     return Container(
       width: double.infinity,
@@ -227,32 +218,32 @@ class SignupScreen extends ConsumerWidget {
                 height: 20,
               ),
             ),
-            Text('Sign up with Google', style: TextStyleManger.white16Regular),
+            Text('Sign in with Google', style: TextStyleManger.white16Regular),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildLoginSection(BuildContext context) {
+  Widget _buildSignUpSection(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Already have an Account? ',
+            'Don\'t have an Account? ',
             style: TextStyleManger.dimmed14Regular,
           ),
           TextButton(
             onPressed:
-                () => Navigator.of(context).popAndPushNamed(Routes.login),
+                () => Navigator.of(context).popAndPushNamed(Routes.signup),
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               minimumSize: const Size(50, 30),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            child: Text('Login here', style: TextStyleManger.primary14Bold),
+            child: Text('Sign up here', style: TextStyleManger.primary14Bold),
           ),
         ],
       ),

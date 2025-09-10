@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/text.dart';
-import 'package:parlo/features/auth/screens/login_screen.dart';
-import 'package:parlo/features/auth/screens/signup_screen.dart';
-import 'package:parlo/features/chat/screens/rooms_screen.dart';
+import 'package:parlo/features/auth/presentation/screens/login_screen.dart';
+import 'package:parlo/features/auth/presentation/screens/signup_screen.dart';
 
 class AppRouter {
   const AppRouter();
@@ -17,8 +16,6 @@ class AppRouter {
       case Routes.signup:
         return MaterialPageRoute(builder: (_) => SignupScreen());
 
-      case Routes.voiceRooms:
-        return MaterialPageRoute(builder: (_) => const VoiceRoomsScreen());
       default:
         return MaterialPageRoute(
           builder:

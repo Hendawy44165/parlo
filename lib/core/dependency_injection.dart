@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:parlo/features/auth/services/auth_service.dart';
+import 'package:parlo/features/auth/logic/services/auth_service.dart';
 
 final getIt = GetIt.instance;
 

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:parlo/features/auth/services/auth_service.dart';
+import 'package:parlo/features/auth/logic/services/auth_service.dart';
 
 class LoginNotifier extends StateNotifier<AsyncValue> {
   LoginNotifier({required AuthService service})
