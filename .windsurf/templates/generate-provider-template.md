@@ -22,6 +22,9 @@ Generate provider for [feature] suitable for [platforms]
 - [file path]
 - ...
 
+## Docs
+- [docs]
+
 ## Scope
 [scope]
 

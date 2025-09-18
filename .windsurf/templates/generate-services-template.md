@@ -22,6 +22,9 @@ Generate services for [feature] suitable for [platforms]
 - [file path]
 - ...
 
+## Docs
+- [docs]
+
 ## Scope
 [scope]
 

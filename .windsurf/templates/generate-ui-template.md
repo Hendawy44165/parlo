@@ -28,5 +28,8 @@ Generate UI screens for [feature] suitable for [platforms]
 ## Scope
 [scope]
 
+## Docs
+- [docs]
+
 ## Notes
 [notes]
