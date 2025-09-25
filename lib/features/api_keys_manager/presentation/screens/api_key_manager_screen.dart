@@ -25,25 +25,18 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
   Widget build(BuildContext context) {
     state = ref.watch(apiKeyManagerProvider);
     notifier = ref.read(apiKeyManagerProvider.notifier);
-    if (state.isLoading)
-      return Scaffold(
-        backgroundColor: ColorsManager.black,
-        body: SafeArea(
-          child: Column(
-            children: [
-              _buildHeaderSection(context),
-              Expanded(
-                child: const Center(
-                  child: CircularProgressIndicator(
-                    color: ColorsManager.primaryPurple,
-                  ),
-                ),
-              ),
-            ],
+    if (state.isLoading) return _buildLoadingState(context);
+    if (state.isError) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(state.error!),
+            duration: const Duration(seconds: 2),
           ),
-        ),
-        floatingActionButton: _buildFloatingActionButton(),
-      );
+        );
+        notifier.setToDataState();
+      });
+    }
     return Scaffold(
       backgroundColor: ColorsManager.black,
       body: SafeArea(
@@ -51,6 +44,27 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
           children: [
             _buildHeaderSection(context),
             Expanded(child: _buildApiKeysList()),
+          ],
+        ),
+      ),
+      floatingActionButton: _buildFloatingActionButton(),
+    );
+  }
+
+  Widget _buildLoadingState(BuildContext context) {
+    return Scaffold(
+      backgroundColor: ColorsManager.black,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildHeaderSection(context),
+            Expanded(
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: ColorsManager.primaryPurple,
+                ),
+              ),
+            ),
           ],
         ),
       ),
