@@ -22,10 +22,10 @@ class CustomInputField extends StatelessWidget {
       controller: controller,
       obscureText: isPassword,
       style: TextStyleManger.white16Regular,
-      cursorColor: ColorsManager.primary,
+      cursorColor: ColorsManager.primaryPurple,
       decoration: InputDecoration(
         hintText: hint,
-        fillColor: ColorsManager.incomingBox,
+        fillColor: ColorsManager.darkNavyBlue,
         filled: true,
         hintStyle: TextStyleManger.dimmed16Regular,
         prefixIcon: Padding(
@@ -33,18 +33,18 @@ class CustomInputField extends StatelessWidget {
           child: SvgPicture.asset(
             prefixIcon,
             colorFilter: const ColorFilter.mode(
-              ColorsManager.dimmedText,
+              ColorsManager.lightGray,
               BlendMode.srcIn,
             ),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),
-          borderSide: const BorderSide(color: ColorsManager.incomingBox),
+          borderSide: const BorderSide(color: ColorsManager.darkGray),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),
-          borderSide: const BorderSide(color: ColorsManager.primary),
+          borderSide: const BorderSide(color: ColorsManager.primaryPurple),
         ),
       ),
     );

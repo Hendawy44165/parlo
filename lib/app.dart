@@ -19,7 +19,7 @@ class ParloApp extends StatelessWidget {
           key: ValueKey(snapshot.data),
           title: 'Parlo',
           theme: ThemeData(
-            primaryColor: ColorsManager.primary,
+            primaryColor: ColorsManager.primaryPurple,
             scaffoldBackgroundColor: ColorsManager.black,
             fontFamily: 'Ubuntu',
           ),

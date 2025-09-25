@@ -42,7 +42,7 @@ class SettingsScreen extends ConsumerWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(next.value.toString()),
-            backgroundColor: ColorsManager.primary,
+            backgroundColor: ColorsManager.primaryPurple,
           ),
         );
       }
@@ -101,7 +101,9 @@ class SettingsScreen extends ConsumerWidget {
             Container(
               color: ColorsManager.black,
               child: const Center(
-                child: CircularProgressIndicator(color: ColorsManager.primary),
+                child: CircularProgressIndicator(
+                  color: ColorsManager.primaryPurple,
+                ),
               ),
             ),
         ],
@@ -162,9 +164,9 @@ class SettingsScreen extends ConsumerWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
-        color: ColorsManager.incomingBox,
+        color: ColorsManager.darkNavyBlue,
         borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: ColorsManager.incomingBox),
+        border: Border.all(color: ColorsManager.darkNavyBlue),
       ),
       child: Row(
         children: [
@@ -172,7 +174,7 @@ class SettingsScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(right: 16),
             child: Icon(
               Icons.mail_outline,
-              color: ColorsManager.dimmedText,
+              color: ColorsManager.lightGray,
               size: 20,
             ),
           ),
@@ -197,9 +199,9 @@ class SettingsScreen extends ConsumerWidget {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           decoration: BoxDecoration(
-            color: ColorsManager.incomingBox,
+            color: ColorsManager.darkNavyBlue,
             borderRadius: BorderRadius.circular(100),
-            border: Border.all(color: ColorsManager.incomingBox),
+            border: Border.all(color: ColorsManager.darkNavyBlue),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
@@ -208,10 +210,10 @@ class SettingsScreen extends ConsumerWidget {
                 'Choose a character',
                 style: TextStyleManger.dimmed16Regular,
               ),
-              dropdownColor: ColorsManager.incomingBox,
+              dropdownColor: ColorsManager.darkNavyBlue,
               icon: const Icon(
                 Icons.keyboard_arrow_down,
-                color: ColorsManager.dimmedText,
+                color: ColorsManager.lightGray,
               ),
               items:
                   [kCharacterJessica, kCharacterMike].map((String character) {
@@ -248,9 +250,9 @@ class SettingsScreen extends ConsumerWidget {
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           decoration: BoxDecoration(
-            color: ColorsManager.incomingBox,
+            color: ColorsManager.darkNavyBlue,
             borderRadius: BorderRadius.circular(100),
-            border: Border.all(color: ColorsManager.incomingBox),
+            border: Border.all(color: ColorsManager.darkNavyBlue),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
@@ -259,10 +261,10 @@ class SettingsScreen extends ConsumerWidget {
                 'Choose stability level',
                 style: TextStyleManger.dimmed16Regular,
               ),
-              dropdownColor: ColorsManager.incomingBox,
+              dropdownColor: ColorsManager.darkNavyBlue,
               icon: const Icon(
                 Icons.keyboard_arrow_down,
-                color: ColorsManager.dimmedText,
+                color: ColorsManager.lightGray,
               ),
               items:
                   [kStabilityCreative, kStabilityNeutral, kStabilityRobust].map(

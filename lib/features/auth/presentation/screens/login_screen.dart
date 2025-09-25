@@ -83,7 +83,9 @@ class LoginScreen extends ConsumerWidget {
             Container(
               color: ColorsManager.black,
               child: const Center(
-                child: CircularProgressIndicator(color: ColorsManager.primary),
+                child: CircularProgressIndicator(
+                  color: ColorsManager.primaryPurple,
+                ),
               ),
             ),
         ],
@@ -137,7 +139,7 @@ class LoginScreen extends ConsumerWidget {
           await notifier.login();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: ColorsManager.primary,
+          backgroundColor: ColorsManager.primaryPurple,
           minimumSize: Size(
             double.infinity,
             MediaQuery.of(context).size.height * 0.06,
@@ -167,7 +169,7 @@ class LoginScreen extends ConsumerWidget {
           child: Row(
             children: [
               const Expanded(
-                child: Divider(color: ColorsManager.border, thickness: 1),
+                child: Divider(color: ColorsManager.darkGray, thickness: 1),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -177,7 +179,7 @@ class LoginScreen extends ConsumerWidget {
                 ),
               ),
               const Expanded(
-                child: Divider(color: ColorsManager.border, thickness: 1),
+                child: Divider(color: ColorsManager.darkGray, thickness: 1),
               ),
             ],
           ),
@@ -201,7 +203,7 @@ class LoginScreen extends ConsumerWidget {
           await notifier.signinWithGoogle();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: ColorsManager.incomingBox,
+          backgroundColor: ColorsManager.darkNavyBlue,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),

@@ -21,31 +21,31 @@ class TextStyleManger {
   );
 
   static const dimmed16Regular = TextStyle(
-    color: ColorsManager.dimmedText,
+    color: ColorsManager.lightGray,
     fontSize: 16,
     fontWeight: FontWeight.normal,
   );
 
   static const dimmed14Regular = TextStyle(
-    color: ColorsManager.dimmedText,
+    color: ColorsManager.lightGray,
     fontSize: 14,
     fontWeight: FontWeight.normal,
   );
 
   static const dimmed14Medium = TextStyle(
-    color: ColorsManager.dimmedText,
+    color: ColorsManager.lightGray,
     fontSize: 14,
     fontWeight: FontWeight.w500,
   );
 
   static const primary14Regular = TextStyle(
-    color: ColorsManager.primary,
+    color: ColorsManager.primaryPurple,
     fontSize: 14,
     fontWeight: FontWeight.normal,
   );
 
   static const primary14Bold = TextStyle(
-    color: ColorsManager.primary,
+    color: ColorsManager.primaryPurple,
     fontSize: 14,
     fontWeight: FontWeight.bold,
   );
