@@ -38,13 +38,13 @@ class TextStyleManger {
     fontWeight: FontWeight.w500,
   );
 
-  static const primary14Regular = TextStyle(
+  static const primaryPurple14Regular = TextStyle(
     color: ColorsManager.primaryPurple,
     fontSize: 14,
     fontWeight: FontWeight.normal,
   );
 
-  static const primary14Bold = TextStyle(
+  static const primaryPurple14Bold = TextStyle(
     color: ColorsManager.primaryPurple,
     fontSize: 14,
     fontWeight: FontWeight.bold,

@@ -35,7 +35,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
               Expanded(
                 child: const Center(
                   child: CircularProgressIndicator(
-                    color: ColorsManager.primary,
+                    color: ColorsManager.primaryPurple,
                   ),
                 ),
               ),
@@ -87,7 +87,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
               onTap: () => notifier.deselectAll(),
               child: Text(
                 'Deselect All',
-                style: TextStyleManger.primary14Regular,
+                style: TextStyleManger.primaryPurple14Regular,
               ),
             ),
         ],
@@ -103,7 +103,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.key_off, size: 64, color: ColorsManager.dimmedText),
+            Icon(Icons.key_off, size: 64, color: ColorsManager.lightGray),
             const SizedBox(height: 16),
             Text('No API Keys', style: TextStyleManger.dimmed16Regular),
             const SizedBox(height: 8),
@@ -115,7 +115,10 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
             const SizedBox(height: 4),
             GestureDetector(
               onTap: () => _addApiKey(),
-              child: Text('Add API Key', style: TextStyleManger.primary14Bold),
+              child: Text(
+                'Add API Key',
+                style: TextStyleManger.primaryPurple14Bold,
+              ),
             ),
           ],
         ),
@@ -145,7 +148,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
       margin: const EdgeInsets.all(16),
       child: FloatingActionButton(
         onPressed: _addApiKey,
-        backgroundColor: ColorsManager.primary,
+        backgroundColor: ColorsManager.primaryPurple,
         shape: const CircleBorder(),
         child: const Icon(Icons.add, color: ColorsManager.white, size: 24),
       ),

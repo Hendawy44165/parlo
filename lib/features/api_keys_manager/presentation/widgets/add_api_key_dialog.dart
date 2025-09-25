@@ -25,9 +25,7 @@ class _AddApiKeyDialogState extends State<AddApiKeyDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: ColorsManager.black,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -76,7 +74,7 @@ class _AddApiKeyDialogState extends State<AddApiKeyDialog> {
                   child: ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorsManager.incomingBox,
+                      backgroundColor: ColorsManager.darkNavyBlue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
@@ -94,25 +92,21 @@ class _AddApiKeyDialogState extends State<AddApiKeyDialog> {
                     onPressed: () {
                       final keyName = keyNameController.text.trim();
                       final apiKey = apiKeyController.text.trim();
-                      
+
                       if (keyName.isNotEmpty && apiKey.isNotEmpty) {
-                        Navigator.of(context).pop({
-                          'name': keyName,
-                          'key': apiKey,
-                        });
+                        Navigator.of(
+                          context,
+                        ).pop({'name': keyName, 'key': apiKey});
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorsManager.primary,
+                      backgroundColor: ColorsManager.primaryPurple,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: Text(
-                      'Add',
-                      style: TextStyleManger.white16Medium,
-                    ),
+                    child: Text('Add', style: TextStyleManger.white16Medium),
                   ),
                 ),
               ],

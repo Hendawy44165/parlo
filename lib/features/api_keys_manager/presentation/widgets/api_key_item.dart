@@ -32,43 +32,38 @@ class ApiKeyItem extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? ColorsManager.primary : ColorsManager.white,
+                  color:
+                      isSelected
+                          ? ColorsManager.primaryPurple
+                          : ColorsManager.white,
                   width: 2,
                 ),
                 color: Colors.transparent,
               ),
-              child: isSelected
-                  ? Center(
-                      child: Container(
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: ColorsManager.primary,
+              child:
+                  isSelected
+                      ? Center(
+                        child: Container(
+                          width: 8,
+                          height: 8,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ColorsManager.primaryPurple,
+                          ),
                         ),
-                      ),
-                    )
-                  : null,
+                      )
+                      : null,
             ),
           ),
           const SizedBox(width: 16),
           // Key name
-          Expanded(
-            child: Text(
-              keyName,
-              style: TextStyleManger.white16Regular,
-            ),
-          ),
+          Expanded(child: Text(keyName, style: TextStyleManger.white16Regular)),
           // Delete button
           GestureDetector(
             onTap: onDelete,
             child: Container(
               padding: const EdgeInsets.all(8),
-              child: const Icon(
-                Icons.delete,
-                color: Colors.red,
-                size: 20,
-              ),
+              child: const Icon(Icons.delete, color: Colors.red, size: 20),
             ),
           ),
         ],

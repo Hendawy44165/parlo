@@ -254,7 +254,10 @@ class SignupScreen extends ConsumerWidget {
               minimumSize: const Size(50, 30),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            child: Text('Login here', style: TextStyleManger.primary14Bold),
+            child: Text(
+              'Login here',
+              style: TextStyleManger.primaryPurple14Bold,
+            ),
           ),
         ],
       ),
