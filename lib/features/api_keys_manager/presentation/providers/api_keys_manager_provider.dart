@@ -29,7 +29,7 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
 
     state = state.copyWith(
       apiKeys: updatedKeys,
-      providerState: ProviderState.success,
+      providerState: ProviderState.data,
     );
   }
 
@@ -42,11 +42,14 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
     if (response.isSuccess) {
       state = state.copyWith(
         apiKeys: state.apiKeys.where((key) => key.id != id).toList(),
-        providerState: ProviderState.success,
+        providerState: ProviderState.data,
       );
     } else {
-      // TODO: error message should be handled
-      state = state.copyWith(providerState: ProviderState.error);
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: response.errorCode,
+        error: response.error,
+      );
     }
   }
 
@@ -61,8 +64,13 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
 
     state = state.copyWith(
       apiKeys: updatedKeys,
-      providerState: ProviderState.success,
+      providerState: ProviderState.data,
     );
+  }
+
+  void setToDataState() {
+    if (state.isError)
+      state = state.copyWith(providerState: ProviderState.data);
   }
 
   Future<void> addNewApiKey({required String name, required String key}) async {
@@ -80,25 +88,35 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
     if (response.isSuccess) {
       state = state.copyWith(
         apiKeys: [...state.apiKeys, newKey],
-        providerState: ProviderState.success,
+        providerState: ProviderState.data,
       );
     } else {
-      state = state.copyWith(providerState: ProviderState.error);
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: response.errorCode,
+        error: response.error,
+      );
     }
   }
 
   Future<void> _loadInitialKeys() async {
     state = state.copyWith(providerState: ProviderState.loading);
 
+    await Future.delayed(const Duration(seconds: 2));
     final response = await _service.getAllApiKeys();
 
     if (response.isSuccess) {
       state = state.copyWith(
         apiKeys: response.data,
-        providerState: ProviderState.success,
+        providerState: ProviderState.data,
       );
     } else {
-      state = state.copyWith(providerState: ProviderState.error);
+      state = state.copyWith(
+        apiKeys: [],
+        providerState: ProviderState.error,
+        code: response.errorCode,
+        error: response.error,
+      );
     }
   }
 }
