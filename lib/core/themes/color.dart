@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO: rename color names
 class ColorsManager {
   static const primaryPurple = Color(0xFF636AE8);
   static const darkGray = Color(0xFF565D6D);

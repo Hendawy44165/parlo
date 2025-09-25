@@ -4,6 +4,7 @@ import 'package:parlo/core/themes/text.dart';
 import 'package:parlo/features/auth/presentation/screens/login_screen.dart';
 import 'package:parlo/features/auth/presentation/screens/signup_screen.dart';
 import 'package:parlo/features/settings/presentation/screens/settings_screen.dart';
+import 'package:parlo/features/api_keys_manager/presentation/screens/api_key_manager_screen.dart';
 
 class AppRouter {
   const AppRouter();
@@ -18,6 +19,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => SignupScreen());
       case Routes.settings:
         return MaterialPageRoute(builder: (_) => SettingsScreen());
+      case Routes.apiKeyManager:
+        return MaterialPageRoute(builder: (_) => const ApiKeyManagerScreen());
 
       default:
         return MaterialPageRoute(

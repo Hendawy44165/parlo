@@ -12,7 +12,6 @@ class ParloApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<String?>(
-      //! it returns the uid only
       stream: AuthService().uidStream,
       builder: (context, snapshot) {
         return MaterialApp(
@@ -24,7 +23,7 @@ class ParloApp extends StatelessWidget {
             fontFamily: 'Ubuntu',
           ),
           onGenerateRoute: appRouter.generateRoute,
-          initialRoute: snapshot.hasData ? Routes.settings : Routes.login,
+          initialRoute: snapshot.hasData ? Routes.apiKeyManager : Routes.login,
         );
       },
     );
