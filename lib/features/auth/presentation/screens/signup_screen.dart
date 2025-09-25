@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
+import 'package:parlo/features/auth/presentation/providers/auth_state.dart';
 import 'package:parlo/features/auth/presentation/providers/signup_provider.dart';
 import 'package:parlo/features/auth/presentation/widgets/custom_input_field.dart';
 
@@ -18,20 +19,17 @@ class SignupScreen extends ConsumerWidget {
     final state = ref.watch(provider);
     final notifier = ref.read(provider.notifier);
 
-    ref.listen(provider, (previous, next) {
-      if (next is AsyncError) {
+    if (state.isError) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.error.toString()),
-            backgroundColor: Colors.red,
+            content: Text(state.error!),
+            duration: const Duration(seconds: 2),
           ),
         );
-      } else if (next is AsyncData) {
-        if (next.value != null) {
-          Navigator.of(context).popAndPushNamed(Routes.voiceRooms);
-        }
-      }
-    });
+        notifier.setToDataState();
+      });
+    }
 
     return Scaffold(
       backgroundColor: ColorsManager.black,
@@ -82,7 +80,7 @@ class SignupScreen extends ConsumerWidget {
               ),
             ),
           ),
-          if (state is AsyncLoading)
+          if (state.isLoading)
             Container(
               color: ColorsManager.black,
               child: const Center(
@@ -137,14 +135,14 @@ class SignupScreen extends ConsumerWidget {
 
   Widget _buildSignupButton(
     BuildContext context,
-    AsyncValue state,
+    AuthState state,
     SignupNotifier notifier,
   ) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
-          if (state is AsyncLoading) return;
+          if (state.isLoading) return;
           await notifier.signup();
         },
         style: ElevatedButton.styleFrom(
@@ -166,7 +164,7 @@ class SignupScreen extends ConsumerWidget {
 
   Widget _buildSocialLoginSection(
     BuildContext context,
-    AsyncValue state,
+    AuthState state,
     SignupNotifier notifier,
   ) {
     return Column(
@@ -200,7 +198,7 @@ class SignupScreen extends ConsumerWidget {
 
   Widget _buildSocialButton(
     BuildContext context,
-    AsyncValue state,
+    AuthState state,
     SignupNotifier notifier,
   ) {
     return Container(
@@ -208,7 +206,7 @@ class SignupScreen extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ElevatedButton(
         onPressed: () async {
-          if (state is AsyncLoading) return;
+          if (state.isLoading) return;
           await notifier.signinWithGoogle();
         },
         style: ElevatedButton.styleFrom(

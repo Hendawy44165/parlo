@@ -23,7 +23,7 @@ class ParloApp extends StatelessWidget {
             fontFamily: 'Ubuntu',
           ),
           onGenerateRoute: appRouter.generateRoute,
-          initialRoute: snapshot.hasData ? Routes.apiKeyManager : Routes.login,
+          initialRoute: snapshot.hasData ? Routes.settings : Routes.login,
         );
       },
     );

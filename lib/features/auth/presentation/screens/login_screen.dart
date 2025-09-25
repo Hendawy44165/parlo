@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:parlo/core/dependency_injection.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
+import 'package:parlo/features/auth/presentation/providers/auth_state.dart';
 import 'package:parlo/features/auth/presentation/providers/login_provider.dart';
-import 'package:parlo/features/auth/logic/services/auth_service.dart';
 import 'package:parlo/features/auth/presentation/widgets/custom_input_field.dart';
 
 class LoginScreen extends ConsumerWidget {
   LoginScreen({super.key});
 
-  final provider = getLoginProvider(getIt<AuthService>());
+  final provider = getLoginProvider();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(provider);
     final notifier = ref.read(provider.notifier);
 
-    ref.listen(provider, (previous, next) {
-      if (next is AsyncError) {
+    if (state.isError) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(next.error.toString()),
-            backgroundColor: Colors.red,
+            content: Text(state.error!),
+            duration: const Duration(seconds: 2),
           ),
         );
-      } else if (next is AsyncData) {}
-    });
+        notifier.setToDataState();
+      });
+    }
 
     return Scaffold(
       backgroundColor: ColorsManager.black,
@@ -79,7 +79,7 @@ class LoginScreen extends ConsumerWidget {
               ),
             ),
           ),
-          if (state is AsyncLoading)
+          if (state.isLoading)
             Container(
               color: ColorsManager.black,
               child: const Center(
@@ -122,20 +122,33 @@ class LoginScreen extends ConsumerWidget {
           controller: notifier.passwordController,
           isPassword: true,
         ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: () => notifier.sendPasswordResetEmail(),
+              child: Text(
+                "Forgot Password?",
+                style: TextStyleManger.dimmed14Medium,
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
 
   Widget _buildLoginButton(
     BuildContext context,
-    AsyncValue state,
+    AuthState state,
     LoginNotifier notifier,
   ) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () async {
-          if (state is AsyncLoading) return;
+          if (state.isLoading) return;
           await notifier.login();
         },
         style: ElevatedButton.styleFrom(
@@ -157,7 +170,7 @@ class LoginScreen extends ConsumerWidget {
 
   Widget _buildSocialLoginSection(
     BuildContext context,
-    AsyncValue state,
+    AuthState state,
     LoginNotifier notifier,
   ) {
     return Column(
@@ -191,7 +204,7 @@ class LoginScreen extends ConsumerWidget {
 
   Widget _buildSocialButton(
     BuildContext context,
-    AsyncValue state,
+    AuthState state,
     LoginNotifier notifier,
   ) {
     return Container(
@@ -199,7 +212,7 @@ class LoginScreen extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ElevatedButton(
         onPressed: () async {
-          if (state is AsyncLoading) return;
+          if (state.isLoading) return;
           await notifier.signinWithGoogle();
         },
         style: ElevatedButton.styleFrom(

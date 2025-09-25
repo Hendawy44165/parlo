@@ -1,33 +1,55 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:parlo/core/dependency_injection.dart';
 import 'package:parlo/features/auth/logic/services/auth_fields_validator_service.dart';
 import 'package:parlo/features/auth/logic/services/auth_service.dart';
+import 'package:parlo/core/enums/provider_state_enum.dart';
+import 'package:parlo/features/auth/presentation/providers/auth_state.dart';
 
-class SignupNotifier extends StateNotifier<AsyncValue> {
-  SignupNotifier() : super(const AsyncData(null));
+class SignupNotifier extends StateNotifier<AuthState> {
+  SignupNotifier(this._service)
+    : super(const AuthState(providerState: ProviderState.initial));
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  final _service = AuthService();
+  final AuthService _service;
 
-  signup() async {
+  Future<void> signup() async {
     if (state.isLoading) return;
-    state = const AsyncLoading();
+    state = state.copyWith(providerState: ProviderState.loading);
 
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final username = usernameController.text.trim();
 
-    if (!AuthFieldsValidatorService.isValidEmail(email))
-      return state = AsyncError('Invalid email format', StackTrace.current);
+    if (!AuthFieldsValidatorService.isValidEmail(email)) {
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: 400,
+        error: 'Invalid email format',
+      );
+      return;
+    }
 
-    if (!AuthFieldsValidatorService.isValidPassword(password))
-      return state = AsyncError('Invalid password format', StackTrace.current);
+    if (!AuthFieldsValidatorService.isValidPassword(password)) {
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: 400,
+        error: 'Invalid password format',
+      );
+      return;
+    }
 
-    if (!AuthFieldsValidatorService.isValidUsername(username))
-      return state = AsyncError('Invalid username format', StackTrace.current);
+    if (!AuthFieldsValidatorService.isValidUsername(username)) {
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: 400,
+        error: 'Invalid username format',
+      );
+      return;
+    }
 
     final response = await _service.signup(
       email: email,
@@ -36,27 +58,44 @@ class SignupNotifier extends StateNotifier<AsyncValue> {
     );
 
     if (response.isSuccess) {
-      state = AsyncData(response.data);
+      state = state.copyWith(providerState: ProviderState.data);
     } else {
-      state = AsyncError(response.error!, StackTrace.current);
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: response.errorCode,
+        error: response.error,
+      );
     }
   }
 
-  signinWithGoogle() async {
+  Future<void> signinWithGoogle() async {
     if (state.isLoading) return;
-    state = const AsyncLoading();
+    state = state.copyWith(providerState: ProviderState.loading);
 
     final response = await _service.signInWithGoogle();
 
     if (response.isSuccess) {
-      state = AsyncData(response.data);
+      state = state.copyWith(providerState: ProviderState.data);
     } else {
-      state = AsyncError(response.error!, StackTrace.current);
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: response.errorCode,
+        error: response.error,
+      );
     }
+  }
+
+  void setToDataState() {
+    if (state.isError)
+      state = state.copyWith(
+        providerState: ProviderState.data,
+        code: 0,
+        error: null,
+      );
   }
 }
 
-StateNotifierProvider<SignupNotifier, AsyncValue> getSignupProvider() =>
-    StateNotifierProvider<SignupNotifier, AsyncValue>(
-      (ref) => SignupNotifier(),
+StateNotifierProvider<SignupNotifier, AuthState> getSignupProvider() =>
+    StateNotifierProvider<SignupNotifier, AuthState>(
+      (ref) => SignupNotifier(getIt<AuthService>()),
     );
