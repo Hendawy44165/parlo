@@ -1,101 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
+import 'package:parlo/features/api_keys_manager/presentation/providers/api_keys_manager_provider.dart';
+import 'package:parlo/features/api_keys_manager/presentation/providers/api_keys_manager_state.dart';
 import 'package:parlo/features/api_keys_manager/presentation/widgets/api_key_item.dart';
 import 'package:parlo/features/api_keys_manager/presentation/widgets/add_api_key_dialog.dart';
 
-class ApiKeyManagerScreen extends StatefulWidget {
+class ApiKeyManagerScreen extends ConsumerStatefulWidget {
   const ApiKeyManagerScreen({super.key});
 
   @override
-  State<ApiKeyManagerScreen> createState() => _ApiKeyManagerScreenState();
+  ConsumerState<ApiKeyManagerScreen> createState() =>
+      _ApiKeyManagerScreenState();
 }
 
-class _ApiKeyManagerScreenState extends State<ApiKeyManagerScreen> {
-  // Mock data for API keys - this will be replaced with actual data management later
-  List<Map<String, dynamic>> apiKeys = [
-    {
-      'id': '1',
-      'name': 'Key Name',
-      'key': 'sk-1234567890abcdef',
-      'isSelected': false,
-    },
-    {
-      'id': '2',
-      'name': 'Key Name',
-      'key': 'sk-abcdef1234567890',
-      'isSelected': true,
-    },
-    {
-      'id': '3',
-      'name': 'Key Name',
-      'key': 'sk-0987654321fedcba',
-      'isSelected': false,
-    },
-    {
-      'id': '4',
-      'name': 'Key Name',
-      'key': 'sk-fedcba0987654321',
-      'isSelected': false,
-    },
-    {
-      'id': '5',
-      'name': 'Key Name',
-      'key': 'sk-1111222233334444',
-      'isSelected': false,
-    },
-    {
-      'id': '6',
-      'name': 'Key Name',
-      'key': 'sk-4444333322221111',
-      'isSelected': false,
-    },
-  ];
-
-  //TODO: could be optimized by using some indexing mechanism
-  void _selectApiKey(String id) {
-    setState(() {
-      for (var key in apiKeys) {
-        key['isSelected'] = key['id'] == id;
-      }
-    });
-  }
-
-  void _deleteApiKey(String id) {
-    setState(() {
-      apiKeys.removeWhere((key) => key['id'] == id);
-    });
-  }
-
-  void _deselectAll() {
-    setState(() {
-      for (var key in apiKeys) {
-        key['isSelected'] = false;
-      }
-    });
-  }
-
-  void _addApiKey() async {
-    final result = await showDialog<Map<String, String>>(
-      context: context,
-      builder: (context) => const AddApiKeyDialog(),
-    );
-
-    if (result != null) {
-      setState(() {
-        apiKeys.add({
-          // TODO: id shouldn't be the "created_at" value
-          'id': DateTime.now().millisecondsSinceEpoch.toString(),
-          'name': result['name']!,
-          'key': result['key']!,
-          'isSelected': false,
-        });
-      });
-    }
-  }
+class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
+  late ApiKeyManagerState state;
+  late ApiKeyManagerNotifier notifier;
+  late StateNotifierProvider<ApiKeyManagerNotifier, ApiKeyManagerState>
+  apiKeyManagerProvider;
 
   @override
   Widget build(BuildContext context) {
+    state = ref.watch(apiKeyManagerProvider);
+    notifier = ref.read(apiKeyManagerProvider.notifier);
+    if (state.isLoading)
+      return Scaffold(
+        backgroundColor: ColorsManager.black,
+        body: SafeArea(
+          child: Column(
+            children: [
+              _buildHeaderSection(context),
+              Expanded(
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorsManager.primary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: _buildFloatingActionButton(),
+      );
     return Scaffold(
       backgroundColor: ColorsManager.black,
       body: SafeArea(
@@ -134,9 +82,9 @@ class _ApiKeyManagerScreenState extends State<ApiKeyManagerScreen> {
             ),
           ),
           // Deselect all button (only show if there are selected keys)
-          if (apiKeys.any((key) => key['isSelected'] == true))
+          if (state.apiKeys.any((key) => key.isSelected))
             GestureDetector(
-              onTap: _deselectAll,
+              onTap: () => notifier.deselectAll(),
               child: Text(
                 'Deselect All',
                 style: TextStyleManger.primary14Regular,
@@ -148,6 +96,8 @@ class _ApiKeyManagerScreenState extends State<ApiKeyManagerScreen> {
   }
 
   Widget _buildApiKeysList() {
+    final apiKeys = state.apiKeys;
+
     if (apiKeys.isEmpty) {
       return Center(
         child: Column(
@@ -162,6 +112,11 @@ class _ApiKeyManagerScreenState extends State<ApiKeyManagerScreen> {
               style: TextStyleManger.dimmed14Regular,
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 4),
+            GestureDetector(
+              onTap: () => _addApiKey(),
+              child: Text('Add API Key', style: TextStyleManger.primary14Bold),
+            ),
           ],
         ),
       );
@@ -175,16 +130,17 @@ class _ApiKeyManagerScreenState extends State<ApiKeyManagerScreen> {
       itemBuilder: (context, index) {
         final apiKey = apiKeys[index];
         return ApiKeyItem(
-          keyName: apiKey['name'],
-          isSelected: apiKey['isSelected'],
-          onSelectionChanged: () => _selectApiKey(apiKey['id']),
-          onDelete: () => _deleteApiKey(apiKey['id']),
+          keyName: apiKey.name,
+          isSelected: apiKey.isSelected,
+          onSelectionChanged: () => notifier.selectApiKey(apiKey.id),
+          onDelete: () => notifier.deleteApiKey(apiKey.id),
         );
       },
     );
   }
 
   Widget _buildFloatingActionButton() {
+    if (state.apiKeys.isEmpty) return const SizedBox.shrink();
     return Container(
       margin: const EdgeInsets.all(16),
       child: FloatingActionButton(
@@ -194,5 +150,29 @@ class _ApiKeyManagerScreenState extends State<ApiKeyManagerScreen> {
         child: const Icon(Icons.add, color: ColorsManager.white, size: 24),
       ),
     );
+  }
+
+  void _addApiKey() async {
+    final result = await showDialog<Map<String, String>>(
+      context: context,
+      builder: (context) => const AddApiKeyDialog(),
+    );
+
+    if (result != null) {
+      notifier.addNewApiKey(name: result['name']!, key: result['key']!);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    apiKeyManagerProvider = getApiKeyManagerProvider();
+    notifier = ref.read(apiKeyManagerProvider.notifier);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    notifier.dispose();
   }
 }

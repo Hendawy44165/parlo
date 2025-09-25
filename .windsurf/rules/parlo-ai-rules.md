@@ -25,6 +25,7 @@ trigger: always_on
 18. If you find a potential issue (logical or otherwise), mention it, and I will make the decision on how to proceed.
 19. When planning, always mention any platform specific changes for android files.
 20. When planning, always mention any platform specific changes for iOS files.
+21. Put the used methods at the top, then the private methods, which start with '_', after, then put the override methods. The only exception is the build methods when found to override is always  the first method to be written
 
 ## DON'Ts
 1. Do not modify any files I did NOT tell you to modify.  
@@ -41,4 +42,4 @@ trigger: always_on
 ## INFO
 1. The database in use is **Supabase**.  
 2. The state management solution is **Riverpod**.  
-3. The app will be deployed for **Android** and **iOS** only.  
+3. The app will be deployed for **Android** and **iOS** only.
