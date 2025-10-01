@@ -5,7 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
-import 'package:parlo/features/auth/presentation/providers/auth_state.dart';
+import 'package:parlo/features/auth/presentation/providers/auth_state.dart'
+    as m_auth_state;
 import 'package:parlo/features/auth/presentation/providers/signup_provider.dart';
 import 'package:parlo/features/auth/presentation/widgets/custom_input_field.dart';
 
@@ -135,7 +136,7 @@ class SignupScreen extends ConsumerWidget {
 
   Widget _buildSignupButton(
     BuildContext context,
-    AuthState state,
+    m_auth_state.AuthState state,
     SignupNotifier notifier,
   ) {
     return SizedBox(
@@ -143,7 +144,8 @@ class SignupScreen extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: () async {
           if (state.isLoading) return;
-          await notifier.signup();
+          // TODO: implement signup
+          // await notifier.signup();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.primaryPurple,
@@ -164,7 +166,7 @@ class SignupScreen extends ConsumerWidget {
 
   Widget _buildSocialLoginSection(
     BuildContext context,
-    AuthState state,
+    m_auth_state.AuthState state,
     SignupNotifier notifier,
   ) {
     return Column(
@@ -198,7 +200,7 @@ class SignupScreen extends ConsumerWidget {
 
   Widget _buildSocialButton(
     BuildContext context,
-    AuthState state,
+    m_auth_state.AuthState state,
     SignupNotifier notifier,
   ) {
     return Container(
@@ -207,7 +209,8 @@ class SignupScreen extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: () async {
           if (state.isLoading) return;
-          await notifier.signinWithGoogle();
+          // TODO: Implement Google Sign-In
+          // await notifier.signinWithGoogle();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.darkNavyBlue,

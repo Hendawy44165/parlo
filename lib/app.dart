@@ -3,6 +3,7 @@ import 'package:parlo/core/routing/app_router.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/features/auth/logic/services/auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ParloApp extends StatelessWidget {
   ParloApp({super.key});
@@ -11,9 +12,10 @@ class ParloApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<String?>(
-      stream: AuthService().uidStream,
+    return StreamBuilder<AuthState>(
+      stream: AuthService().onAuthStateChange,
       builder: (context, snapshot) {
+        final session = AuthService().currentSession;
         return MaterialApp(
           key: ValueKey(snapshot.data),
           title: 'Parlo',
@@ -23,7 +25,7 @@ class ParloApp extends StatelessWidget {
             fontFamily: 'Ubuntu',
           ),
           onGenerateRoute: appRouter.generateRoute,
-          initialRoute: snapshot.hasData ? Routes.settings : Routes.login,
+          initialRoute: session == null ? Routes.login : Routes.settings,
         );
       },
     );

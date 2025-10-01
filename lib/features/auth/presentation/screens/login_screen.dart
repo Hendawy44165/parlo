@@ -4,7 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
-import 'package:parlo/features/auth/presentation/providers/auth_state.dart';
+import 'package:parlo/features/auth/presentation/providers/auth_state.dart'
+    as m_auth_state;
 import 'package:parlo/features/auth/presentation/providers/login_provider.dart';
 import 'package:parlo/features/auth/presentation/widgets/custom_input_field.dart';
 
@@ -18,6 +19,13 @@ class LoginScreen extends ConsumerWidget {
     final state = ref.watch(provider);
     final notifier = ref.read(provider.notifier);
 
+    if (state.isData && state.code == 200) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacementNamed(Routes.home);
+      });
+    }
+
+    // TODO: form validation should show error codes under the fields
     if (state.isError) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -26,69 +34,38 @@ class LoginScreen extends ConsumerWidget {
             duration: const Duration(seconds: 2),
           ),
         );
+        // TODO: make sure this doesn't cause double frame render for performance
         notifier.setToDataState();
       });
     }
 
-    return Scaffold(
-      backgroundColor: ColorsManager.black,
-      body: Stack(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight:
-                      MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.06,
-                    vertical: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
-                      _buildHeaderSection(),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                      ),
-                      _buildInputSection(notifier),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                      ),
-                      _buildLoginButton(context, state, notifier),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      _buildSocialLoginSection(context, state, notifier),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
-                      _buildSignUpSection(context),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: ColorsManager.black,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.06,
+              vertical: MediaQuery.of(context).size.height * 0.02,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                _buildHeaderSection(),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                _buildInputSection(notifier),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+                _buildLoginButton(context, state, notifier),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                _buildSocialLoginSection(context, state, notifier),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                _buildSignUpSection(context, state),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              ],
             ),
           ),
-          if (state.isLoading)
-            Container(
-              color: ColorsManager.black,
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: ColorsManager.primaryPurple,
-                ),
-              ),
-            ),
-        ],
+        ),
       ),
     );
   }
@@ -127,7 +104,9 @@ class LoginScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             GestureDetector(
-              onTap: () => notifier.sendPasswordResetEmail(),
+              onTap: () async {
+                return await notifier.sendPasswordResetEmail();
+              },
               child: Text(
                 "Forgot Password?",
                 style: TextStyleManger.dimmed14Medium,
@@ -141,16 +120,13 @@ class LoginScreen extends ConsumerWidget {
 
   Widget _buildLoginButton(
     BuildContext context,
-    AuthState state,
+    m_auth_state.AuthState state,
     LoginNotifier notifier,
   ) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () async {
-          if (state.isLoading) return;
-          await notifier.login();
-        },
+        onPressed: () => notifier.login(),
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.primaryPurple,
           minimumSize: Size(
@@ -163,14 +139,17 @@ class LoginScreen extends ConsumerWidget {
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
-        child: Text('Login', style: TextStyleManger.white16Medium),
+        child:
+            state.isLoading
+                ? CircularProgressIndicator(color: ColorsManager.white)
+                : Text('Login', style: TextStyleManger.white16Medium),
       ),
     );
   }
 
   Widget _buildSocialLoginSection(
     BuildContext context,
-    AuthState state,
+    m_auth_state.AuthState state,
     LoginNotifier notifier,
   ) {
     return Column(
@@ -204,17 +183,14 @@ class LoginScreen extends ConsumerWidget {
 
   Widget _buildSocialButton(
     BuildContext context,
-    AuthState state,
+    m_auth_state.AuthState state,
     LoginNotifier notifier,
   ) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ElevatedButton(
-        onPressed: () async {
-          if (state.isLoading) return;
-          await notifier.signinWithGoogle();
-        },
+        onPressed: () => notifier.signinWithGoogle(),
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.darkNavyBlue,
           shape: RoundedRectangleBorder(
@@ -222,25 +198,34 @@ class LoginScreen extends ConsumerWidget {
           ),
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(right: 12),
-              child: SvgPicture.asset(
-                'assets/icons/google.svg',
-                width: 20,
-                height: 20,
-              ),
-            ),
-            Text('Sign in with Google', style: TextStyleManger.white16Regular),
-          ],
-        ),
+        child:
+            state.isLoading
+                ? CircularProgressIndicator(color: ColorsManager.primaryPurple)
+                : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 12),
+                      child: SvgPicture.asset(
+                        'assets/icons/google.svg',
+                        width: 20,
+                        height: 20,
+                      ),
+                    ),
+                    Text(
+                      'Sign in with Google',
+                      style: TextStyleManger.white16Regular,
+                    ),
+                  ],
+                ),
       ),
     );
   }
 
-  Widget _buildSignUpSection(BuildContext context) {
+  Widget _buildSignUpSection(
+    BuildContext context,
+    m_auth_state.AuthState state,
+  ) {
     return Container(
       margin: const EdgeInsets.only(top: 16),
       child: Row(
@@ -251,8 +236,10 @@ class LoginScreen extends ConsumerWidget {
             style: TextStyleManger.dimmed14Regular,
           ),
           TextButton(
-            onPressed:
-                () => Navigator.of(context).popAndPushNamed(Routes.signup),
+            onPressed: () {
+              if (state.isLoading) return;
+              Navigator.of(context).popAndPushNamed(Routes.signup);
+            },
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
               minimumSize: const Size(50, 30),
