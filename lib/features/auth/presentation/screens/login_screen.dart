@@ -25,7 +25,6 @@ class LoginScreen extends ConsumerWidget {
       });
     }
 
-    // TODO: form validation should show error codes under the fields
     if (state.isError) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -34,7 +33,6 @@ class LoginScreen extends ConsumerWidget {
             duration: const Duration(seconds: 2),
           ),
         );
-        // TODO: make sure this doesn't cause double frame render for performance
         notifier.setToDataState();
       });
     }
@@ -92,6 +90,18 @@ class LoginScreen extends ConsumerWidget {
           prefixIcon: 'assets/icons/mail.svg',
           controller: notifier.emailController,
         ),
+        notifier.emailErrorMessage != null
+            ? Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  notifier.emailErrorMessage!,
+                  style: TextStyleManger.error12Regular,
+                ),
+              ),
+            )
+            : const SizedBox.shrink(),
         const SizedBox(height: 16),
         CustomInputField(
           hint: 'Password',
@@ -99,14 +109,24 @@ class LoginScreen extends ConsumerWidget {
           controller: notifier.passwordController,
           isPassword: true,
         ),
+        notifier.passwordErrorMessage != null
+            ? Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  notifier.passwordErrorMessage!,
+                  style: TextStyleManger.error12Regular,
+                ),
+              ),
+            )
+            : const SizedBox.shrink(),
         const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             GestureDetector(
-              onTap: () async {
-                return await notifier.sendPasswordResetEmail();
-              },
+              onTap: () async {},
               child: Text(
                 "Forgot Password?",
                 style: TextStyleManger.dimmed14Medium,

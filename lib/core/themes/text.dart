@@ -50,5 +50,11 @@ class TextStyleManger {
     fontWeight: FontWeight.bold,
   );
 
+  static const error12Regular = TextStyle(
+    color: ColorsManager.red,
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+  );
+
   TextStyleManger._();
 }

@@ -117,12 +117,36 @@ class SignupScreen extends ConsumerWidget {
           prefixIcon: 'assets/icons/user.svg',
           controller: notifier.usernameController,
         ),
+        notifier.usernameErrorMessage != null
+            ? Padding(
+              padding: const EdgeInsets.only(top: 4, bottom: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  notifier.usernameErrorMessage!,
+                  style: TextStyleManger.error12Regular,
+                ),
+              ),
+            )
+            : const SizedBox.shrink(),
         const SizedBox(height: 12),
         CustomInputField(
           hint: 'Email',
           prefixIcon: 'assets/icons/mail.svg',
           controller: notifier.emailController,
         ),
+        notifier.emailErrorMessage != null
+            ? Padding(
+              padding: const EdgeInsets.only(top: 4, bottom: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  notifier.emailErrorMessage!,
+                  style: TextStyleManger.error12Regular,
+                ),
+              ),
+            )
+            : const SizedBox.shrink(),
         const SizedBox(height: 12),
         CustomInputField(
           hint: 'Password',
@@ -130,6 +154,18 @@ class SignupScreen extends ConsumerWidget {
           controller: notifier.passwordController,
           isPassword: true,
         ),
+        notifier.passwordErrorMessage != null
+            ? Padding(
+              padding: const EdgeInsets.only(top: 4, bottom: 8),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  notifier.passwordErrorMessage!,
+                  style: TextStyleManger.error12Regular,
+                ),
+              ),
+            )
+            : const SizedBox.shrink(),
       ],
     );
   }
@@ -142,11 +178,7 @@ class SignupScreen extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () async {
-          if (state.isLoading) return;
-          // TODO: implement signup
-          // await notifier.signup();
-        },
+        onPressed: () => notifier.signup(),
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.primaryPurple,
           minimumSize: Size(
@@ -209,7 +241,6 @@ class SignupScreen extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: () async {
           if (state.isLoading) return;
-          // TODO: Implement Google Sign-In
           // await notifier.signinWithGoogle();
         },
         style: ElevatedButton.styleFrom(

@@ -15,59 +15,58 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  final AuthService _service;
+  String? get emailErrorMessage => _emailErrorMessage;
+  String? get passwordErrorMessage => _passwordErrorMessage;
+  String? get usernameErrorMessage => _usernameErrorMessage;
 
-  // Future<void> signup() async {
-  //   if (state.isLoading) return;
-  //   state = state.copyWith(providerState: ProviderState.loading);
+  Future<void> signup() async {
+    if (state.isLoading) return;
+    state = state.copyWith(providerState: ProviderState.loading);
 
-  //   final email = emailController.text.trim();
-  //   final password = passwordController.text.trim();
-  //   final username = usernameController.text.trim();
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+    final username = usernameController.text.trim();
 
-  //   if (!AuthFieldsValidatorService.isValidEmail(email)) {
-  //     state = state.copyWith(
-  //       providerState: ProviderState.error,
-  //       code: 400,
-  //       error: 'Invalid email format',
-  //     );
-  //     return;
-  //   }
+    _usernameErrorMessage = null;
+    _emailErrorMessage = null;
+    _passwordErrorMessage = null;
 
-  //   if (!AuthFieldsValidatorService.isValidPassword(password)) {
-  //     state = state.copyWith(
-  //       providerState: ProviderState.error,
-  //       code: 400,
-  //       error: 'Invalid password format',
-  //     );
-  //     return;
-  //   }
+    if (!AuthFieldsValidatorService.isValidEmail(email)) {
+      _emailErrorMessage = 'Invalid email format.';
+      state = state.copyWith(providerState: ProviderState.initial);
+      return;
+    }
 
-  //   if (!AuthFieldsValidatorService.isValidUsername(username)) {
-  //     state = state.copyWith(
-  //       providerState: ProviderState.error,
-  //       code: 400,
-  //       error: 'Invalid username format',
-  //     );
-  //     return;
-  //   }
+    if (!AuthFieldsValidatorService.isValidPassword(password)) {
+      _passwordErrorMessage =
+          'Password must be at least 8 characters and include uppercase, lowercase, and a number.';
+      state = state.copyWith(providerState: ProviderState.initial);
+      return;
+    }
 
-  //   final response = await _service.signup(
-  //     email: email,
-  //     password: password,
-  //     username: username,
-  //   );
+    if (!AuthFieldsValidatorService.isValidUsername(username)) {
+      _usernameErrorMessage =
+          'Username must be 3–20 characters long and can only contain letters, numbers, and underscores.';
+      state = state.copyWith(providerState: ProviderState.initial);
+      return;
+    }
 
-  //   if (response.isSuccess) {
-  //     state = state.copyWith(providerState: ProviderState.data);
-  //   } else {
-  //     state = state.copyWith(
-  //       providerState: ProviderState.error,
-  //       code: response.errorCode,
-  //       error: response.error,
-  //     );
-  //   }
-  // }
+    final response = await _service.signUp(
+      email: email,
+      password: password,
+      username: username,
+    );
+
+    if (response.isSuccess) {
+      state = state.copyWith(providerState: ProviderState.data);
+    } else {
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: response.errorCode,
+        error: response.error,
+      );
+    }
+  }
 
   // Future<void> signinWithGoogle() async {
   //   if (state.isLoading) return;
@@ -94,6 +93,12 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
         error: null,
       );
   }
+
+  //! private members
+  final AuthService _service;
+  String? _emailErrorMessage;
+  String? _passwordErrorMessage;
+  String? _usernameErrorMessage;
 }
 
 StateNotifierProvider<SignupNotifier, m_auth_state.AuthState>

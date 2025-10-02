@@ -13,7 +13,8 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final AuthService _service;
+  String? get emailErrorMessage => _emailErrorMessage;
+  String? get passwordErrorMessage => _passwordErrorMessage;
 
   Future<void> login() async {
     if (state.isLoading) return;
@@ -22,31 +23,22 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
+    _emailErrorMessage = null;
+    _passwordErrorMessage = null;
+
     if (!AuthFieldsValidatorService.isValidEmail(email)) {
-      // TODO: make the error codes constants in separate file
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code:
-            101564, // 1 0 1564 (feature 1, local is 0, code 1564) make this constant outside file
-        error: 'Invalid email format. Please enter a valid email.',
-      );
+      _emailErrorMessage = 'Invalid email format.';
+      state = state.copyWith(providerState: ProviderState.initial);
       return;
     }
     if (!AuthFieldsValidatorService.isValidPassword(password)) {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: 101565,
-        // TODO: make the error codes constants in separate file to support localization
-        error:
-            'Password must be at least 8 characters and include uppercase, lowercase, and a number.',
-      );
+      _passwordErrorMessage =
+          'Password must be at least 8 characters and include uppercase, lowercase, and a number.';
+      state = state.copyWith(providerState: ProviderState.initial);
       return;
     }
 
-    final response = await _service.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    final response = await _service.login(email: email, password: password);
     if (response.isSuccess) {
       state = state.copyWith(providerState: ProviderState.data, code: 200);
     } else {
@@ -74,33 +66,6 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
     // }
   }
 
-  Future<void> sendPasswordResetEmail() async {
-    if (state.isLoading) return;
-    state = state.copyWith(providerState: ProviderState.loading);
-
-    final email = emailController.text.trim();
-    if (!AuthFieldsValidatorService.isValidEmail(email)) {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: 101564,
-        error: 'Invalid email format. Please enter a valid email.',
-      );
-      return;
-    }
-
-    // TODO: the email is sent but the reset link doesn't work
-    final response = await _service.resetPassword(email);
-    if (response.isSuccess) {
-      state = state.copyWith(providerState: ProviderState.data);
-    } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
-    }
-  }
-
   void setToDataState() {
     if (state.isError)
       state = state.copyWith(
@@ -109,6 +74,11 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
         error: null,
       );
   }
+
+  //! private members
+  final AuthService _service;
+  String? _emailErrorMessage;
+  String? _passwordErrorMessage;
 }
 
 StateNotifierProvider<LoginNotifier, m_auth_state.AuthState>

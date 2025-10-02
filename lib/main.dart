@@ -8,7 +8,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:parlo/features/auth/logic/services/auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-// TODO: add connectivity check stream
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 

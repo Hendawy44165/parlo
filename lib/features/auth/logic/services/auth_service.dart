@@ -11,53 +11,19 @@ class AuthService {
   factory AuthService() => _instance;
   AuthService._internal();
 
-  //! Private Variables
-  final SupabaseClient _supabase = Supabase.instance.client;
-  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
-  bool _isGoogleSignInInitialized = false;
-  GoogleSignInAccount? _currentGoogleUser;
-  final StreamController<AuthState> _authStateController =
-      StreamController<AuthState>.broadcast();
-
   //! Constants
   static final anonkey =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0cGZwc2Fzb3llZ3R5Y2dncGZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMjMzMDMsImV4cCI6MjA3MzU5OTMwM30.5-N1R5S7n7MmbxHGlVwi5murYKXa10sCByNOXV7IEYU";
   static final supabaseUrl = "https://ctpfpsasoyegtycggpfk.supabase.co";
 
   //! Getters
-  Stream<AuthState> get authStateChanges => _authStateController.stream;
   Stream<AuthState> get onAuthStateChange => _supabase.auth.onAuthStateChange;
   Session? get currentSession => _supabase.auth.currentSession;
   User? get currentUser => _supabase.auth.currentUser;
   bool get isSignedIn => currentSession != null;
-  String? get accessToken => currentSession?.accessToken;
-  String? get refreshToken => currentSession?.refreshToken;
   GoogleSignInAccount? get currentGoogleUser => _currentGoogleUser;
-  bool get isSignedInWithGoogle => _currentGoogleUser != null;
-  Map<String, dynamic>? get userMetadata => currentUser?.userMetadata;
-  String? get userEmail => currentUser?.email;
-  String? get userId => currentUser?.id;
-  bool get isEmailConfirmed => currentUser?.emailConfirmedAt != null;
 
   //! Methods
-  Future<void> initialize() async {
-    await _initializeGoogleSignIn();
-
-    // Listen to Supabase auth state changes and broadcast them
-    _supabase.auth.onAuthStateChange.listen((data) {
-      _authStateController.add(data);
-    });
-  }
-
-  Future<AuthResponse> refreshSession() async {
-    try {
-      final response = await _supabase.auth.refreshSession();
-      return response;
-    } catch (e) {
-      throw AuthException('Failed to refresh session: $e');
-    }
-  }
-
   Future<AuthResponse> signInWithGoogle() async {
     await _ensureGoogleSignInInitialized();
 
@@ -104,25 +70,31 @@ class AuthService {
     }
   }
 
-  Future<AuthResponse> signUpWithEmailAndPassword({
+  Future<ResponseModel<String>> signUp({
     required String email,
     required String password,
-    Map<String, dynamic>? userData,
+    required String username,
   }) async {
     try {
       final AuthResponse response = await _supabase.auth.signUp(
         email: email,
         password: password,
-        data: userData,
+        data: {'username': username},
       );
-
-      return response;
+      return ResponseModel.success(
+        "Sign-up successful. Please verify your email.",
+      );
+    } on AuthException catch (e) {
+      return ResponseModel.failure(401, e.message);
     } catch (e) {
-      throw AuthException('Sign up failed: $e');
+      return ResponseModel.failure(
+        500,
+        "Can't sign up with email and password: $e",
+      );
     }
   }
 
-  Future<ResponseModel> signInWithEmailAndPassword({
+  Future<ResponseModel> login({
     required String email,
     required String password,
   }) async {
@@ -130,14 +102,18 @@ class AuthService {
       final AuthResponse supabaseResponse = await _supabase.auth
           .signInWithPassword(email: email, password: password);
       if (supabaseResponse.user == null)
-        // TODO: improve status code and message see https://supabase.com/docs/guides/auth/debugging/error-codes#https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
         return ResponseModel.failure(
           500,
           "Can't login with email and password",
         );
       return ResponseModel.success(supabaseResponse.user);
+    } on AuthException catch (e) {
+      return ResponseModel.failure(401, e.message);
     } catch (e) {
-      return ResponseModel.failure(500, "Can't login with email and password");
+      return ResponseModel.failure(
+        500,
+        "Can't login with email and password: $e",
+      );
     }
   }
 
@@ -157,18 +133,18 @@ class AuthService {
     }
   }
 
-  Future<void> signOut() async {
+  Future<ResponseModel<void>> signOut() async {
     try {
-      // Sign out from Google if currently signed in with Google
-      if (_currentGoogleUser != null) {
-        await _googleSignIn.signOut();
-        _currentGoogleUser = null;
-      }
-
-      // Sign out from Supabase
+      // if (_currentGoogleUser != null) {
+      //   await _googleSignIn.signOut();
+      //   _currentGoogleUser = null;
+      // }
       await _supabase.auth.signOut();
+      return ResponseModel.success(null);
+    } on AuthException catch (e) {
+      return ResponseModel.failure(401, e.message);
     } catch (e) {
-      throw AuthException('Sign out failed: $e');
+      return ResponseModel.failure(500, "Failed to sign out: $e");
     }
   }
 
@@ -193,30 +169,6 @@ class AuthService {
     }
   }
 
-  Future<UserResponse> updateEmail(String newEmail) async {
-    try {
-      final UserResponse response = await _supabase.auth.updateUser(
-        UserAttributes(email: newEmail),
-      );
-
-      return response;
-    } catch (e) {
-      throw AuthException('Email update failed: $e');
-    }
-  }
-
-  Future<UserResponse> updateUserMetadata(Map<String, dynamic> data) async {
-    try {
-      final UserResponse response = await _supabase.auth.updateUser(
-        UserAttributes(data: data),
-      );
-
-      return response;
-    } catch (e) {
-      throw AuthException('User metadata update failed: $e');
-    }
-  }
-
   Future<void> resendEmailConfirmation(String email) async {
     try {
       await _supabase.auth.resend(type: OtpType.signup, email: email);
@@ -225,82 +177,15 @@ class AuthService {
     }
   }
 
-  Future<AuthResponse> verifyOTP({
+  Future<ResponseModel> verifyAccount({
     required String email,
     required String token,
-    required OtpType type,
   }) async {
-    try {
-      final AuthResponse response = await _supabase.auth.verifyOTP(
-        email: email,
-        token: token,
-        type: type,
-      );
-
-      return response;
-    } catch (e) {
-      throw AuthException('OTP verification failed: $e');
-    }
+    throw UnimplementedError();
   }
 
-  Future<void> signInWithOTP(String email) async {
-    try {
-      await _supabase.auth.signInWithOtp(email: email);
-    } catch (e) {
-      throw AuthException('OTP sign-in failed: $e');
-    }
-  }
-
-  Future<void> deleteAccount() async {
-    try {
-      if (currentUser == null) {
-        throw AuthException('No user is currently signed in');
-      }
-
-      throw UnimplementedError(
-        'Account deletion must be implemented on the backend using Supabase Admin API',
-      );
-    } catch (e) {
-      throw AuthException('Account deletion failed: $e');
-    }
-  }
-
-  Future<String?> getGoogleAccessTokenForScopes(List<String> scopes) async {
-    await _ensureGoogleSignInInitialized();
-
-    try {
-      final authClient = _googleSignIn.authorizationClient;
-
-      // Try to get existing authorization for the requested scopes
-      var authorization = await authClient.authorizationForScopes(scopes);
-
-      // If no existing authorization, request new authorization
-      authorization ??= await authClient.authorizeScopes(scopes);
-
-      return authorization.accessToken;
-    } catch (e) {
-      throw AuthException('Failed to get access token for scopes: $e');
-    }
-  }
-
-  Future<bool> isEmailRegistered(String email) async {
-    try {
-      // Attempt to sign in with dummy password to check if email exists
-      await _supabase.auth.signInWithPassword(
-        email: email,
-        password: 'dummy_password_to_check_email',
-      );
-      return true;
-    } catch (e) {
-      final errorMessage = e.toString().toLowerCase();
-      // If error mentions invalid credentials, email exists but password is wrong
-      if (errorMessage.contains('invalid') &&
-          errorMessage.contains('credentials')) {
-        return true;
-      }
-      // For other errors (like email not found), assume email doesn't exist
-      return false;
-    }
+  Future<ResponseModel> deleteAccount() async {
+    throw UnimplementedError();
   }
 
   Future<void> _initializeGoogleSignIn() async {
@@ -339,7 +224,9 @@ class AuthService {
     }
   }
 
-  void dispose() {
-    _authStateController.close();
-  }
+  //! Private Variables
+  final SupabaseClient _supabase = Supabase.instance.client;
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+  bool _isGoogleSignInInitialized = false;
+  GoogleSignInAccount? _currentGoogleUser;
 }
