@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
+import 'package:parlo/features/auth/logic/services/auth_service.dart';
 import 'package:parlo/features/settings/logic/services/profile_service.dart';
 import 'package:parlo/features/settings/presentation/providers/settings_provider.dart';
 
@@ -90,6 +91,29 @@ class SettingsScreen extends ConsumerWidget {
                       _buildStabilitySelectionSection(notifier, ref),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.07,
+                      ),
+                      //! temp logout button
+                      ElevatedButton(
+                        onPressed: () async {
+                          AuthService().signOut();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorsManager.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 16,
+                          ),
+                        ),
+                        child: Text(
+                          'Logout',
+                          style: TextStyleManger.white16Medium,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
                       ),
                     ],
                   ),
