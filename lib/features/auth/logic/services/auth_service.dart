@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:parlo/core/models/response_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-// TODO: get google cloud (OAuth client ID, Secret ID)
 class AuthService {
   //! Singleton
   static final AuthService _instance = AuthService._internal();
@@ -24,49 +22,34 @@ class AuthService {
   GoogleSignInAccount? get currentGoogleUser => _currentGoogleUser;
 
   //! Methods
-  Future<AuthResponse> signInWithGoogle() async {
-    await _ensureGoogleSignInInitialized();
+  Future<ResponseModel<void>> signInWithGoogle() async {
+    const webClientId =
+        '954144225523-45b2ak2gqf27rc3gtrt3hsrlo65qcilh.apps.googleusercontent.com';
 
     try {
-      // Check if platform supports Google Sign-In authentication
-      if (!_googleSignIn.supportsAuthenticate()) {
-        if (kIsWeb) {
-          throw AuthException(
-            'Web platform requires different sign-in flow. Use Google Sign-In button for web.',
-          );
-        } else {
-          throw AuthException('Platform not supported for Google Sign-In');
-        }
-      }
+      await GoogleSignIn.instance.initialize(serverClientId: webClientId);
+      final googleUser = await GoogleSignIn.instance.authenticate();
 
-      // Authenticate with Google and request email and profile scopes
-      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate(
-        scopeHint: ['email', 'profile'],
-      );
-
-      _currentGoogleUser = googleUser;
-
-      // Get Google authentication tokens
-      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
-      final String? idToken = googleAuth.idToken;
-
+      final idToken = googleUser.authentication.idToken;
       if (idToken == null) {
-        throw AuthException('Failed to get Google ID token');
+        return ResponseModel.failure(500, "Google sign-in failed: No ID token");
       }
 
-      // Sign in to Supabase using the Google ID token
-      final AuthResponse response = await _supabase.auth.signInWithIdToken(
+      final authorization = await googleUser.authorizationClient
+          .authorizeScopes(['email', 'profile']);
+      final accessToken = authorization.accessToken;
+
+      final response = await Supabase.instance.client.auth.signInWithIdToken(
         provider: OAuthProvider.google,
         idToken: idToken,
+        accessToken: accessToken,
       );
 
-      return response;
-    } on GoogleSignInException catch (e) {
-      _currentGoogleUser = null;
-      throw AuthException(_googleSignInExceptionToMessage(e));
+      return ResponseModel.success(null);
+    } on AuthException catch (e) {
+      return ResponseModel.failure(401, e.message);
     } catch (e) {
-      _currentGoogleUser = null;
-      throw AuthException('Google sign-in failed: $e');
+      return ResponseModel.failure(500, "Google sign-in failed: $e");
     }
   }
 
@@ -188,45 +171,7 @@ class AuthService {
     throw UnimplementedError();
   }
 
-  Future<void> _initializeGoogleSignIn() async {
-    try {
-      await _googleSignIn.initialize();
-      _isGoogleSignInInitialized = true;
-    } catch (e) {
-      throw AuthException('Failed to initialize Google Sign-In: $e');
-    }
-  }
-
-  Future<void> _ensureGoogleSignInInitialized() async {
-    if (!_isGoogleSignInInitialized) {
-      await _initializeGoogleSignIn();
-    }
-  }
-
-  String _googleSignInExceptionToMessage(GoogleSignInException exception) {
-    switch (exception.code.name) {
-      // TODO: make sure the case is right. i think it should be 'cancelled'
-      case 'canceled':
-        return 'Sign-in was cancelled. Please try again if you want to continue.';
-      case 'interrupted':
-        return 'Sign-in was interrupted. Please try again.';
-      case 'clientConfigurationError':
-        return 'There is a configuration issue with Google Sign-In. Please contact support.';
-      case 'providerConfigurationError':
-        return 'Google Sign-In is currently unavailable. Please try again later or contact support.';
-      case 'uiUnavailable':
-        return 'Google Sign-In is currently unavailable. Please try again later or contact support.';
-      case 'userMismatch':
-        return 'There was an issue with your account. Please sign out and try again.';
-      case 'unknownError':
-      default:
-        return 'An unexpected error occurred during Google Sign-In. Please try again.';
-    }
-  }
-
   //! Private Variables
   final SupabaseClient _supabase = Supabase.instance.client;
-  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
-  bool _isGoogleSignInInitialized = false;
   GoogleSignInAccount? _currentGoogleUser;
 }

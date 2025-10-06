@@ -239,10 +239,7 @@ class SignupScreen extends ConsumerWidget {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: ElevatedButton(
-        onPressed: () async {
-          if (state.isLoading) return;
-          // await notifier.signinWithGoogle();
-        },
+        onPressed: () => notifier.signInWithGoogle(),
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.darkNavyBlue,
           shape: RoundedRectangleBorder(

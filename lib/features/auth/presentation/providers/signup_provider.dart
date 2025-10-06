@@ -68,22 +68,22 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
     }
   }
 
-  // Future<void> signinWithGoogle() async {
-  //   if (state.isLoading) return;
-  //   state = state.copyWith(providerState: ProviderState.loading);
+  Future<void> signInWithGoogle() async {
+    if (state.isLoading) return;
+    state = state.copyWith(providerState: ProviderState.loading);
 
-  //   final response = await _service.signInWithGoogle();
+    final response = await _service.signInWithGoogle();
 
-  //   if (response.isSuccess) {
-  //     state = state.copyWith(providerState: ProviderState.data);
-  //   } else {
-  //     state = state.copyWith(
-  //       providerState: ProviderState.error,
-  //       code: response.errorCode,
-  //       error: response.error,
-  //     );
-  //   }
-  // }
+    if (response.isSuccess) {
+      state = state.copyWith(providerState: ProviderState.data, code: 200);
+    } else {
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: response.errorCode,
+        error: response.error,
+      );
+    }
+  }
 
   void setToDataState() {
     if (state.isError)
