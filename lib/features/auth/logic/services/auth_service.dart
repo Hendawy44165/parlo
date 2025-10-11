@@ -4,11 +4,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  //! Singleton
-  static final AuthService _instance = AuthService._internal();
-  factory AuthService() => _instance;
-  AuthService._internal();
-
   //! Constants
   static final anonkey =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0cGZwc2Fzb3llZ3R5Y2dncGZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMjMzMDMsImV4cCI6MjA3MzU5OTMwM30.5-N1R5S7n7MmbxHGlVwi5murYKXa10sCByNOXV7IEYU";
@@ -133,6 +128,8 @@ class AuthService {
 
   Future<ResponseModel<String>> resetPassword(String email) async {
     try {
+      final isEmailRegistered = await _isEmailRegistered(email);
+      if (!isEmailRegistered) throw AuthException('Email is not registered');
       await _supabase.auth.resetPasswordForEmail(email);
       return ResponseModel.success("Reset password sent to $email");
     } catch (e) {
@@ -140,13 +137,32 @@ class AuthService {
     }
   }
 
-  Future<UserResponse> updatePassword(String newPassword) async {
+  Future<ResponseModel> verifyOtpCode(String email, String otp) async {
+    final supabase = Supabase.instance.client;
+
     try {
-      final UserResponse response = await _supabase.auth.updateUser(
+      final res = await supabase.auth.verifyOTP(
+        type: OtpType.recovery,
+        token: otp,
+        email: email,
+      );
+      if (res.session != null) {
+        return ResponseModel.success(null);
+      } else {
+        throw AuthException("Invalid response. Try again or contact support.");
+      }
+    } catch (e) {
+      return ResponseModel.failure(500, "$e");
+    }
+  }
+
+  Future<ResponseModel> updatePassword(String newPassword) async {
+    try {
+      final UserResponse user = await _supabase.auth.updateUser(
         UserAttributes(password: newPassword),
       );
 
-      return response;
+      return ResponseModel.success(user);
     } catch (e) {
       throw AuthException('Password update failed: $e');
     }
@@ -171,7 +187,23 @@ class AuthService {
     throw UnimplementedError();
   }
 
+  Future<bool> _isEmailRegistered(String email) async {
+    final response =
+        await _supabase
+            .from('users')
+            .select('email')
+            .eq('email', email)
+            .maybeSingle();
+
+    return response == null ? false : true;
+  }
+
   //! Private Variables
   final SupabaseClient _supabase = Supabase.instance.client;
   GoogleSignInAccount? _currentGoogleUser;
+
+  //! Singleton
+  static final AuthService _instance = AuthService._internal();
+  factory AuthService() => _instance;
+  AuthService._internal();
 }

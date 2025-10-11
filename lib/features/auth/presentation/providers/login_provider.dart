@@ -66,6 +66,29 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
     }
   }
 
+  Future<void> resetPassword() async {
+    if (state.isLoading) return;
+    state = state.copyWith(providerState: ProviderState.loading);
+
+    final email = emailController.text.trim();
+    if (!AuthFieldsValidatorService.isValidEmail(email)) {
+      _emailErrorMessage = 'Invalid Email Format';
+      state = state.copyWith(providerState: ProviderState.initial);
+      return;
+    }
+
+    final response = await _service.resetPassword(email);
+    if (response.isSuccess) {
+      state = state.copyWith(providerState: ProviderState.data, code: 201);
+    } else {
+      state = state.copyWith(
+        providerState: ProviderState.error,
+        code: response.errorCode,
+        error: response.error,
+      );
+    }
+  }
+
   void setToDataState() {
     if (state.isError)
       state = state.copyWith(

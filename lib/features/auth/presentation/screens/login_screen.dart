@@ -23,6 +23,14 @@ class LoginScreen extends ConsumerWidget {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pushReplacementNamed(Routes.home);
       });
+    } else if (state.isData && state.code == 201) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacementNamed(
+          Routes.otpVerification,
+          arguments: {'email': notifier.emailController.text.trim()},
+        );
+        notifier.setToDataState();
+      });
     }
 
     if (state.isError) {
@@ -126,7 +134,7 @@ class LoginScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             GestureDetector(
-              onTap: () async {},
+              onTap: () => notifier.resetPassword(),
               child: Text(
                 "Forgot Password?",
                 style: TextStyleManger.dimmed14Medium,

@@ -16,6 +16,25 @@ class ParloApp extends StatelessWidget {
       stream: AuthService().onAuthStateChange,
       builder: (context, snapshot) {
         final session = AuthService().currentSession;
+        late final String route;
+        switch (snapshot.data?.event) {
+          case AuthChangeEvent.signedIn:
+            route = Routes.home;
+            break;
+          case AuthChangeEvent.signedOut:
+            route = Routes.login;
+            break;
+          case AuthChangeEvent.userUpdated:
+            route = Routes.home;
+            break;
+          case AuthChangeEvent.passwordRecovery:
+            route = Routes.resetPassword;
+            break;
+          default:
+            route = Routes.login;
+            break;
+        }
+        debugPrint('Auth State Changed: ${snapshot.data}');
         return MaterialApp(
           key: ValueKey(snapshot.data),
           title: 'Parlo',
@@ -25,7 +44,7 @@ class ParloApp extends StatelessWidget {
             fontFamily: 'Ubuntu',
           ),
           onGenerateRoute: appRouter.generateRoute,
-          initialRoute: session == null ? Routes.login : Routes.settings,
+          initialRoute: route,
         );
       },
     );
