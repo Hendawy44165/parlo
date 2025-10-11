@@ -1,0 +1,15 @@
+{
+    "anon": {
+        "column": "email",
+        "table": "public.users",
+        "limit": 1
+    },
+    "public.users": {
+        
+        "all application users have access to read email column": {
+            "user type" : "anon",
+            "column" : "email",
+            "supported queries": ["read"]
+        }
+    }
+}

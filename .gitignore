@@ -46,6 +46,6 @@ app.*.map.json
 **/web/
 **/linux/
 **/macos/
-**/android/
+# **/android/
 **/ios/
 
