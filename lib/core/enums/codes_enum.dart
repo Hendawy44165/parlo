@@ -1,4 +1,4 @@
-enum ErrorCodes {
+enum Codes {
   anonymousProviderDisabled,
   badCodeVerifier,
   badJson,
@@ -18,6 +18,7 @@ enum ErrorCodes {
   emailProviderDisabled,
   flowStateExpired,
   flowStateNotFound,
+  forgotPassword,
   googleIdTokenMissing,
   googleSignInFailed,
   hookPayloadInvalidContentType,
@@ -51,6 +52,7 @@ enum ErrorCodes {
   overEmailSendRateLimit,
   overRequestRateLimit,
   overSmsSendRateLimit,
+  passwordUpdatedSuccessfully,
   phoneExists,
   phoneNotConfirmed,
   phoneProviderDisabled,

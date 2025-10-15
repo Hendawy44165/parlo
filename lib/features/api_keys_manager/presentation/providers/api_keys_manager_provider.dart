@@ -68,11 +68,11 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
     );
   }
 
-  void setToDataState() {
+  void setToDefaultState() {
     if (state.isError)
       state = state.copyWith(
         providerState: ProviderState.data,
-        code: 0,
+        code: null,
         error: null,
       );
   }

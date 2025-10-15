@@ -1,4 +1,4 @@
-import 'package:parlo/core/enums/error_codes_enum.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/models/response_model.dart';
 import 'package:parlo/core/services/error_handling_service.dart';
 import 'package:parlo/features/api_keys_manager/logic/entities/api_keys_entity.dart';
@@ -15,10 +15,8 @@ class ApiKeysService {
       return ResponseModel.success(apiKeys);
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.couldNotGetElevenLabsApiKeys,
-        ErrorHandlingService.getMessage(
-          ErrorCodes.couldNotGetElevenLabsApiKeys,
-        ),
+        Codes.couldNotGetElevenLabsApiKeys,
+        ErrorHandlingService.getMessage(Codes.couldNotGetElevenLabsApiKeys),
       );
     }
   }
@@ -29,8 +27,8 @@ class ApiKeysService {
       return const ResponseModel.success(null);
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.couldNotAddElevenLabsApiKey,
-        ErrorHandlingService.getMessage(ErrorCodes.couldNotAddElevenLabsApiKey),
+        Codes.couldNotAddElevenLabsApiKey,
+        ErrorHandlingService.getMessage(Codes.couldNotAddElevenLabsApiKey),
       );
     }
   }
@@ -41,10 +39,8 @@ class ApiKeysService {
       return const ResponseModel.success(null);
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.couldNotDeleteElevenLabsApiKey,
-        ErrorHandlingService.getMessage(
-          ErrorCodes.couldNotDeleteElevenLabsApiKey,
-        ),
+        Codes.couldNotDeleteElevenLabsApiKey,
+        ErrorHandlingService.getMessage(Codes.couldNotDeleteElevenLabsApiKey),
       );
     }
   }

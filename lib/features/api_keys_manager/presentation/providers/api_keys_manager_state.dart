@@ -1,16 +1,17 @@
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/enums/provider_state_enum.dart';
 import 'package:parlo/features/api_keys_manager/logic/entities/api_keys_entity.dart';
 
 class ApiKeyManagerState {
   final List<ApiKeyEntity> apiKeys;
   final ProviderState _providerState;
-  final int code;
+  final Codes? code;
   final String? error;
 
   const ApiKeyManagerState({
     required this.apiKeys,
     required ProviderState providerState,
-    this.code = 0,
+    this.code,
     this.error,
   }) : _providerState = providerState;
 
@@ -21,7 +22,7 @@ class ApiKeyManagerState {
   ApiKeyManagerState copyWith({
     List<ApiKeyEntity>? apiKeys,
     ProviderState? providerState,
-    int? code,
+    Codes? code,
     String? error,
   }) {
     return ApiKeyManagerState(

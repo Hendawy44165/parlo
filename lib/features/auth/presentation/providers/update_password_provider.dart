@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parlo/core/dependency_injection.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/enums/provider_state_enum.dart';
 import 'package:parlo/features/auth/logic/services/auth_fields_validator_service.dart';
 import 'package:parlo/features/auth/logic/services/auth_service.dart';
@@ -42,7 +43,10 @@ class UpdatePasswordNotifier extends StateNotifier<m_auth_state.AuthState> {
 
     final response = await _service.updatePassword(newPassword);
     if (response.isSuccess) {
-      state = state.copyWith(providerState: ProviderState.data, code: 200);
+      state = state.copyWith(
+        providerState: ProviderState.data,
+        code: Codes.passwordUpdatedSuccessfully,
+      );
     } else {
       state = state.copyWith(
         providerState: ProviderState.error,
@@ -56,11 +60,11 @@ class UpdatePasswordNotifier extends StateNotifier<m_auth_state.AuthState> {
     await _service.signOut();
   }
 
-  void setToDataState() {
+  void setToDefaultState() {
     if (state.isError)
       state = state.copyWith(
         providerState: ProviderState.data,
-        code: 0,
+        code: null,
         error: null,
       );
   }

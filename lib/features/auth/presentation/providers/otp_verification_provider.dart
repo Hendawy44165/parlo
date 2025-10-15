@@ -22,7 +22,7 @@ class OtpVerificationNotifier extends StateNotifier<m_auth_state.AuthState> {
     if (otp.isEmpty) {
       state = state.copyWith(
         providerState: ProviderState.error,
-        code: 100,
+        code: null,
         error: 'Enter your OTP',
       );
       return;
@@ -30,7 +30,7 @@ class OtpVerificationNotifier extends StateNotifier<m_auth_state.AuthState> {
 
     final response = await _service.verifyOtpCode(_email, otp);
     if (response.isSuccess) {
-      state = state.copyWith(providerState: ProviderState.data, code: 200);
+      state = state.copyWith(providerState: ProviderState.data, code: null);
     } else {
       state = state.copyWith(
         providerState: ProviderState.error,
@@ -46,7 +46,7 @@ class OtpVerificationNotifier extends StateNotifier<m_auth_state.AuthState> {
 
     final response = await _service.resetPassword(_email);
     if (response.isSuccess) {
-      state = state.copyWith(providerState: ProviderState.data, code: 201);
+      state = state.copyWith(providerState: ProviderState.data, code: null);
       otpController.clear();
     } else {
       state = state.copyWith(
@@ -57,11 +57,11 @@ class OtpVerificationNotifier extends StateNotifier<m_auth_state.AuthState> {
     }
   }
 
-  void setToDataState() {
+  void setToDefaultState() {
     if (state.isError)
       state = state.copyWith(
         providerState: ProviderState.data,
-        code: 0,
+        code: null,
         error: null,
       );
   }

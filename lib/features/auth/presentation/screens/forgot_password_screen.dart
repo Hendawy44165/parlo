@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
 import 'package:parlo/features/auth/presentation/providers/auth_state.dart';
@@ -16,7 +17,7 @@ class UpdatePasswordScreen extends ConsumerWidget {
     final state = ref.watch(provider);
     final notifier = ref.read(provider.notifier);
 
-    if (state.isData && state.code == 200) {
+    if (state.isData && state.code == Codes.passwordUpdatedSuccessfully) {
       notifier.signOut();
     } else if (state.isError) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -26,7 +27,7 @@ class UpdatePasswordScreen extends ConsumerWidget {
             duration: const Duration(seconds: 2),
           ),
         );
-        notifier.setToDataState();
+        notifier.setToDefaultState();
       });
     }
 
@@ -38,7 +39,7 @@ class UpdatePasswordScreen extends ConsumerWidget {
             duration: const Duration(seconds: 2),
           ),
         );
-        notifier.setToDataState();
+        notifier.setToDefaultState();
       });
     }
 

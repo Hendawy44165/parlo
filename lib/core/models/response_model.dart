@@ -1,10 +1,10 @@
-import 'package:parlo/core/enums/error_codes_enum.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 
 class ResponseModel<T> {
   final ResponseState state;
   final T? data;
   final String? error;
-  final ErrorCodes? errorCode;
+  final Codes? errorCode;
 
   const ResponseModel.success(T this.data)
     : state = ResponseState.success,

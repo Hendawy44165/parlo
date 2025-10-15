@@ -37,7 +37,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
             duration: const Duration(seconds: 2),
           ),
         );
-        notifier.setToDataState();
+        notifier.setToDefaultState();
       });
     } else if (state.isData && state.code == 200) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -51,7 +51,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
             duration: Duration(seconds: 2),
           ),
         );
-        notifier.setToDataState();
+        notifier.setToDefaultState();
       });
     }
 

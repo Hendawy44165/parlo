@@ -28,7 +28,7 @@ class SignupScreen extends ConsumerWidget {
             duration: const Duration(seconds: 2),
           ),
         );
-        notifier.setToDataState();
+        notifier.setToDefaultState();
       });
     }
 

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:parlo/core/enums/error_codes_enum.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/models/response_model.dart';
 import 'package:parlo/core/services/error_handling_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -30,8 +30,8 @@ class AuthService {
       final idToken = googleUser.authentication.idToken;
       if (idToken == null) {
         return ResponseModel.failure(
-          ErrorCodes.googleIdTokenMissing,
-          ErrorHandlingService.getMessage(ErrorCodes.googleIdTokenMissing),
+          Codes.googleIdTokenMissing,
+          ErrorHandlingService.getMessage(Codes.googleIdTokenMissing),
         );
       }
 
@@ -51,8 +51,8 @@ class AuthService {
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.googleSignInFailed,
-        ErrorHandlingService.getMessage(ErrorCodes.googleSignInFailed),
+        Codes.googleSignInFailed,
+        ErrorHandlingService.getMessage(Codes.googleSignInFailed),
       );
     }
   }
@@ -76,8 +76,8 @@ class AuthService {
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.unknown,
-        ErrorHandlingService.getMessage(ErrorCodes.unknown),
+        Codes.unknown,
+        ErrorHandlingService.getMessage(Codes.unknown),
       );
     }
   }
@@ -91,8 +91,8 @@ class AuthService {
           .signInWithPassword(email: email, password: password);
       if (supabaseResponse.user == null) {
         return ResponseModel.failure(
-          ErrorCodes.userNotFound,
-          ErrorHandlingService.getMessage(ErrorCodes.userNotFound),
+          Codes.userNotFound,
+          ErrorHandlingService.getMessage(Codes.userNotFound),
         );
       }
       return ResponseModel.success(supabaseResponse.user);
@@ -101,8 +101,8 @@ class AuthService {
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.unknown,
-        ErrorHandlingService.getMessage(ErrorCodes.unknown),
+        Codes.unknown,
+        ErrorHandlingService.getMessage(Codes.unknown),
       );
     }
   }
@@ -120,8 +120,8 @@ class AuthService {
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.unknown,
-        ErrorHandlingService.getMessage(ErrorCodes.unknown),
+        Codes.unknown,
+        ErrorHandlingService.getMessage(Codes.unknown),
       );
     }
   }
@@ -131,8 +131,8 @@ class AuthService {
       final isEmailRegistered = await _isEmailRegistered(email);
       if (!isEmailRegistered) {
         return ResponseModel.failure(
-          ErrorCodes.userNotFound,
-          ErrorHandlingService.getMessage(ErrorCodes.userNotFound),
+          Codes.userNotFound,
+          ErrorHandlingService.getMessage(Codes.userNotFound),
         );
       }
       await _supabase.auth.resetPasswordForEmail(email);
@@ -142,8 +142,8 @@ class AuthService {
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.unknown,
-        ErrorHandlingService.getMessage(ErrorCodes.unknown),
+        Codes.unknown,
+        ErrorHandlingService.getMessage(Codes.unknown),
       );
     }
   }
@@ -161,8 +161,8 @@ class AuthService {
         return ResponseModel.success(null);
       } else {
         return ResponseModel.failure(
-          ErrorCodes.otpExpired,
-          ErrorHandlingService.getMessage(ErrorCodes.otpExpired),
+          Codes.otpExpired,
+          ErrorHandlingService.getMessage(Codes.otpExpired),
         );
       }
     } on AuthException catch (e) {
@@ -170,8 +170,8 @@ class AuthService {
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.unknown,
-        ErrorHandlingService.getMessage(ErrorCodes.unknown),
+        Codes.unknown,
+        ErrorHandlingService.getMessage(Codes.unknown),
       );
     }
   }
@@ -188,8 +188,8 @@ class AuthService {
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
       return ResponseModel.failure(
-        ErrorCodes.unknown,
-        ErrorHandlingService.getMessage(ErrorCodes.unknown),
+        Codes.unknown,
+        ErrorHandlingService.getMessage(Codes.unknown),
       );
     }
   }

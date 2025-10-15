@@ -34,7 +34,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
             duration: const Duration(seconds: 2),
           ),
         );
-        notifier.setToDataState();
+        notifier.setToDefaultState();
       });
     }
     return Scaffold(

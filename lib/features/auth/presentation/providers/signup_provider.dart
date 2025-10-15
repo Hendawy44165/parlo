@@ -75,7 +75,7 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
     final response = await _service.signInWithGoogle();
 
     if (response.isSuccess) {
-      state = state.copyWith(providerState: ProviderState.data, code: 200);
+      state = state.copyWith(providerState: ProviderState.data, code: null);
     } else {
       state = state.copyWith(
         providerState: ProviderState.error,
@@ -85,11 +85,11 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
     }
   }
 
-  void setToDataState() {
+  void setToDefaultState() {
     if (state.isError)
       state = state.copyWith(
         providerState: ProviderState.data,
-        code: 0,
+        code: null,
         error: null,
       );
   }

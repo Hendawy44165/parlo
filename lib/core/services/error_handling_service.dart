@@ -1,363 +1,365 @@
-import 'package:parlo/core/enums/error_codes_enum.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 
 class ErrorHandlingService {
-  static ErrorCodes getErrorCode(String errorCode) {
+  static Codes getErrorCode(String errorCode) {
     switch (errorCode) {
       case 'anonymous_provider_disabled':
-        return ErrorCodes.anonymousProviderDisabled;
+        return Codes.anonymousProviderDisabled;
       case 'bad_code_verifier':
-        return ErrorCodes.badCodeVerifier;
+        return Codes.badCodeVerifier;
       case 'bad_json':
-        return ErrorCodes.badJson;
+        return Codes.badJson;
       case 'bad_jwt':
-        return ErrorCodes.badJwt;
+        return Codes.badJwt;
       case 'bad_oauth_callback':
-        return ErrorCodes.badOauthCallback;
+        return Codes.badOauthCallback;
       case 'bad_oauth_state':
-        return ErrorCodes.badOauthState;
+        return Codes.badOauthState;
       case 'captcha_failed':
-        return ErrorCodes.captchaFailed;
+        return Codes.captchaFailed;
       case 'conflict':
-        return ErrorCodes.conflict;
+        return Codes.conflict;
       case 'email_address_invalid':
-        return ErrorCodes.emailAddressInvalid;
+        return Codes.emailAddressInvalid;
       case 'email_address_not_authorized':
-        return ErrorCodes.emailAddressNotAuthorized;
+        return Codes.emailAddressNotAuthorized;
       case 'email_conflict_identity_not_deletable':
-        return ErrorCodes.emailConflictIdentityNotDeletable;
+        return Codes.emailConflictIdentityNotDeletable;
       case 'email_exists':
-        return ErrorCodes.emailExists;
+        return Codes.emailExists;
       case 'email_not_confirmed':
-        return ErrorCodes.emailNotConfirmed;
+        return Codes.emailNotConfirmed;
       case 'email_provider_disabled':
-        return ErrorCodes.emailProviderDisabled;
+        return Codes.emailProviderDisabled;
       case 'flow_state_expired':
-        return ErrorCodes.flowStateExpired;
+        return Codes.flowStateExpired;
       case 'flow_state_not_found':
-        return ErrorCodes.flowStateNotFound;
+        return Codes.flowStateNotFound;
       case 'google_id_token_missing':
-        return ErrorCodes.googleIdTokenMissing;
+        return Codes.googleIdTokenMissing;
       case 'google_sign_in_failed':
-        return ErrorCodes.googleSignInFailed;
+        return Codes.googleSignInFailed;
       case 'hook_payload_invalid_content_type':
-        return ErrorCodes.hookPayloadInvalidContentType;
+        return Codes.hookPayloadInvalidContentType;
       case 'hook_payload_over_size_limit':
-        return ErrorCodes.hookPayloadOverSizeLimit;
+        return Codes.hookPayloadOverSizeLimit;
       case 'hook_timeout':
-        return ErrorCodes.hookTimeout;
+        return Codes.hookTimeout;
       case 'hook_timeout_after_retry':
-        return ErrorCodes.hookTimeoutAfterRetry;
+        return Codes.hookTimeoutAfterRetry;
       case 'identity_already_exists':
-        return ErrorCodes.identityAlreadyExists;
+        return Codes.identityAlreadyExists;
       case 'identity_not_found':
-        return ErrorCodes.identityNotFound;
+        return Codes.identityNotFound;
       case 'insufficient_aal':
-        return ErrorCodes.insufficientAal;
+        return Codes.insufficientAal;
       case 'invalid_credentials':
-        return ErrorCodes.invalidCredentials;
+        return Codes.invalidCredentials;
       case 'invite_not_found':
-        return ErrorCodes.inviteNotFound;
+        return Codes.inviteNotFound;
       case 'manual_linking_disabled':
-        return ErrorCodes.manualLinkingDisabled;
+        return Codes.manualLinkingDisabled;
       case 'mfa_challenge_expired':
-        return ErrorCodes.mfaChallengeExpired;
+        return Codes.mfaChallengeExpired;
       case 'mfa_factor_name_conflict':
-        return ErrorCodes.mfaFactorNameConflict;
+        return Codes.mfaFactorNameConflict;
       case 'mfa_factor_not_found':
-        return ErrorCodes.mfaFactorNotFound;
+        return Codes.mfaFactorNotFound;
       case 'mfa_ip_address_mismatch':
-        return ErrorCodes.mfaIpAddressMismatch;
+        return Codes.mfaIpAddressMismatch;
       case 'mfa_phone_enroll_not_enabled':
-        return ErrorCodes.mfaPhoneEnrollNotEnabled;
+        return Codes.mfaPhoneEnrollNotEnabled;
       case 'mfa_phone_verify_not_enabled':
-        return ErrorCodes.mfaPhoneVerifyNotEnabled;
+        return Codes.mfaPhoneVerifyNotEnabled;
       case 'mfa_totp_enroll_not_enabled':
-        return ErrorCodes.mfaTotpEnrollNotEnabled;
+        return Codes.mfaTotpEnrollNotEnabled;
       case 'mfa_totp_verify_not_enabled':
-        return ErrorCodes.mfaTotpVerifyNotEnabled;
+        return Codes.mfaTotpVerifyNotEnabled;
       case 'mfa_verification_failed':
-        return ErrorCodes.mfaVerificationFailed;
+        return Codes.mfaVerificationFailed;
       case 'mfa_verification_rejected':
-        return ErrorCodes.mfaVerificationRejected;
+        return Codes.mfaVerificationRejected;
       case 'mfa_verified_factor_exists':
-        return ErrorCodes.mfaVerifiedFactorExists;
+        return Codes.mfaVerifiedFactorExists;
       case 'mfa_web_authn_enroll_not_enabled':
-        return ErrorCodes.mfaWebAuthnEnrollNotEnabled;
+        return Codes.mfaWebAuthnEnrollNotEnabled;
       case 'mfa_web_authn_verify_not_enabled':
-        return ErrorCodes.mfaWebAuthnVerifyNotEnabled;
+        return Codes.mfaWebAuthnVerifyNotEnabled;
       case 'no_authorization':
-        return ErrorCodes.noAuthorization;
+        return Codes.noAuthorization;
       case 'not_admin':
-        return ErrorCodes.notAdmin;
+        return Codes.notAdmin;
       case 'oauth_provider_not_supported':
-        return ErrorCodes.oauthProviderNotSupported;
+        return Codes.oauthProviderNotSupported;
       case 'otp_disabled':
-        return ErrorCodes.otpDisabled;
+        return Codes.otpDisabled;
       case 'otp_expired':
-        return ErrorCodes.otpExpired;
+        return Codes.otpExpired;
       case 'over_email_send_rate_limit':
-        return ErrorCodes.overEmailSendRateLimit;
+        return Codes.overEmailSendRateLimit;
       case 'over_request_rate_limit':
-        return ErrorCodes.overRequestRateLimit;
+        return Codes.overRequestRateLimit;
       case 'over_sms_send_rate_limit':
-        return ErrorCodes.overSmsSendRateLimit;
+        return Codes.overSmsSendRateLimit;
       case 'phone_exists':
-        return ErrorCodes.phoneExists;
+        return Codes.phoneExists;
       case 'phone_not_confirmed':
-        return ErrorCodes.phoneNotConfirmed;
+        return Codes.phoneNotConfirmed;
       case 'phone_provider_disabled':
-        return ErrorCodes.phoneProviderDisabled;
+        return Codes.phoneProviderDisabled;
       case 'provider_disabled':
-        return ErrorCodes.providerDisabled;
+        return Codes.providerDisabled;
       case 'provider_email_needs_verification':
-        return ErrorCodes.providerEmailNeedsVerification;
+        return Codes.providerEmailNeedsVerification;
       case 'reauthentication_needed':
-        return ErrorCodes.reauthenticationNeeded;
+        return Codes.reauthenticationNeeded;
       case 'reauthentication_not_valid':
-        return ErrorCodes.reauthenticationNotValid;
+        return Codes.reauthenticationNotValid;
       case 'refresh_token_already_used':
-        return ErrorCodes.refreshTokenAlreadyUsed;
+        return Codes.refreshTokenAlreadyUsed;
       case 'refresh_token_not_found':
-        return ErrorCodes.refreshTokenNotFound;
+        return Codes.refreshTokenNotFound;
       case 'request_timeout':
-        return ErrorCodes.requestTimeout;
+        return Codes.requestTimeout;
       case 'same_password':
-        return ErrorCodes.samePassword;
+        return Codes.samePassword;
       case 'saml_assertion_no_email':
-        return ErrorCodes.samlAssertionNoEmail;
+        return Codes.samlAssertionNoEmail;
       case 'saml_assertion_no_user_id':
-        return ErrorCodes.samlAssertionNoUserId;
+        return Codes.samlAssertionNoUserId;
       case 'saml_entity_id_mismatch':
-        return ErrorCodes.samlEntityIdMismatch;
+        return Codes.samlEntityIdMismatch;
       case 'saml_idp_already_exists':
-        return ErrorCodes.samlIdpAlreadyExists;
+        return Codes.samlIdpAlreadyExists;
       case 'saml_idp_not_found':
-        return ErrorCodes.samlIdpNotFound;
+        return Codes.samlIdpNotFound;
       case 'saml_metadata_fetch_failed':
-        return ErrorCodes.samlMetadataFetchFailed;
+        return Codes.samlMetadataFetchFailed;
       case 'saml_provider_disabled':
-        return ErrorCodes.samlProviderDisabled;
+        return Codes.samlProviderDisabled;
       case 'saml_relay_state_expired':
-        return ErrorCodes.samlRelayStateExpired;
+        return Codes.samlRelayStateExpired;
       case 'saml_relay_state_not_found':
-        return ErrorCodes.samlRelayStateNotFound;
+        return Codes.samlRelayStateNotFound;
       case 'session_expired':
-        return ErrorCodes.sessionExpired;
+        return Codes.sessionExpired;
       case 'session_not_found':
-        return ErrorCodes.sessionNotFound;
+        return Codes.sessionNotFound;
       case 'signup_disabled':
-        return ErrorCodes.signupDisabled;
+        return Codes.signupDisabled;
       case 'single_identity_not_deletable':
-        return ErrorCodes.singleIdentityNotDeletable;
+        return Codes.singleIdentityNotDeletable;
       case 'sms_send_failed':
-        return ErrorCodes.smsSendFailed;
+        return Codes.smsSendFailed;
       case 'sso_domain_already_exists':
-        return ErrorCodes.ssoDomainAlreadyExists;
+        return Codes.ssoDomainAlreadyExists;
       case 'sso_provider_not_found':
-        return ErrorCodes.ssoProviderNotFound;
+        return Codes.ssoProviderNotFound;
       case 'too_many_enrolled_mfa_factors':
-        return ErrorCodes.tooManyEnrolledMfaFactors;
+        return Codes.tooManyEnrolledMfaFactors;
       case 'unexpected_audience':
-        return ErrorCodes.unexpectedAudience;
+        return Codes.unexpectedAudience;
       case 'unexpected_failure':
-        return ErrorCodes.unexpectedFailure;
+        return Codes.unexpectedFailure;
       case 'user_already_exists':
-        return ErrorCodes.userAlreadyExists;
+        return Codes.userAlreadyExists;
       case 'user_banned':
-        return ErrorCodes.userBanned;
+        return Codes.userBanned;
       case 'user_not_found':
-        return ErrorCodes.userNotFound;
+        return Codes.userNotFound;
       case 'user_sso_managed':
-        return ErrorCodes.userSsoManaged;
+        return Codes.userSsoManaged;
       case 'validation_failed':
-        return ErrorCodes.validationFailed;
+        return Codes.validationFailed;
       case 'weak_password':
-        return ErrorCodes.weakPassword;
+        return Codes.weakPassword;
       default:
-        return ErrorCodes.unknown;
+        return Codes.unknown;
     }
   }
 
-  static String getMessage(ErrorCodes errorCode) {
+  static String getMessage(Codes errorCode) {
     switch (errorCode) {
-      case ErrorCodes.anonymousProviderDisabled:
+      case Codes.anonymousProviderDisabled:
         return 'Anonymous sign-ins are disabled.';
-      case ErrorCodes.badCodeVerifier:
+      case Codes.badCodeVerifier:
         return 'Invalid code verifier. Please try again.';
-      case ErrorCodes.badJson:
+      case Codes.badJson:
         return 'Invalid request format.';
-      case ErrorCodes.badJwt:
+      case Codes.badJwt:
         return 'Invalid authentication token.';
-      case ErrorCodes.badOauthCallback:
+      case Codes.badOauthCallback:
         return 'OAuth authentication failed. Please try again.';
-      case ErrorCodes.badOauthState:
+      case Codes.badOauthState:
         return 'OAuth state is invalid. Please try again.';
-      case ErrorCodes.captchaFailed:
+      case Codes.captchaFailed:
         return 'CAPTCHA verification failed. Please try again.';
-      case ErrorCodes.conflict:
+      case Codes.conflict:
         return 'A conflict occurred. Please try again.';
-      case ErrorCodes.couldNotAddElevenLabsApiKey:
+      case Codes.couldNotAddElevenLabsApiKey:
         return 'Could not add ElevenLabs API key. Please try again.';
-      case ErrorCodes.couldNotDeleteElevenLabsApiKey:
+      case Codes.couldNotDeleteElevenLabsApiKey:
         return 'Could not delete ElevenLabs API key. Please try again.';
-      case ErrorCodes.couldNotGetElevenLabsApiKeys:
+      case Codes.couldNotGetElevenLabsApiKeys:
         return 'Could not retrieve ElevenLabs API keys. Please try again.';
-      case ErrorCodes.emailAddressInvalid:
+      case Codes.emailAddressInvalid:
         return 'Email address is invalid. Please use a valid email.';
-      case ErrorCodes.emailAddressNotAuthorized:
+      case Codes.emailAddressNotAuthorized:
         return 'This email address is not authorized.';
-      case ErrorCodes.emailConflictIdentityNotDeletable:
+      case Codes.emailConflictIdentityNotDeletable:
         return 'Cannot unlink this identity due to email conflict.';
-      case ErrorCodes.emailExists:
+      case Codes.emailExists:
         return 'Email address already exists in the system.';
-      case ErrorCodes.emailNotConfirmed:
+      case Codes.emailNotConfirmed:
         return 'Please confirm your email address before signing in.';
-      case ErrorCodes.emailProviderDisabled:
+      case Codes.emailProviderDisabled:
         return 'Email sign-ups are currently disabled.';
-      case ErrorCodes.flowStateExpired:
+      case Codes.flowStateExpired:
         return 'Authentication session expired. Please sign in again.';
-      case ErrorCodes.flowStateNotFound:
+      case Codes.flowStateNotFound:
         return 'Authentication session not found. Please sign in again.';
-      case ErrorCodes.googleIdTokenMissing:
+      case Codes.googleIdTokenMissing:
         return 'Google ID token is missing. Please try signing in again.';
-      case ErrorCodes.googleSignInFailed:
+      case Codes.googleSignInFailed:
         return 'Google sign-in failed. Please try again.';
-      case ErrorCodes.hookPayloadInvalidContentType:
+      case Codes.hookPayloadInvalidContentType:
         return 'Invalid webhook payload format.';
-      case ErrorCodes.hookPayloadOverSizeLimit:
+      case Codes.hookPayloadOverSizeLimit:
         return 'Webhook payload exceeds size limit.';
-      case ErrorCodes.hookTimeout:
+      case Codes.hookTimeout:
         return 'Webhook request timed out.';
-      case ErrorCodes.hookTimeoutAfterRetry:
+      case Codes.hookTimeoutAfterRetry:
         return 'Webhook request failed after retries.';
-      case ErrorCodes.identityAlreadyExists:
+      case Codes.identityAlreadyExists:
         return 'This identity is already linked to another user.';
-      case ErrorCodes.identityNotFound:
+      case Codes.identityNotFound:
         return 'Identity not found.';
-      case ErrorCodes.insufficientAal:
+      case Codes.insufficientAal:
         return 'Additional authentication required. Please complete MFA.';
-      case ErrorCodes.invalidCredentials:
+      case Codes.invalidCredentials:
         return 'Invalid email or password.';
-      case ErrorCodes.inviteNotFound:
+      case Codes.inviteNotFound:
         return 'Invitation expired or already used.';
-      case ErrorCodes.manualLinkingDisabled:
+      case Codes.manualLinkingDisabled:
         return 'Manual account linking is disabled.';
-      case ErrorCodes.mfaChallengeExpired:
+      case Codes.mfaChallengeExpired:
         return 'MFA challenge expired. Please request a new code.';
-      case ErrorCodes.mfaFactorNameConflict:
+      case Codes.mfaFactorNameConflict:
         return 'MFA factor name already exists. Choose a different name.';
-      case ErrorCodes.mfaFactorNotFound:
+      case Codes.mfaFactorNotFound:
         return 'MFA factor not found.';
-      case ErrorCodes.mfaIpAddressMismatch:
+      case Codes.mfaIpAddressMismatch:
         return 'IP address mismatch during MFA enrollment.';
-      case ErrorCodes.mfaPhoneEnrollNotEnabled:
+      case Codes.mfaPhoneEnrollNotEnabled:
         return 'Phone MFA enrollment is disabled.';
-      case ErrorCodes.mfaPhoneVerifyNotEnabled:
+      case Codes.mfaPhoneVerifyNotEnabled:
         return 'Phone MFA verification is disabled.';
-      case ErrorCodes.mfaTotpEnrollNotEnabled:
+      case Codes.mfaTotpEnrollNotEnabled:
         return 'TOTP MFA enrollment is disabled.';
-      case ErrorCodes.mfaTotpVerifyNotEnabled:
+      case Codes.mfaTotpVerifyNotEnabled:
         return 'TOTP MFA verification is disabled.';
-      case ErrorCodes.mfaVerificationFailed:
+      case Codes.mfaVerificationFailed:
         return 'Incorrect MFA code. Please try again.';
-      case ErrorCodes.mfaVerificationRejected:
+      case Codes.mfaVerificationRejected:
         return 'MFA verification rejected.';
-      case ErrorCodes.mfaVerifiedFactorExists:
+      case Codes.mfaVerifiedFactorExists:
         return 'A verified phone factor already exists.';
-      case ErrorCodes.mfaWebAuthnEnrollNotEnabled:
+      case Codes.mfaWebAuthnEnrollNotEnabled:
         return 'WebAuthn MFA enrollment is disabled.';
-      case ErrorCodes.mfaWebAuthnVerifyNotEnabled:
+      case Codes.mfaWebAuthnVerifyNotEnabled:
         return 'WebAuthn MFA verification is disabled.';
-      case ErrorCodes.noAuthorization:
+      case Codes.noAuthorization:
         return 'Authorization required.';
-      case ErrorCodes.notAdmin:
+      case Codes.notAdmin:
         return 'Admin access required.';
-      case ErrorCodes.oauthProviderNotSupported:
+      case Codes.oauthProviderNotSupported:
         return 'OAuth provider is not supported.';
-      case ErrorCodes.otpDisabled:
+      case Codes.otpDisabled:
         return 'OTP sign-in is disabled.';
-      case ErrorCodes.otpExpired:
+      case Codes.otpExpired:
         return 'OTP code expired. Please request a new one.';
-      case ErrorCodes.overEmailSendRateLimit:
+      case Codes.overEmailSendRateLimit:
         return 'Too many emails sent. Please try again later.';
-      case ErrorCodes.overRequestRateLimit:
+      case Codes.overRequestRateLimit:
         return 'Too many requests. Please try again later.';
-      case ErrorCodes.overSmsSendRateLimit:
+      case Codes.overSmsSendRateLimit:
         return 'Too many SMS sent. Please try again later.';
-      case ErrorCodes.phoneExists:
+      case Codes.phoneExists:
         return 'Phone number already exists in the system.';
-      case ErrorCodes.phoneNotConfirmed:
+      case Codes.phoneNotConfirmed:
         return 'Please confirm your phone number before signing in.';
-      case ErrorCodes.phoneProviderDisabled:
+      case Codes.phoneProviderDisabled:
         return 'Phone sign-ups are currently disabled.';
-      case ErrorCodes.providerDisabled:
+      case Codes.providerDisabled:
         return 'This authentication provider is disabled.';
-      case ErrorCodes.providerEmailNeedsVerification:
+      case Codes.providerEmailNeedsVerification:
         return 'Email verification required from OAuth provider.';
-      case ErrorCodes.reauthenticationNeeded:
+      case Codes.reauthenticationNeeded:
         return 'Please reauthenticate to continue.';
-      case ErrorCodes.reauthenticationNotValid:
+      case Codes.reauthenticationNotValid:
         return 'Reauthentication failed. Please try again.';
-      case ErrorCodes.refreshTokenAlreadyUsed:
+      case Codes.refreshTokenAlreadyUsed:
         return 'Session expired. Please sign in again.';
-      case ErrorCodes.refreshTokenNotFound:
+      case Codes.refreshTokenNotFound:
         return 'Session not found. Please sign in again.';
-      case ErrorCodes.requestTimeout:
+      case Codes.requestTimeout:
         return 'Request timed out. Please try again.';
-      case ErrorCodes.samePassword:
+      case Codes.samePassword:
         return 'New password must be different from current password.';
-      case ErrorCodes.samlAssertionNoEmail:
+      case Codes.samlAssertionNoEmail:
         return 'No email found in SAML response.';
-      case ErrorCodes.samlAssertionNoUserId:
+      case Codes.samlAssertionNoUserId:
         return 'No user ID found in SAML response.';
-      case ErrorCodes.samlEntityIdMismatch:
+      case Codes.samlEntityIdMismatch:
         return 'SAML entity ID mismatch.';
-      case ErrorCodes.samlIdpAlreadyExists:
+      case Codes.samlIdpAlreadyExists:
         return 'SAML identity provider already exists.';
-      case ErrorCodes.samlIdpNotFound:
+      case Codes.samlIdpNotFound:
         return 'SAML identity provider not found.';
-      case ErrorCodes.samlMetadataFetchFailed:
+      case Codes.samlMetadataFetchFailed:
         return 'Failed to fetch SAML metadata.';
-      case ErrorCodes.samlProviderDisabled:
+      case Codes.samlProviderDisabled:
         return 'SAML authentication is disabled.';
-      case ErrorCodes.samlRelayStateExpired:
+      case Codes.samlRelayStateExpired:
         return 'SAML authentication expired. Please sign in again.';
-      case ErrorCodes.samlRelayStateNotFound:
+      case Codes.samlRelayStateNotFound:
         return 'SAML authentication session not found. Please sign in again.';
-      case ErrorCodes.sessionExpired:
+      case Codes.sessionExpired:
         return 'Session expired. Please sign in again.';
-      case ErrorCodes.sessionNotFound:
+      case Codes.sessionNotFound:
         return 'Session not found. Please sign in again.';
-      case ErrorCodes.signupDisabled:
+      case Codes.signupDisabled:
         return 'Sign-ups are currently disabled.';
-      case ErrorCodes.singleIdentityNotDeletable:
+      case Codes.singleIdentityNotDeletable:
         return 'Cannot delete your only authentication method.';
-      case ErrorCodes.smsSendFailed:
+      case Codes.smsSendFailed:
         return 'Failed to send SMS. Please try again.';
-      case ErrorCodes.ssoDomainAlreadyExists:
+      case Codes.ssoDomainAlreadyExists:
         return 'SSO domain already exists.';
-      case ErrorCodes.ssoProviderNotFound:
+      case Codes.ssoProviderNotFound:
         return 'SSO provider not found.';
-      case ErrorCodes.tooManyEnrolledMfaFactors:
+      case Codes.tooManyEnrolledMfaFactors:
         return 'Too many MFA factors enrolled.';
-      case ErrorCodes.unexpectedAudience:
+      case Codes.unexpectedAudience:
         return 'Unexpected token audience.';
-      case ErrorCodes.unexpectedFailure:
+      case Codes.unexpectedFailure:
         return 'An unexpected error occurred. Please try again.';
-      case ErrorCodes.userAlreadyExists:
+      case Codes.userAlreadyExists:
         return 'User already exists.';
-      case ErrorCodes.userBanned:
+      case Codes.userBanned:
         return 'User account is temporarily banned.';
-      case ErrorCodes.userNotFound:
+      case Codes.userNotFound:
         return 'User not found.';
-      case ErrorCodes.userSsoManaged:
+      case Codes.userSsoManaged:
         return 'User is managed by SSO.';
-      case ErrorCodes.validationFailed:
+      case Codes.validationFailed:
         return 'Validation failed. Please check your input.';
-      case ErrorCodes.weakPassword:
+      case Codes.weakPassword:
         return 'Password is too weak. Please use a stronger password.';
-      case ErrorCodes.unknown:
+      case Codes.unknown:
         return 'An error has occurred.';
+      default:
+        return 'Success or Unhandled code.';
     }
   }
 }

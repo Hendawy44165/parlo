@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
@@ -19,17 +20,13 @@ class LoginScreen extends ConsumerWidget {
     final state = ref.watch(provider);
     final notifier = ref.read(provider.notifier);
 
-    if (state.isData && state.code == 200) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacementNamed(Routes.home);
-      });
-    } else if (state.isData && state.code == 201) {
+    if (state.isData && state.code == Codes.forgotPassword) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pushReplacementNamed(
           Routes.otpVerification,
           arguments: {'email': notifier.emailController.text.trim()},
         );
-        notifier.setToDataState();
+        notifier.setToDefaultState();
       });
     }
 
@@ -41,7 +38,7 @@ class LoginScreen extends ConsumerWidget {
             duration: const Duration(seconds: 2),
           ),
         );
-        notifier.setToDataState();
+        notifier.setToDefaultState();
       });
     }
 
