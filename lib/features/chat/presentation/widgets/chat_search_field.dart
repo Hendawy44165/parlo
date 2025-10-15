@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
 
-class CustomInputField extends StatelessWidget {
-  const CustomInputField({
+class ChatSearchField extends StatelessWidget {
+  const ChatSearchField({
     super.key,
-    required this.hint,
-    required this.prefixIcon,
     required this.controller,
-    this.isPassword = false,
+    this.hint = 'Search',
   });
-  final String hint;
-  final String prefixIcon;
+
   final TextEditingController controller;
-  final bool isPassword;
+  final String hint;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      obscureText: isPassword,
       style: TextStyleManager.white16Regular,
       cursorColor: ColorsManager.primaryPurple,
       decoration: InputDecoration(
@@ -28,19 +23,13 @@ class CustomInputField extends StatelessWidget {
         fillColor: ColorsManager.darkNavyBlue,
         filled: true,
         hintStyle: TextStyleManager.dimmed16Regular,
-        prefixIcon: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SvgPicture.asset(
-            prefixIcon,
-            colorFilter: const ColorFilter.mode(
-              ColorsManager.lightGray,
-              BlendMode.srcIn,
-            ),
-          ),
+        prefixIcon: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Icon(Icons.search, color: ColorsManager.lightGray),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),
-          borderSide: const BorderSide(color: ColorsManager.darkNavyBlue),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),

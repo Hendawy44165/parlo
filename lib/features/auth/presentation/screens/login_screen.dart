@@ -76,11 +76,11 @@ class LoginScreen extends ConsumerWidget {
   Widget _buildHeaderSection() {
     return Column(
       children: [
-        Text('Login', style: TextStyleManger.white32Regular),
+        Text('Login', style: TextStyleManager.white32Regular),
         const SizedBox(height: 8),
         Text(
           'Sign in to connect and share your voice!',
-          style: TextStyleManger.white16Regular,
+          style: TextStyleManager.white16Regular,
           textAlign: TextAlign.center,
         ),
       ],
@@ -102,7 +102,7 @@ class LoginScreen extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
                   notifier.emailErrorMessage!,
-                  style: TextStyleManger.error12Regular,
+                  style: TextStyleManager.error12Regular,
                 ),
               ),
             )
@@ -121,7 +121,7 @@ class LoginScreen extends ConsumerWidget {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
                   notifier.passwordErrorMessage!,
-                  style: TextStyleManger.error12Regular,
+                  style: TextStyleManager.error12Regular,
                 ),
               ),
             )
@@ -134,7 +134,7 @@ class LoginScreen extends ConsumerWidget {
               onTap: () => notifier.resetPassword(),
               child: Text(
                 "Forgot Password?",
-                style: TextStyleManger.dimmed14Medium,
+                style: TextStyleManager.dimmed14Medium,
               ),
             ),
           ],
@@ -167,7 +167,7 @@ class LoginScreen extends ConsumerWidget {
         child:
             state.isLoading
                 ? CircularProgressIndicator(color: ColorsManager.white)
-                : Text('Login', style: TextStyleManger.white16Medium),
+                : Text('Login', style: TextStyleManager.white16Medium),
       ),
     );
   }
@@ -192,7 +192,7 @@ class LoginScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'or sign in with',
-                  style: TextStyleManger.dimmed14Medium,
+                  style: TextStyleManager.dimmed14Medium,
                 ),
               ),
               const Expanded(
@@ -239,7 +239,7 @@ class LoginScreen extends ConsumerWidget {
                     ),
                     Text(
                       'Sign in with Google',
-                      style: TextStyleManger.white16Regular,
+                      style: TextStyleManager.white16Regular,
                     ),
                   ],
                 ),
@@ -258,7 +258,7 @@ class LoginScreen extends ConsumerWidget {
         children: [
           Text(
             'Don\'t have an Account? ',
-            style: TextStyleManger.dimmed14Regular,
+            style: TextStyleManager.dimmed14Regular,
           ),
           TextButton(
             onPressed: () {
@@ -272,7 +272,7 @@ class LoginScreen extends ConsumerWidget {
             ),
             child: Text(
               'Sign up here',
-              style: TextStyleManger.primaryPurple14Bold,
+              style: TextStyleManager.primaryPurple14Bold,
             ),
           ),
         ],
