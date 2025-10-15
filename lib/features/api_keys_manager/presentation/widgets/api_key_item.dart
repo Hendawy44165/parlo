@@ -57,7 +57,9 @@ class ApiKeyItem extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           // Key name
-          Expanded(child: Text(keyName, style: TextStyleManger.white16Regular)),
+          Expanded(
+            child: Text(keyName, style: TextStyleManager.white16Regular),
+          ),
           // Delete button
           GestureDetector(
             onTap: onDelete,

@@ -81,7 +81,7 @@ class UpdatePasswordScreen extends ConsumerWidget {
           ),
         ),
         const SizedBox(width: 16),
-        Text('Update Password', style: TextStyleManger.white32Regular),
+        Text('Update Password', style: TextStyleManager.white32Regular),
       ],
     );
   }
@@ -102,7 +102,7 @@ class UpdatePasswordScreen extends ConsumerWidget {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Text(
                   notifier.newPasswordErrorMessage!,
-                  style: TextStyleManger.error12Regular,
+                  style: TextStyleManager.error12Regular,
                 ),
               ),
             )
@@ -121,7 +121,7 @@ class UpdatePasswordScreen extends ConsumerWidget {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Text(
                   notifier.confirmPasswordErrorMessage!,
-                  style: TextStyleManger.error12Regular,
+                  style: TextStyleManager.error12Regular,
                 ),
               ),
             )
@@ -154,7 +154,10 @@ class UpdatePasswordScreen extends ConsumerWidget {
         child:
             state.isLoading
                 ? CircularProgressIndicator(color: ColorsManager.white)
-                : Text('Update Password', style: TextStyleManger.white16Medium),
+                : Text(
+                  'Update Password',
+                  style: TextStyleManager.white16Medium,
+                ),
       ),
     );
   }

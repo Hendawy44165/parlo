@@ -92,7 +92,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
           Expanded(
             child: Text(
               'Manage API Keys',
-              style: TextStyleManger.white16Medium,
+              style: TextStyleManager.white16Medium,
             ),
           ),
           // Deselect all button (only show if there are selected keys)
@@ -101,7 +101,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
               onTap: () => notifier.deselectAll(),
               child: Text(
                 'Deselect All',
-                style: TextStyleManger.primaryPurple14Regular,
+                style: TextStyleManager.primaryPurple14Regular,
               ),
             ),
         ],
@@ -119,11 +119,11 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
           children: [
             Icon(Icons.key_off, size: 64, color: ColorsManager.lightGray),
             const SizedBox(height: 16),
-            Text('No API Keys', style: TextStyleManger.dimmed16Regular),
+            Text('No API Keys', style: TextStyleManager.dimmed16Regular),
             const SizedBox(height: 8),
             Text(
               'Add your first API key to get started',
-              style: TextStyleManger.dimmed14Regular,
+              style: TextStyleManager.dimmed14Regular,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 4),
@@ -131,7 +131,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
               onTap: () => _addApiKey(),
               child: Text(
                 'Add API Key',
-                style: TextStyleManger.primaryPurple14Bold,
+                style: TextStyleManager.primaryPurple14Bold,
               ),
             ),
           ],

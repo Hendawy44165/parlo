@@ -109,7 +109,7 @@ class SettingsScreen extends ConsumerWidget {
                         ),
                         child: Text(
                           'Logout',
-                          style: TextStyleManger.white16Medium,
+                          style: TextStyleManager.white16Medium,
                         ),
                       ),
                       SizedBox(
@@ -149,7 +149,7 @@ class SettingsScreen extends ConsumerWidget {
         Expanded(
           child: Text(
             'Settings',
-            style: TextStyleManger.white16Medium,
+            style: TextStyleManager.white16Medium,
             textAlign: TextAlign.center,
           ),
         ),
@@ -202,7 +202,7 @@ class SettingsScreen extends ConsumerWidget {
               size: 20,
             ),
           ),
-          Text(text, style: TextStyleManger.dimmed16Regular),
+          Text(text, style: TextStyleManager.dimmed16Regular),
         ],
       ),
     );
@@ -217,7 +217,10 @@ class SettingsScreen extends ConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
-          child: Text('Select Character', style: TextStyleManger.white16Medium),
+          child: Text(
+            'Select Character',
+            style: TextStyleManager.white16Medium,
+          ),
         ),
         Container(
           width: double.infinity,
@@ -232,7 +235,7 @@ class SettingsScreen extends ConsumerWidget {
               value: notifier.selectedCharacter,
               hint: Text(
                 'Choose a character',
-                style: TextStyleManger.dimmed16Regular,
+                style: TextStyleManager.dimmed16Regular,
               ),
               dropdownColor: ColorsManager.darkNavyBlue,
               icon: const Icon(
@@ -245,7 +248,7 @@ class SettingsScreen extends ConsumerWidget {
                       value: character,
                       child: Text(
                         character,
-                        style: TextStyleManger.white16Regular,
+                        style: TextStyleManager.white16Regular,
                       ),
                     );
                   }).toList(),
@@ -268,7 +271,7 @@ class SettingsScreen extends ConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
-          child: Text('Voice Stability', style: TextStyleManger.white16Medium),
+          child: Text('Voice Stability', style: TextStyleManager.white16Medium),
         ),
         Container(
           width: double.infinity,
@@ -283,7 +286,7 @@ class SettingsScreen extends ConsumerWidget {
               value: notifier.selectedStability,
               hint: Text(
                 'Choose stability level',
-                style: TextStyleManger.dimmed16Regular,
+                style: TextStyleManager.dimmed16Regular,
               ),
               dropdownColor: ColorsManager.darkNavyBlue,
               icon: const Icon(
@@ -297,7 +300,7 @@ class SettingsScreen extends ConsumerWidget {
                         value: stability,
                         child: Text(
                           stability,
-                          style: TextStyleManger.white16Regular,
+                          style: TextStyleManager.white16Regular,
                         ),
                       );
                     },

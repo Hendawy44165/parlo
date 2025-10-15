@@ -38,7 +38,7 @@ class _AddApiKeyDialogState extends State<AddApiKeyDialog> {
                 Expanded(
                   child: Text(
                     'Add API Key',
-                    style: TextStyleManger.white16Medium,
+                    style: TextStyleManager.white16Medium,
                   ),
                 ),
                 GestureDetector(
@@ -82,7 +82,7 @@ class _AddApiKeyDialogState extends State<AddApiKeyDialog> {
                     ),
                     child: Text(
                       'Cancel',
-                      style: TextStyleManger.white16Regular,
+                      style: TextStyleManager.white16Regular,
                     ),
                   ),
                 ),
@@ -106,7 +106,7 @@ class _AddApiKeyDialogState extends State<AddApiKeyDialog> {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: Text('Add', style: TextStyleManger.white16Medium),
+                    child: Text('Add', style: TextStyleManager.white16Medium),
                   ),
                 ),
               ],
