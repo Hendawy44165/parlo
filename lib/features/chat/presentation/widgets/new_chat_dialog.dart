@@ -26,7 +26,6 @@ class NewChatDialog extends StatelessWidget {
   Widget _buildCancelButton(BuildContext context) {
     return TextButton(
       onPressed: () {
-        // Dismiss the dialog without returning any data
         Navigator.of(context).pop();
       },
       child: Text('Cancel', style: TextStyleManager.dimmed14Medium),
@@ -36,7 +35,6 @@ class NewChatDialog extends StatelessWidget {
   Widget _buildCreateButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Dismiss the dialog and return the email address
         if (emailController.text.isNotEmpty) {
           Navigator.of(context).pop(emailController.text);
         }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parlo/core/dependency_injection.dart';
 import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/enums/provider_state_enum.dart';
+import 'package:parlo/core/services/error_handling_service.dart';
 import 'package:parlo/features/auth/logic/services/auth_fields_validator_service.dart';
 import 'package:parlo/features/auth/logic/services/auth_service.dart';
 import 'package:parlo/features/auth/presentation/providers/auth_state.dart'
@@ -28,13 +29,14 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
     _passwordErrorMessage = null;
 
     if (!AuthFieldsValidatorService.isValidEmail(email)) {
-      _emailErrorMessage = 'Invalid email format.';
+      _emailErrorMessage = ErrorHandlingService.getMessage(Codes.invalidEmail);
       state = state.copyWith(providerState: ProviderState.initial);
       return;
     }
     if (!AuthFieldsValidatorService.isValidPassword(password)) {
-      _passwordErrorMessage =
-          'Password must be at least 8 characters and include uppercase, lowercase, and a number.';
+      _passwordErrorMessage = ErrorHandlingService.getMessage(
+        Codes.invalidPassword,
+      );
       state = state.copyWith(providerState: ProviderState.initial);
       return;
     }
@@ -94,12 +96,11 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
   }
 
   void setToDefaultState() {
-    if (state.isError)
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        code: null,
-        error: null,
-      );
+    state = state.copyWith(
+      providerState: ProviderState.data,
+      code: null,
+      error: null,
+    );
   }
 
   //! private members

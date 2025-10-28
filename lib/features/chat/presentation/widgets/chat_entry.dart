@@ -17,7 +17,7 @@ class ChatEntry extends StatelessWidget {
 
   final String username;
   final String lastMessage;
-  final String time;
+  final DateTime time;
   final String? profileImageUrl;
   final MessageStatus? status;
   final int unreadCount;
@@ -62,7 +62,11 @@ class ChatEntry extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(time, style: TextStyleManager.dimmed12Regular),
+          // TODO: fix the time formatting
+          Text(
+            time.toLocal().toString(),
+            style: TextStyleManager.dimmed12Regular,
+          ),
           const SizedBox(height: 6),
           if (unreadCount > 0)
             Container(
@@ -102,6 +106,8 @@ class ChatEntry extends StatelessWidget {
           size: 18,
           color: ColorsManager.primaryPurple,
         );
+      case MessageStatus.received:
+        return const SizedBox.shrink();
     }
     return Icon(iconData, size: 18, color: color);
   }

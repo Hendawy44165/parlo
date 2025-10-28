@@ -1,80 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:parlo/core/enums/message_status_enum.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
+import 'package:parlo/features/chat/presentation/providers/chat_state.dart';
+import 'package:parlo/features/chat/presentation/providers/chats_provider.dart';
 import 'package:parlo/features/chat/presentation/widgets/chat_entry.dart';
 import 'package:parlo/features/chat/presentation/widgets/chat_search_field.dart';
 import 'package:parlo/features/chat/presentation/widgets/new_chat_dialog.dart';
 
-class _ChatData {
-  final String uid;
-  final String name;
-  final String lastMessage;
-  final String time;
-  final String? profileImageUrl;
-  final MessageStatus? status;
-  final int unreadCount;
-  final bool isAudio;
-
-  _ChatData({
-    required this.uid,
-    required this.name,
-    required this.lastMessage,
-    required this.time,
-    this.profileImageUrl,
-    this.status,
-    this.unreadCount = 0,
-    this.isAudio = false,
-  });
-}
-
 class ChatsScreen extends ConsumerWidget {
   ChatsScreen({super.key});
 
-  final _searchController = TextEditingController();
-
-  final _chats = [
-    _ChatData(
-      uid: '1',
-      name: 'Jossef Ahmed',
-      lastMessage: 'How are you doing today Bro',
-      time: '18:12',
-      unreadCount: 4,
-    ),
-    _ChatData(
-      uid: '2',
-      name: 'Jossef Ahmed',
-      lastMessage: 'Some Message',
-      time: '18:12',
-      unreadCount: 10000,
-    ),
-    _ChatData(
-      uid: '3',
-      name: 'Jossef Ahmed',
-      lastMessage: '14:38',
-      time: '18:12',
-      isAudio: true,
-      status: MessageStatus.sent,
-    ),
-    _ChatData(
-      uid: '4',
-      name: 'Jossef Ahmed',
-      lastMessage: 'Some Message',
-      time: '18:12',
-      status: MessageStatus.read,
-    ),
-    _ChatData(
-      uid: '5',
-      name: 'Jossef Ahmed',
-      lastMessage: 'Some Message',
-      time: '18:12',
-    ),
-  ];
+  final StateNotifierProvider<ChatNotifier, ChatState> chatProvider =
+      getChatProvider();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(chatProvider);
+    final notifier = ref.read(chatProvider.notifier);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.black,
@@ -85,9 +30,9 @@ class ChatsScreen extends ConsumerWidget {
             children: [
               _buildHeader(context),
               const SizedBox(height: 24),
-              ChatSearchField(controller: _searchController),
+              ChatSearchField(controller: notifier.searchController),
               const SizedBox(height: 16),
-              _buildChatList(context),
+              _buildChatList(context, state),
             ],
           ),
         ),
@@ -125,24 +70,43 @@ class ChatsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildChatList(BuildContext context) {
+  Widget _buildChatList(BuildContext context, ChatState state) {
+    if (state.chats.isEmpty) {
+      return Expanded(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('No chats available.', style: TextStyleManager.white14Bold),
+              GestureDetector(
+                onTap: () => _showNewChatDialog(context),
+                child: Text(
+                  'Create a new chat!',
+                  style: TextStyleManager.primaryPurple14Bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Expanded(
       child: ListView.builder(
-        itemCount: _chats.length,
+        itemCount: state.chats.length,
         itemBuilder: (context, index) {
-          final chat = _chats[index];
+          final chat = state.chats[index];
           return InkWell(
             onTap: () {
               Navigator.of(context).pushNamed(
                 Routes.chatRoom,
-                arguments: {'conversationId': chat.uid},
+                arguments: {'conversationId': chat.conversationId},
               );
             },
             child: ChatEntry(
-              username: chat.name,
+              username: chat.username,
               lastMessage: chat.lastMessage,
-              time: chat.time,
-              profileImageUrl: chat.profileImageUrl,
+              time: chat.lastMessageTimestamp,
+              profileImageUrl: chat.profilePictureUrl,
               unreadCount: chat.unreadCount,
               status: chat.status,
               isAudio: chat.isAudio,

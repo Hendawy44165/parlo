@@ -86,12 +86,11 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
   }
 
   void setToDefaultState() {
-    if (state.isError)
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        code: null,
-        error: null,
-      );
+    state = state.copyWith(
+      providerState: ProviderState.data,
+      code: null,
+      error: null,
+    );
   }
 
   //! private members

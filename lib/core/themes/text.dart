@@ -26,6 +26,12 @@ class TextStyleManager {
     fontWeight: FontWeight.bold,
   );
 
+  static const white14Bold = TextStyle(
+    color: ColorsManager.white,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
   static const white12Bold = TextStyle(
     color: ColorsManager.white,
     fontSize: 12,

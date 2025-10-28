@@ -15,6 +15,7 @@ class AuthService {
   Stream<AuthState> get onAuthStateChange => _supabase.auth.onAuthStateChange;
   Session? get currentSession => _supabase.auth.currentSession;
   User? get currentUser => _supabase.auth.currentUser;
+  String? get currentUserId => _supabase.auth.currentUser?.id;
   bool get isSignedIn => currentSession != null;
   GoogleSignInAccount? get currentGoogleUser => _currentGoogleUser;
 
