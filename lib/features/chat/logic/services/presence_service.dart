@@ -11,11 +11,25 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class PresenceService {
   ResponseModel<Stream<PresenceDataModel>> subscribe(String conversationId) {
     try {
-      _channel = Supabase.instance.client.channel('room-$conversationId');
+      _channel = Supabase.instance.client.channel(conversationId);
 
       _channel!
           .onBroadcast(
             event: 'updating_typing_action',
+            callback: (payload) {
+              final presenceModel = PresenceDataModel.fromMap(payload);
+              _presenseStreamController.add(presenceModel);
+            },
+          )
+          .onBroadcast(
+            event: 'message_updated',
+            callback: (payload) {
+              final presenceModel = PresenceDataModel.fromMap(payload);
+              _presenseStreamController.add(presenceModel);
+            },
+          )
+          .onBroadcast(
+            event: 'message_inserted',
             callback: (payload) {
               final presenceModel = PresenceDataModel.fromMap(payload);
               _presenseStreamController.add(presenceModel);
@@ -26,7 +40,6 @@ class PresenceService {
             final presenceModel = PresenceDataModel.fromMap(presenceMap);
             _presenseStreamController.add(presenceModel);
           })
-          // TODO: make sure the last seen is updated app wide using supabase functions
           .onPresenceLeave((payload) {
             final presenceMap = payload.leftPresences.first.payload;
             final presenceModel = PresenceDataModel.fromMap(presenceMap);

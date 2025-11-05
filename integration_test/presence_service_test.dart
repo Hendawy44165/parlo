@@ -20,7 +20,7 @@ void main() async {
   final service1 = PresenceService();
   final service2 = PresenceService();
 
-  final channelName = 'test-channel';
+  final channelName = '';
 
   group('test join & leave', () {
     test('test join', () {

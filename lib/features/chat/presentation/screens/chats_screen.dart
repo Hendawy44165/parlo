@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
@@ -20,10 +21,44 @@ class ChatsScreen extends ConsumerWidget {
     final state = ref.watch(chatProvider);
     final notifier = ref.read(chatProvider.notifier);
 
+    if (state.isInitial) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifier.getChats();
+      });
+      return const Center(
+        child: CircularProgressIndicator(color: ColorsManager.primaryPurple),
+      );
+    } else if (state.isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(color: ColorsManager.primaryPurple),
+      );
+    }
+
+    if (state.code == Codes.chatCreated) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushNamed(
+          Routes.chatRoom,
+          arguments: {'conversationId': state.extraData as String},
+        );
+      });
+    }
+
+    if (state.isError) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: ColorsManager.red,
+            content: Text(state.error ?? 'An error occurred'),
+          ),
+        );
+        notifier.setToDefaultState();
+      });
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorsManager.black,
-        floatingActionButton: _buildFloatingActionButton(context),
+        floatingActionButton: _buildFloatingActionButton(context, notifier),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: Column(
@@ -32,7 +67,7 @@ class ChatsScreen extends ConsumerWidget {
               const SizedBox(height: 24),
               ChatSearchField(controller: notifier.searchController),
               const SizedBox(height: 16),
-              _buildChatList(context, state),
+              _buildChatList(context, state, notifier),
             ],
           ),
         ),
@@ -60,9 +95,12 @@ class ChatsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildFloatingActionButton(BuildContext context) {
+  Widget _buildFloatingActionButton(
+    BuildContext context,
+    ChatNotifier notifier,
+  ) {
     return FloatingActionButton(
-      onPressed: () => _showNewChatDialog(context),
+      onPressed: () => _showNewChatDialog(context, notifier),
 
       backgroundColor: ColorsManager.primaryPurple,
       shape: const CircleBorder(),
@@ -70,7 +108,11 @@ class ChatsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildChatList(BuildContext context, ChatState state) {
+  Widget _buildChatList(
+    BuildContext context,
+    ChatState state,
+    ChatNotifier notifier,
+  ) {
     if (state.chats.isEmpty) {
       return Expanded(
         child: Center(
@@ -79,7 +121,7 @@ class ChatsScreen extends ConsumerWidget {
             children: [
               Text('No chats available.', style: TextStyleManager.white14Bold),
               GestureDetector(
-                onTap: () => _showNewChatDialog(context),
+                onTap: () => _showNewChatDialog(context, notifier),
                 child: Text(
                   'Create a new chat!',
                   style: TextStyleManager.primaryPurple14Bold,
@@ -95,7 +137,7 @@ class ChatsScreen extends ConsumerWidget {
         itemCount: state.chats.length,
         itemBuilder: (context, index) {
           final chat = state.chats[index];
-          return InkWell(
+          return GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(
                 Routes.chatRoom,
@@ -117,7 +159,7 @@ class ChatsScreen extends ConsumerWidget {
     );
   }
 
-  void _showNewChatDialog(BuildContext context) async {
+  void _showNewChatDialog(BuildContext context, ChatNotifier notifier) async {
     final emailController = TextEditingController();
 
     final scaffoldMessenger = ScaffoldMessenger.of(context);
@@ -128,20 +170,8 @@ class ChatsScreen extends ConsumerWidget {
       },
     );
 
-    // TODO: use riverpod
-    // After the dialog is dismissed, check if we got an email address back.
     if (newChatUserEmail != null && newChatUserEmail.isNotEmpty) {
-      // TODO: Implement the logic to create a new chat
-      // For example, you might call a method from your state notifier:
-      // ref.read(chatProvider.notifier).createNewChat(newChatUserEmail);
-
-      print('Starting new chat with: $newChatUserEmail');
-      scaffoldMessenger.showSnackBar(
-        SnackBar(
-          content: Text('Starting chat with $newChatUserEmail'),
-          backgroundColor: ColorsManager.lightNavyBlue,
-        ),
-      );
+      notifier.createChat(newChatUserEmail);
     }
   }
 }

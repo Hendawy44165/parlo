@@ -1,5 +1,6 @@
 import 'package:parlo/core/enums/online_status_enum.dart';
 import 'package:parlo/core/enums/typing_status_enum.dart';
+import 'package:parlo/features/chat/data/models/message_model.dart';
 
 //! the online status is online when the user opens the conversation, it's not global
 
@@ -9,12 +10,14 @@ class PresenceDataModel {
     required this.onlineStatus,
     required this.typingStatus,
     this.lastSeen,
+    this.messageModel,
   });
 
   final String userId;
   final OnlineStatus onlineStatus;
   final TypingStatus typingStatus;
   final DateTime? lastSeen;
+  final MessageModel? messageModel;
 
   factory PresenceDataModel.fromMap(Map<String, dynamic> map) {
     return PresenceDataModel(
@@ -31,6 +34,12 @@ class PresenceDataModel {
           map['last_seen'] != null
               ? DateTime.parse(map['last_seen'] as String)
               : null,
+      messageModel:
+          map['message_model'] != null
+              ? MessageModel.fromMap(
+                map['message_model'] as Map<String, dynamic>,
+              )
+              : null,
     );
   }
 
@@ -40,6 +49,7 @@ class PresenceDataModel {
       'online_status': onlineStatus.name,
       'typing_status': typingStatus.name,
       'last_seen': lastSeen?.toIso8601String(),
+      'message_model': messageModel?.toMap(),
     };
   }
 
@@ -48,17 +58,19 @@ class PresenceDataModel {
     OnlineStatus? onlineStatus,
     TypingStatus? typingStatus,
     DateTime? lastSeen,
+    MessageModel? messageModel,
   }) {
     return PresenceDataModel(
       userId: userId ?? this.userId,
       onlineStatus: onlineStatus ?? this.onlineStatus,
       typingStatus: typingStatus ?? this.typingStatus,
       lastSeen: lastSeen ?? this.lastSeen,
+      messageModel: messageModel ?? this.messageModel,
     );
   }
 
   @override
   String toString() {
-    return 'PresenceDataModel(userId: $userId, onlineStatus: $onlineStatus, typingStatus: $typingStatus, lastSeen: $lastSeen)';
+    return 'PresenceDataModel(userId: $userId, onlineStatus: $onlineStatus, typingStatus: $typingStatus, lastSeen: $lastSeen, messageModel: ${messageModel.toString()})';
   }
 }

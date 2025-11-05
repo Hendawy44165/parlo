@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parlo/core/enums/message_status_enum.dart';
+import 'package:parlo/core/services/time_service.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
 
@@ -62,9 +63,8 @@ class ChatEntry extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          // TODO: fix the time formatting
           Text(
-            time.toLocal().toString(),
+            TimeService.formatMessageTime(time),
             style: TextStyleManager.dimmed12Regular,
           ),
           const SizedBox(height: 6),

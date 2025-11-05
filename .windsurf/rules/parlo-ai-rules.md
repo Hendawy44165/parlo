@@ -26,6 +26,7 @@ trigger: always_on
 19. When planning, always mention any platform specific changes for android files.
 20. When planning, always mention any platform specific changes for iOS files.
 21. Put the used methods at the top, then the private methods, which start with '_', after, then put the override methods. The only exception is the build methods when found to override is always  the first method to be written
+22. Always ask before creating or assuming a new data structure that is not found already in the project.
 
 ## DON'Ts
 1. Do not modify any files I did NOT tell you to modify.  
@@ -37,7 +38,8 @@ trigger: always_on
 7. Do not delete any files I did NOT tell you to delete.  
 8. Never commit anything on your own; I will handle commits manually.  
 9. Do not search for files outside the ones explicitly provided.  
-10. Do not act upon any potential issue (logical or otherwise) unless explicitly instructed to do so.  
+10. Do not act upon any potential issue (logical or otherwise) unless explicitly instructed to do so.
+11. Never create a data structure in a form of of a class or map that is not found already before asking first for permission and showing its purpose
 
 ## INFO
 1. The database in use is **Supabase**.  

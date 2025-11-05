@@ -27,12 +27,11 @@ class ChatService {
     try {
       final String conversationId = await chatEntryRepository
           .createNewConversation(targetEmail);
-      // TODO: return the needed entity for the chat room
       return ResponseModel.success(conversationId);
-    } on PostgrestException catch (e) {
+    } on PostgrestException {
       return ResponseModel.failure(
         Codes.couldNotCreateNewConversation,
-        e.message,
+        ErrorHandlingService.getMessage(Codes.couldNotCreateNewConversation),
       );
     } catch (e) {
       return ResponseModel.failure(

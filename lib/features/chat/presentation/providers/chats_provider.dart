@@ -56,6 +56,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
       state = state.copyWith(
         providerState: ProviderState.data,
         code: Codes.chatCreated,
+        extraData: response.data,
       );
     } else {
       state = state.copyWith(
@@ -95,6 +96,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
       providerState: ProviderState.data,
       code: null,
       error: null,
+      extraData: null,
     );
   }
 

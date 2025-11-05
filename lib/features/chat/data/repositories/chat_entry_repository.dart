@@ -11,7 +11,7 @@ class ChatEntryRepository {
   Future<List<ChatEntryEntity>> getChats() async {
     final chatEntries = <ChatEntryEntity>[];
     // TODO: check network connection, if no connection, fetch from local storage
-    final chatEntryModels = await onlineDataSource.getChatEntryModels();
+    final chatEntryModels = await onlineDataSource.getChatEntries();
     for (final model in chatEntryModels) {
       final chatEntry = ChatEntryEntity.fromModels(
         conversation: model['conversation'],
@@ -26,7 +26,7 @@ class ChatEntryRepository {
 
   Future<String> createNewConversation(String targetEmail) async {
     return await supabase.rpc(
-      'create_or_get_conversation',
+      'create_conversation',
       params: {'target_user_email': targetEmail},
     );
   }

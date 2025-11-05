@@ -35,7 +35,12 @@ class AppRouter {
       case Routes.home:
         return MaterialPageRoute(builder: (_) => ChatsScreen());
       case Routes.chatRoom:
-        return MaterialPageRoute(builder: (_) => ChatRoomScreen());
+        return MaterialPageRoute(
+          builder:
+              (_) => ChatRoomScreen(
+                conversationId: (arguments as Map)['conversationId'],
+              ),
+        );
 
       default:
         return MaterialPageRoute(

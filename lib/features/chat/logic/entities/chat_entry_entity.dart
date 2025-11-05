@@ -42,9 +42,9 @@ class ChatEntryEntity {
             : lastMessage.text ?? '';
 
     MessageStatus messageStatus = MessageStatus.received;
-    if (lastMessage.senderId == user.id)
+    if (lastMessage.senderId != user.id) // my message
       messageStatus =
-          lastMessage.isSeen ? MessageStatus.read : MessageStatus.delivered;
+          lastMessage.isSeen ? MessageStatus.read : MessageStatus.sent;
 
     return ChatEntryEntity(
       conversationId: conversation.id,

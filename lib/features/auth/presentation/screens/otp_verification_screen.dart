@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
@@ -39,11 +40,12 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
         );
         notifier.setToDefaultState();
       });
-    } else if (state.isData && state.code == 200) {
+    } else if (state.isData && state.code == Codes.success) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        // TODO: how to know which account to change password to
         Navigator.of(context).popAndPushNamed(Routes.resetPassword);
       });
-    } else if (state.isData && state.code == 201) {
+    } else if (state.isData && state.code == Codes.otpResentSuccessfully) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

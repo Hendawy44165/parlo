@@ -101,4 +101,12 @@ enum Codes {
   couldNotUpdatePresence,
   couldNotUnsubscribe,
   notSubscribedToPresence,
+  couldNotGetMessages,
+  noUnreadMessagesFound,
+  couldNotSendTextMessage,
+  couldNotSendAudioMessage,
+  success,
+  otpResentSuccessfully,
+  couldNotGetOtherUsername,
+  couldNotGetOtherAvatarUrl,
 }
