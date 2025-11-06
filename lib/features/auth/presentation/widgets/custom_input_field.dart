@@ -21,13 +21,13 @@ class CustomInputField extends StatelessWidget {
     return TextField(
       controller: controller,
       obscureText: isPassword,
-      style: TextStyleManger.white16Regular,
+      style: TextStyleManager.white16Regular,
       cursorColor: ColorsManager.primaryPurple,
       decoration: InputDecoration(
         hintText: hint,
         fillColor: ColorsManager.darkNavyBlue,
         filled: true,
-        hintStyle: TextStyleManger.dimmed16Regular,
+        hintStyle: TextStyleManager.dimmed16Regular,
         prefixIcon: Padding(
           padding: const EdgeInsets.all(16),
           child: SvgPicture.asset(

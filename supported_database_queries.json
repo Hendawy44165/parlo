@@ -1,14 +1,29 @@
 {
-    "anon": {
-        "column": "email",
-        "table": "public.users",
-        "limit": 1
-    },
     "public.users": {
-        
         "all application users have access to read email column": {
             "user type" : "anon",
             "column" : "email",
+            "supported queries": ["read"]
+        }
+    },
+    "public.conversations": {
+        "all authorized users have access to read conversations they are part of": {
+            "user type" : "auth",
+            "column" : "*",
+            "supported queries": ["read"]
+        }
+    },
+    "public.conversation_participants": {
+        "all authorized users have access to read conversation participants for conversations they are part of": {
+            "user type" : "auth",
+            "column" : "*",
+            "supported queries": ["read"]
+        }
+    },
+    "public.messages": {
+        "all authorized users have access to read messages in conversations they are part of": {
+            "user type" : "auth",
+            "column" : "*",
             "supported queries": ["read"]
         }
     }

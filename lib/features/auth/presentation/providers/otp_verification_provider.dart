@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parlo/core/dependency_injection.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/enums/provider_state_enum.dart';
 import 'package:parlo/features/auth/logic/services/auth_service.dart';
 import 'package:parlo/features/auth/presentation/providers/auth_state.dart'
@@ -46,7 +47,10 @@ class OtpVerificationNotifier extends StateNotifier<m_auth_state.AuthState> {
 
     final response = await _service.resetPassword(_email);
     if (response.isSuccess) {
-      state = state.copyWith(providerState: ProviderState.data, code: null);
+      state = state.copyWith(
+        providerState: ProviderState.data,
+        code: Codes.otpResentSuccessfully,
+      );
       otpController.clear();
     } else {
       state = state.copyWith(
@@ -58,12 +62,11 @@ class OtpVerificationNotifier extends StateNotifier<m_auth_state.AuthState> {
   }
 
   void setToDefaultState() {
-    if (state.isError)
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        code: null,
-        error: null,
-      );
+    state = state.copyWith(
+      providerState: ProviderState.data,
+      code: null,
+      error: null,
+    );
   }
 
   //! private members

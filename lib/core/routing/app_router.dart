@@ -5,6 +5,8 @@ import 'package:parlo/features/auth/presentation/screens/forgot_password_screen.
 import 'package:parlo/features/auth/presentation/screens/login_screen.dart';
 import 'package:parlo/features/auth/presentation/screens/otp_verification_screen.dart';
 import 'package:parlo/features/auth/presentation/screens/signup_screen.dart';
+import 'package:parlo/features/chat/presentation/screens/chat_room_screen.dart';
+import 'package:parlo/features/chat/presentation/screens/chats_screen.dart';
 import 'package:parlo/features/settings/presentation/screens/settings_screen.dart';
 import 'package:parlo/features/api_keys_manager/presentation/screens/api_key_manager_screen.dart';
 
@@ -30,6 +32,15 @@ class AppRouter {
         );
       case Routes.resetPassword:
         return MaterialPageRoute(builder: (_) => UpdatePasswordScreen());
+      case Routes.home:
+        return MaterialPageRoute(builder: (_) => ChatsScreen());
+      case Routes.chatRoom:
+        return MaterialPageRoute(
+          builder:
+              (_) => ChatRoomScreen(
+                conversationId: (arguments as Map)['conversationId'],
+              ),
+        );
 
       default:
         return MaterialPageRoute(
@@ -38,7 +49,7 @@ class AppRouter {
                 body: Center(
                   child: Text(
                     "Page not found",
-                    style: TextStyleManger.white32Regular,
+                    style: TextStyleManager.white32Regular,
                   ),
                 ),
               ),

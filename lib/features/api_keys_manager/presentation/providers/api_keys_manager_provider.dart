@@ -69,12 +69,11 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
   }
 
   void setToDefaultState() {
-    if (state.isError)
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        code: null,
-        error: null,
-      );
+    state = state.copyWith(
+      providerState: ProviderState.data,
+      code: null,
+      error: null,
+    );
   }
 
   Future<void> addNewApiKey({required String name, required String key}) async {

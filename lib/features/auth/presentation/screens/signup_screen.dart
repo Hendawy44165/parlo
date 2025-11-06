@@ -98,11 +98,11 @@ class SignupScreen extends ConsumerWidget {
   Widget _buildHeaderSection() {
     return Column(
       children: [
-        Text('Sign Up', style: TextStyleManger.white32Regular),
+        Text('Sign Up', style: TextStyleManager.white32Regular),
         const SizedBox(height: 8),
         Text(
           'Create an account to get started!',
-          style: TextStyleManger.white16Regular,
+          style: TextStyleManager.white16Regular,
           textAlign: TextAlign.center,
         ),
       ],
@@ -124,7 +124,7 @@ class SignupScreen extends ConsumerWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   notifier.usernameErrorMessage!,
-                  style: TextStyleManger.error12Regular,
+                  style: TextStyleManager.error12Regular,
                 ),
               ),
             )
@@ -142,7 +142,7 @@ class SignupScreen extends ConsumerWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   notifier.emailErrorMessage!,
-                  style: TextStyleManger.error12Regular,
+                  style: TextStyleManager.error12Regular,
                 ),
               ),
             )
@@ -161,7 +161,7 @@ class SignupScreen extends ConsumerWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   notifier.passwordErrorMessage!,
-                  style: TextStyleManger.error12Regular,
+                  style: TextStyleManager.error12Regular,
                 ),
               ),
             )
@@ -191,7 +191,7 @@ class SignupScreen extends ConsumerWidget {
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
-        child: Text('Sign Up', style: TextStyleManger.white16Medium),
+        child: Text('Sign Up', style: TextStyleManager.white16Medium),
       ),
     );
   }
@@ -216,7 +216,7 @@ class SignupScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'or sign up with',
-                  style: TextStyleManger.dimmed14Medium,
+                  style: TextStyleManager.dimmed14Medium,
                 ),
               ),
               const Expanded(
@@ -258,7 +258,7 @@ class SignupScreen extends ConsumerWidget {
                 height: 20,
               ),
             ),
-            Text('Sign up with Google', style: TextStyleManger.white16Regular),
+            Text('Sign up with Google', style: TextStyleManager.white16Regular),
           ],
         ),
       ),
@@ -273,7 +273,7 @@ class SignupScreen extends ConsumerWidget {
         children: [
           Text(
             'Already have an Account? ',
-            style: TextStyleManger.dimmed14Regular,
+            style: TextStyleManager.dimmed14Regular,
           ),
           TextButton(
             onPressed:
@@ -285,7 +285,7 @@ class SignupScreen extends ConsumerWidget {
             ),
             child: Text(
               'Login here',
-              style: TextStyleManger.primaryPurple14Bold,
+              style: TextStyleManager.primaryPurple14Bold,
             ),
           ),
         ],

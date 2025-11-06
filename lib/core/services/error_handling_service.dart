@@ -198,8 +198,12 @@ class ErrorHandlingService {
         return 'A conflict occurred. Please try again.';
       case Codes.couldNotAddElevenLabsApiKey:
         return 'Could not add ElevenLabs API key. Please try again.';
+      case Codes.couldNotCreateNewConversation:
+        return 'Could not create a new conversation. Please try again.';
       case Codes.couldNotDeleteElevenLabsApiKey:
         return 'Could not delete ElevenLabs API key. Please try again.';
+      case Codes.couldNotGetChatEntries:
+        return 'Could not retrieve chats.';
       case Codes.couldNotGetElevenLabsApiKeys:
         return 'Could not retrieve ElevenLabs API keys. Please try again.';
       case Codes.emailAddressInvalid:
@@ -238,6 +242,10 @@ class ErrorHandlingService {
         return 'Additional authentication required. Please complete MFA.';
       case Codes.invalidCredentials:
         return 'Invalid email or password.';
+      case Codes.invalidEmail:
+        return 'Invalid email format.';
+      case Codes.invalidPassword:
+        return 'Password must be at least 8 characters and include uppercase, lowercase, and a number.';
       case Codes.inviteNotFound:
         return 'Invitation expired or already used.';
       case Codes.manualLinkingDisabled:
@@ -340,6 +348,8 @@ class ErrorHandlingService {
         return 'SSO provider not found.';
       case Codes.tooManyEnrolledMfaFactors:
         return 'Too many MFA factors enrolled.';
+      case Codes.unauthenticatedUser:
+        return 'User is not authenticated. Please sign in.';
       case Codes.unexpectedAudience:
         return 'Unexpected token audience.';
       case Codes.unexpectedFailure:
@@ -358,6 +368,26 @@ class ErrorHandlingService {
         return 'Password is too weak. Please use a stronger password.';
       case Codes.unknown:
         return 'An error has occurred.';
+      case Codes.userNotAuthenticated:
+        return 'User is not authenticated. Please sign in.';
+      case Codes.couldNotGoLive:
+        return 'Could not go live. Please try again.';
+      case Codes.couldNotUpdatePresence:
+        return 'Could not update presence. Please try again.';
+      case Codes.couldNotUnsubscribe:
+        return 'Could not unsubscribe from presence channel. Please try again.';
+      case Codes.notSubscribedToPresence:
+        return 'Not subscribed to presence channel.';
+      case Codes.couldNotGetMessages:
+        return 'Could not get messages. Please try again.';
+      case Codes.couldNotSendTextMessage:
+        return 'Could not send text message. Please try again.';
+      case Codes.couldNotSendAudioMessage:
+        return 'Could not send audio message. Please try again.';
+      case Codes.couldNotGetOtherUsername:
+        return 'Could not get other username. Please try again.';
+      case Codes.couldNotGetOtherAvatarUrl:
+        return 'Could not get other avatar URL. Please try again.';
       default:
         return 'Success or Unhandled code.';
     }

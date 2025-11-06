@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
@@ -39,11 +40,12 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
         );
         notifier.setToDefaultState();
       });
-    } else if (state.isData && state.code == 200) {
+    } else if (state.isData && state.code == Codes.success) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        // TODO: how to know which account to change password to
         Navigator.of(context).popAndPushNamed(Routes.resetPassword);
       });
-    } else if (state.isData && state.code == 201) {
+    } else if (state.isData && state.code == Codes.otpResentSuccessfully) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -65,7 +67,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
             color: ColorsManager.white,
             size: 40.0,
           ),
-          title: Text('Verify OTP', style: TextStyleManger.white32Regular),
+          title: Text('Verify OTP', style: TextStyleManager.white32Regular),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -81,7 +83,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                 const SizedBox(height: 8),
                 Text(
                   'Enter the 6-digit code sent to your email',
-                  style: TextStyleManger.white16Regular,
+                  style: TextStyleManager.white16Regular,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: height * 0.05),
@@ -103,7 +105,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       controller: notifier.otpController,
       textAlign: TextAlign.center,
       keyboardType: TextInputType.number,
-      style: TextStyleManger.white16Medium,
+      style: TextStyleManager.white16Medium,
       decoration: InputDecoration(
         counterText: '',
         enabledBorder: OutlineInputBorder(
@@ -126,7 +128,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
       children: [
         Text(
           "Didn't receive the code? ",
-          style: TextStyleManger.dimmed14Regular,
+          style: TextStyleManager.dimmed14Regular,
         ),
         TextButton(
           onPressed: () async {
@@ -139,7 +141,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
           ),
           child: Text(
             'Resend Code',
-            style: TextStyleManger.primaryPurple14Bold,
+            style: TextStyleManager.primaryPurple14Bold,
           ),
         ),
       ],
@@ -163,7 +165,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
-        child: Text('Verify OTP', style: TextStyleManger.white16Medium),
+        child: Text('Verify OTP', style: TextStyleManager.white16Medium),
       ),
     );
   }
