@@ -3,11 +3,7 @@ import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
 
 class ChatSearchField extends StatelessWidget {
-  const ChatSearchField({
-    super.key,
-    required this.controller,
-    this.hint = 'Search',
-  });
+  const ChatSearchField({super.key, required this.controller, this.hint = 'Search'});
 
   final TextEditingController controller;
   final String hint;
@@ -27,10 +23,7 @@ class ChatSearchField extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Icon(Icons.search, color: ColorsManager.lightGray),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(100),
-          borderSide: BorderSide.none,
-        ),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),
           borderSide: const BorderSide(color: ColorsManager.primaryPurple),

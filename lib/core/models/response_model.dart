@@ -6,14 +6,9 @@ class ResponseModel<T> {
   final String? error;
   final Codes? errorCode;
 
-  const ResponseModel.success(T this.data)
-    : state = ResponseState.success,
-      error = null,
-      errorCode = null;
+  const ResponseModel.success(T this.data) : state = ResponseState.success, error = null, errorCode = null;
 
-  const ResponseModel.failure(this.errorCode, this.error)
-    : state = ResponseState.failure,
-      data = null;
+  const ResponseModel.failure(this.errorCode, this.error) : state = ResponseState.failure, data = null;
 
   bool get isSuccess => state == ResponseState.success;
   bool get isFailure => state == ResponseState.failure;

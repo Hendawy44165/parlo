@@ -32,10 +32,7 @@ class CustomInputField extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: SvgPicture.asset(
             prefixIcon,
-            colorFilter: const ColorFilter.mode(
-              ColorsManager.lightGray,
-              BlendMode.srcIn,
-            ),
+            colorFilter: const ColorFilter.mode(ColorsManager.lightGray, BlendMode.srcIn),
           ),
         ),
         enabledBorder: OutlineInputBorder(

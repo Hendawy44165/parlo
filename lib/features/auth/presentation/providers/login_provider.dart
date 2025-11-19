@@ -6,12 +6,10 @@ import 'package:parlo/core/enums/provider_state_enum.dart';
 import 'package:parlo/core/services/error_handling_service.dart';
 import 'package:parlo/features/auth/logic/services/auth_fields_validator_service.dart';
 import 'package:parlo/features/auth/logic/services/auth_service.dart';
-import 'package:parlo/features/auth/presentation/providers/auth_state.dart'
-    as m_auth_state;
+import 'package:parlo/features/auth/presentation/providers/auth_state.dart' as m_auth_state;
 
 class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
-  LoginNotifier(this._service)
-    : super(const m_auth_state.AuthState(providerState: ProviderState.initial));
+  LoginNotifier(this._service) : super(const m_auth_state.AuthState(providerState: ProviderState.initial));
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -34,9 +32,7 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
       return;
     }
     if (!AuthFieldsValidatorService.isValidPassword(password)) {
-      _passwordErrorMessage = ErrorHandlingService.getMessage(
-        Codes.invalidPassword,
-      );
+      _passwordErrorMessage = ErrorHandlingService.getMessage(Codes.invalidPassword);
       state = state.copyWith(providerState: ProviderState.initial);
       return;
     }
@@ -45,11 +41,7 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
     if (response.isSuccess) {
       state = state.copyWith(providerState: ProviderState.data, code: null);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
@@ -61,11 +53,7 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
     if (response.isSuccess) {
       state = state.copyWith(providerState: ProviderState.data, code: null);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
@@ -82,25 +70,14 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
 
     final response = await _service.resetPassword(email);
     if (response.isSuccess) {
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        code: Codes.forgotPassword,
-      );
+      state = state.copyWith(providerState: ProviderState.data, code: Codes.forgotPassword);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
   void setToDefaultState() {
-    state = state.copyWith(
-      providerState: ProviderState.data,
-      code: null,
-      error: null,
-    );
+    state = state.copyWith(providerState: ProviderState.data, code: null, error: null);
   }
 
   //! private members
@@ -109,8 +86,5 @@ class LoginNotifier extends StateNotifier<m_auth_state.AuthState> {
   String? _passwordErrorMessage;
 }
 
-StateNotifierProvider<LoginNotifier, m_auth_state.AuthState>
-getLoginProvider() =>
-    StateNotifierProvider<LoginNotifier, m_auth_state.AuthState>(
-      (ref) => LoginNotifier(getIt<AuthService>()),
-    );
+StateNotifierProvider<LoginNotifier, m_auth_state.AuthState> getLoginProvider() =>
+    StateNotifierProvider<LoginNotifier, m_auth_state.AuthState>((ref) => LoginNotifier(getIt<AuthService>()));

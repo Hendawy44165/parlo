@@ -6,19 +6,9 @@ class ApiKeyEntity {
   final String key;
   final bool isSelected;
 
-  const ApiKeyEntity({
-    required this.id,
-    required this.name,
-    required this.key,
-    this.isSelected = false,
-  });
+  const ApiKeyEntity({required this.id, required this.name, required this.key, this.isSelected = false});
 
-  ApiKeyEntity copyWith({
-    String? id,
-    String? name,
-    String? key,
-    bool? isSelected,
-  }) {
+  ApiKeyEntity copyWith({String? id, String? name, String? key, bool? isSelected}) {
     return ApiKeyEntity(
       id: id ?? this.id,
       name: name ?? this.name,

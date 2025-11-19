@@ -11,15 +11,13 @@ class ApiKeyManagerScreen extends ConsumerStatefulWidget {
   const ApiKeyManagerScreen({super.key});
 
   @override
-  ConsumerState<ApiKeyManagerScreen> createState() =>
-      _ApiKeyManagerScreenState();
+  ConsumerState<ApiKeyManagerScreen> createState() => _ApiKeyManagerScreenState();
 }
 
 class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
   late ApiKeyManagerState state;
   late ApiKeyManagerNotifier notifier;
-  late StateNotifierProvider<ApiKeyManagerNotifier, ApiKeyManagerState>
-  apiKeyManagerProvider;
+  late StateNotifierProvider<ApiKeyManagerNotifier, ApiKeyManagerState> apiKeyManagerProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -28,25 +26,15 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
     if (state.isLoading) return _buildLoadingState(context);
     if (state.isError) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(state.error!),
-            duration: const Duration(seconds: 2),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(state.error!), duration: const Duration(seconds: 2)));
         notifier.setToDefaultState();
       });
     }
     return Scaffold(
       backgroundColor: ColorsManager.black,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildHeaderSection(context),
-            Expanded(child: _buildApiKeysList()),
-          ],
-        ),
-      ),
+      body: SafeArea(child: Column(children: [_buildHeaderSection(context), Expanded(child: _buildApiKeysList())])),
       floatingActionButton: _buildFloatingActionButton(),
     );
   }
@@ -58,13 +46,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
         child: Column(
           children: [
             _buildHeaderSection(context),
-            Expanded(
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: ColorsManager.primaryPurple,
-                ),
-              ),
-            ),
+            Expanded(child: const Center(child: CircularProgressIndicator(color: ColorsManager.primaryPurple))),
           ],
         ),
       ),
@@ -82,27 +64,15 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
         children: [
           GestureDetector(
             onTap: () => Navigator.of(context).pop(),
-            child: const Icon(
-              Icons.arrow_back,
-              color: ColorsManager.white,
-              size: 24,
-            ),
+            child: const Icon(Icons.arrow_back, color: ColorsManager.white, size: 24),
           ),
           const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              'Manage API Keys',
-              style: TextStyleManager.white16Medium,
-            ),
-          ),
+          Expanded(child: Text('Manage API Keys', style: TextStyleManager.white16Medium)),
           // Deselect all button (only show if there are selected keys)
           if (state.apiKeys.any((key) => key.isSelected))
             GestureDetector(
               onTap: () => notifier.deselectAll(),
-              child: Text(
-                'Deselect All',
-                style: TextStyleManager.primaryPurple14Regular,
-              ),
+              child: Text('Deselect All', style: TextStyleManager.primaryPurple14Regular),
             ),
         ],
       ),
@@ -129,10 +99,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
             const SizedBox(height: 4),
             GestureDetector(
               onTap: () => _addApiKey(),
-              child: Text(
-                'Add API Key',
-                style: TextStyleManager.primaryPurple14Bold,
-              ),
+              child: Text('Add API Key', style: TextStyleManager.primaryPurple14Bold),
             ),
           ],
         ),
@@ -140,9 +107,7 @@ class _ApiKeyManagerScreenState extends ConsumerState<ApiKeyManagerScreen> {
     }
 
     return ListView.builder(
-      padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.06,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.06),
       itemCount: apiKeys.length,
       itemBuilder: (context, index) {
         final apiKey = apiKeys[index];

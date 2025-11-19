@@ -9,13 +9,8 @@ class ChatState {
   final String? error;
   final dynamic extraData;
 
-  const ChatState({
-    required ProviderState providerState,
-    this.code,
-    this.error,
-    this.chats = const [],
-    this.extraData,
-  }) : _providerState = providerState;
+  const ChatState({required ProviderState providerState, this.code, this.error, this.chats = const [], this.extraData})
+    : _providerState = providerState;
 
   bool get isLoading => _providerState == ProviderState.loading;
   bool get isData => _providerState == ProviderState.data;

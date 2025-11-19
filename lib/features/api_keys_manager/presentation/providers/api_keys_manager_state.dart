@@ -8,23 +8,14 @@ class ApiKeyManagerState {
   final Codes? code;
   final String? error;
 
-  const ApiKeyManagerState({
-    required this.apiKeys,
-    required ProviderState providerState,
-    this.code,
-    this.error,
-  }) : _providerState = providerState;
+  const ApiKeyManagerState({required this.apiKeys, required ProviderState providerState, this.code, this.error})
+    : _providerState = providerState;
 
   bool get isLoading => _providerState == ProviderState.loading;
   bool get isData => _providerState == ProviderState.data;
   bool get isError => _providerState == ProviderState.error;
 
-  ApiKeyManagerState copyWith({
-    List<ApiKeyEntity>? apiKeys,
-    ProviderState? providerState,
-    Codes? code,
-    String? error,
-  }) {
+  ApiKeyManagerState copyWith({List<ApiKeyEntity>? apiKeys, ProviderState? providerState, Codes? code, String? error}) {
     return ApiKeyManagerState(
       apiKeys: apiKeys ?? this.apiKeys,
       providerState: providerState ?? _providerState,

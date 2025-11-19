@@ -22,18 +22,12 @@ void main() {
   });
 
   group('ApiKeysService', () {
-    const tApiKeyEntity = ApiKeyEntity(
-      id: '1',
-      name: 'Test Key',
-      key: 'test_key',
-    );
+    const tApiKeyEntity = ApiKeyEntity(id: '1', name: 'Test Key', key: 'test_key');
 
     group('getAllApiKeys', () {
       test('should return a list of ApiKeyEntity on success', () async {
         // Arrange
-        when(
-          () => mockRepository.getAllApiKeys(),
-        ).thenAnswer((_) async => [tApiKeyEntity]);
+        when(() => mockRepository.getAllApiKeys()).thenAnswer((_) async => [tApiKeyEntity]);
         // Act
         final result = await service.getAllApiKeys();
         // Assert
@@ -53,9 +47,7 @@ void main() {
     group('addNewApiKey', () {
       test('should return a success response on success', () async {
         // Arrange
-        when(
-          () => mockRepository.addNewApiKey(any<ApiKeyEntity>()),
-        ).thenAnswer((_) async => {});
+        when(() => mockRepository.addNewApiKey(any<ApiKeyEntity>())).thenAnswer((_) async => {});
         // Act
         final result = await service.addNewApiKey(tApiKeyEntity);
         // Assert
@@ -64,9 +56,7 @@ void main() {
 
       test('should return a failure response on error', () async {
         // Arrange
-        when(
-          () => mockRepository.addNewApiKey(any<ApiKeyEntity>()),
-        ).thenThrow(Exception());
+        when(() => mockRepository.addNewApiKey(any<ApiKeyEntity>())).thenThrow(Exception());
         // Act
         final result = await service.addNewApiKey(tApiKeyEntity);
         // Assert
@@ -77,9 +67,7 @@ void main() {
     group('deleteApiKey', () {
       test('should return a success response on success', () async {
         // Arrange
-        when(
-          () => mockRepository.deleteApiKey(any<String>()),
-        ).thenAnswer((_) async => {});
+        when(() => mockRepository.deleteApiKey(any<String>())).thenAnswer((_) async => {});
         // Act
         final result = await service.deleteApiKey('1');
         // Assert
@@ -88,9 +76,7 @@ void main() {
 
       test('should return a failure response on error', () async {
         // Arrange
-        when(
-          () => mockRepository.deleteApiKey(any<String>()),
-        ).thenThrow(Exception());
+        when(() => mockRepository.deleteApiKey(any<String>())).thenThrow(Exception());
         // Act
         final result = await service.deleteApiKey('1');
         // Assert

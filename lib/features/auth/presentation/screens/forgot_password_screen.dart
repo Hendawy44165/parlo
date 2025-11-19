@@ -21,24 +21,18 @@ class UpdatePasswordScreen extends ConsumerWidget {
       notifier.signOut();
     } else if (state.isError) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(state.error!),
-            duration: const Duration(seconds: 2),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(state.error!), duration: const Duration(seconds: 2)));
         notifier.setToDefaultState();
       });
     }
 
     if (state.isError) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(state.error!),
-            duration: const Duration(seconds: 2),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(state.error!), duration: const Duration(seconds: 2)));
         notifier.setToDefaultState();
       });
     }
@@ -74,11 +68,7 @@ class UpdatePasswordScreen extends ConsumerWidget {
       children: [
         GestureDetector(
           onTap: () => Navigator.of(context).pop(),
-          child: const Icon(
-            Icons.arrow_back,
-            color: ColorsManager.white,
-            size: 28,
-          ),
+          child: const Icon(Icons.arrow_back, color: ColorsManager.white, size: 28),
         ),
         const SizedBox(width: 16),
         Text('Update Password', style: TextStyleManager.white32Regular),
@@ -100,10 +90,7 @@ class UpdatePasswordScreen extends ConsumerWidget {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: Text(
-                  notifier.newPasswordErrorMessage!,
-                  style: TextStyleManager.error12Regular,
-                ),
+                child: Text(notifier.newPasswordErrorMessage!, style: TextStyleManager.error12Regular),
               ),
             )
             : const SizedBox.shrink(),
@@ -119,10 +106,7 @@ class UpdatePasswordScreen extends ConsumerWidget {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                child: Text(
-                  notifier.confirmPasswordErrorMessage!,
-                  style: TextStyleManager.error12Regular,
-                ),
+                child: Text(notifier.confirmPasswordErrorMessage!, style: TextStyleManager.error12Regular),
               ),
             )
             : const SizedBox.shrink(),
@@ -130,34 +114,22 @@ class UpdatePasswordScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildUpdateButton(
-    BuildContext context,
-    AuthState state,
-    UpdatePasswordNotifier notifier,
-  ) {
+  Widget _buildUpdateButton(BuildContext context, AuthState state, UpdatePasswordNotifier notifier) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () => notifier.updatePassword(),
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.primaryPurple,
-          minimumSize: Size(
-            double.infinity,
-            MediaQuery.of(context).size.height * 0.06,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
-          ),
+          minimumSize: Size(double.infinity, MediaQuery.of(context).size.height * 0.06),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
         child:
             state.isLoading
                 ? CircularProgressIndicator(color: ColorsManager.white)
-                : Text(
-                  'Update Password',
-                  style: TextStyleManager.white16Medium,
-                ),
+                : Text('Update Password', style: TextStyleManager.white16Medium),
       ),
     );
   }

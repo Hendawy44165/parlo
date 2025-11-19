@@ -11,22 +11,11 @@ class ChatRoomService {
   final ChatRoomRepository chatRoomRepository;
   final SupabaseClient supabase;
 
-  Future<ResponseModel<List<MessageEntity>>> getUnreadMessages(
-    String conversationId,
-  ) async {
+  Future<ResponseModel<List<MessageEntity>>> getUnreadMessages(String conversationId) async {
     try {
-      final messages = await chatRoomRepository.getUnreadMessages(
-        conversationId,
-      );
+      final messages = await chatRoomRepository.getUnreadMessages(conversationId);
       return ResponseModel.success(
-        messages
-            .map(
-              (e) => MessageEntity.fromModel(
-                e,
-                e.senderId == supabase.auth.currentUser!.id,
-              ),
-            )
-            .toList(),
+        messages.map((e) => MessageEntity.fromModel(e, e.senderId == supabase.auth.currentUser!.id)).toList(),
       );
     } catch (e) {
       return ResponseModel.failure(
@@ -36,26 +25,11 @@ class ChatRoomService {
     }
   }
 
-  Future<ResponseModel<List<MessageEntity>>> getMessages(
-    String conversationId, {
-    int start = 0,
-    int end = 5,
-  }) async {
+  Future<ResponseModel<List<MessageEntity>>> getMessages(String conversationId, {int start = 0, int end = 5}) async {
     try {
-      final messages = await chatRoomRepository.getMessages(
-        conversationId,
-        start: start,
-        end: end,
-      );
+      final messages = await chatRoomRepository.getMessages(conversationId, start: start, end: end);
       return ResponseModel.success(
-        messages
-            .map(
-              (e) => MessageEntity.fromModel(
-                e,
-                e.senderId == supabase.auth.currentUser!.id,
-              ),
-            )
-            .toList(),
+        messages.map((e) => MessageEntity.fromModel(e, e.senderId == supabase.auth.currentUser!.id)).toList(),
       );
     } catch (e) {
       return ResponseModel.failure(
@@ -65,18 +39,14 @@ class ChatRoomService {
     }
   }
 
-  Future<ResponseModel<MessageEntity>> sendTextMessage(
-    String conversationId,
-    String text,
-  ) async {
+  Future<ResponseModel<MessageEntity>> sendTextMessage(String conversationId, String text) async {
     try {
       final message = await supabase.rpc(
         'send_message',
         params: {
           'conversation_id': conversationId,
           'content': text,
-          'sender_ephemeral_key':
-              'LDJFALSDKJF', // TODO: send the actual one for e2ee
+          'sender_ephemeral_key': 'LDJFALSDKJF', // TODO: send the actual one for e2ee
           'message_counter': 5, // TODO: send the actual one for e2ee
         },
       );
@@ -108,9 +78,7 @@ class ChatRoomService {
     }
   }
 
-  Future<ResponseModel<String?>> getOtherAvatarUrl(
-    String conversationId,
-  ) async {
+  Future<ResponseModel<String?>> getOtherAvatarUrl(String conversationId) async {
     try {
       final res =
           await supabase

@@ -4,11 +4,7 @@ class TimeService {
     final localTime = time.toLocal();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
-    final messageDate = DateTime(
-      localTime.year,
-      localTime.month,
-      localTime.day,
-    );
+    final messageDate = DateTime(localTime.year, localTime.month, localTime.day);
 
     final difference = today.difference(messageDate).inDays;
 
@@ -26,15 +22,7 @@ class TimeService {
 
     // Within the last week - show day name
     if (difference < 7) {
-      const weekdays = [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-      ];
+      const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
       return weekdays[localTime.weekday - 1];
     }
 

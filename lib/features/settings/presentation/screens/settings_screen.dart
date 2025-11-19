@@ -33,19 +33,13 @@ class SettingsScreen extends ConsumerWidget {
 
     ref.listen(provider, (previous, next) {
       if (next is AsyncError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.error.toString()),
-            backgroundColor: Colors.red,
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.error.toString()), backgroundColor: Colors.red));
       } else if (next is AsyncData && next.value != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.value.toString()),
-            backgroundColor: ColorsManager.primaryPurple,
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.value.toString()), backgroundColor: ColorsManager.primaryPurple));
       }
     });
 
@@ -57,41 +51,25 @@ class SettingsScreen extends ConsumerWidget {
             child: SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight:
-                      MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top,
+                  minHeight: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.06,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.06),
                   //! UI hierarchy
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                       _buildHeaderSection(context),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                       _buildProfileSection(),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                       _buildInputSection(notifier),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                       _buildCharacterSelectionSection(notifier, ref),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
-                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                       _buildStabilitySelectionSection(notifier, ref),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.07),
                       //! temp logout button
                       ElevatedButton(
                         onPressed: () async {
@@ -99,22 +77,12 @@ class SettingsScreen extends ConsumerWidget {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: ColorsManager.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 32,
-                            vertical: 16,
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                         ),
-                        child: Text(
-                          'Logout',
-                          style: TextStyleManager.white16Medium,
-                        ),
+                        child: Text('Logout', style: TextStyleManager.white16Medium),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                     ],
                   ),
                 ),
@@ -124,11 +92,7 @@ class SettingsScreen extends ConsumerWidget {
           if (state is AsyncLoading)
             Container(
               color: ColorsManager.black,
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: ColorsManager.primaryPurple,
-                ),
-              ),
+              child: const Center(child: CircularProgressIndicator(color: ColorsManager.primaryPurple)),
             ),
         ],
       ),
@@ -140,19 +104,9 @@ class SettingsScreen extends ConsumerWidget {
       children: [
         IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(
-            Icons.arrow_back,
-            color: ColorsManager.white,
-            size: 24,
-          ),
+          icon: const Icon(Icons.arrow_back, color: ColorsManager.white, size: 24),
         ),
-        Expanded(
-          child: Text(
-            'Settings',
-            style: TextStyleManager.white16Medium,
-            textAlign: TextAlign.center,
-          ),
-        ),
+        Expanded(child: Text('Settings', style: TextStyleManager.white16Medium, textAlign: TextAlign.center)),
         const SizedBox(width: 48),
       ],
     );
@@ -161,25 +115,14 @@ class SettingsScreen extends ConsumerWidget {
   Widget _buildProfileSection() {
     return Column(
       children: [
-        Container(
-          width: 80,
-          height: 80,
-          decoration: const BoxDecoration(
-            color: Colors.grey,
-            shape: BoxShape.circle,
-          ),
-        ),
+        Container(width: 80, height: 80, decoration: const BoxDecoration(color: Colors.grey, shape: BoxShape.circle)),
       ],
     );
   }
 
   Widget _buildInputSection(SettingsNotifier notifier) {
     return Column(
-      children: [
-        _buildReadOnlyField(kDefaultUsername),
-        const SizedBox(height: 16),
-        _buildReadOnlyField(kDefaultEmail),
-      ],
+      children: [_buildReadOnlyField(kDefaultUsername), const SizedBox(height: 16), _buildReadOnlyField(kDefaultEmail)],
     );
   }
 
@@ -196,11 +139,7 @@ class SettingsScreen extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
-            child: Icon(
-              Icons.mail_outline,
-              color: ColorsManager.lightGray,
-              size: 20,
-            ),
+            child: Icon(Icons.mail_outline, color: ColorsManager.lightGray, size: 20),
           ),
           Text(text, style: TextStyleManager.dimmed16Regular),
         ],
@@ -208,19 +147,13 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildCharacterSelectionSection(
-    SettingsNotifier notifier,
-    WidgetRef ref,
-  ) {
+  Widget _buildCharacterSelectionSection(SettingsNotifier notifier, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
-          child: Text(
-            'Select Character',
-            style: TextStyleManager.white16Medium,
-          ),
+          child: Text('Select Character', style: TextStyleManager.white16Medium),
         ),
         Container(
           width: double.infinity,
@@ -233,23 +166,14 @@ class SettingsScreen extends ConsumerWidget {
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: notifier.selectedCharacter,
-              hint: Text(
-                'Choose a character',
-                style: TextStyleManager.dimmed16Regular,
-              ),
+              hint: Text('Choose a character', style: TextStyleManager.dimmed16Regular),
               dropdownColor: ColorsManager.darkNavyBlue,
-              icon: const Icon(
-                Icons.keyboard_arrow_down,
-                color: ColorsManager.lightGray,
-              ),
+              icon: const Icon(Icons.keyboard_arrow_down, color: ColorsManager.lightGray),
               items:
                   [kCharacterJessica, kCharacterMike].map((String character) {
                     return DropdownMenuItem<String>(
                       value: character,
-                      child: Text(
-                        character,
-                        style: TextStyleManager.white16Regular,
-                      ),
+                      child: Text(character, style: TextStyleManager.white16Regular),
                     );
                   }).toList(),
               onChanged: (String? newValue) {
@@ -262,10 +186,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildStabilitySelectionSection(
-    SettingsNotifier notifier,
-    WidgetRef ref,
-  ) {
+  Widget _buildStabilitySelectionSection(SettingsNotifier notifier, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -284,27 +205,16 @@ class SettingsScreen extends ConsumerWidget {
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: notifier.selectedStability,
-              hint: Text(
-                'Choose stability level',
-                style: TextStyleManager.dimmed16Regular,
-              ),
+              hint: Text('Choose stability level', style: TextStyleManager.dimmed16Regular),
               dropdownColor: ColorsManager.darkNavyBlue,
-              icon: const Icon(
-                Icons.keyboard_arrow_down,
-                color: ColorsManager.lightGray,
-              ),
+              icon: const Icon(Icons.keyboard_arrow_down, color: ColorsManager.lightGray),
               items:
-                  [kStabilityCreative, kStabilityNeutral, kStabilityRobust].map(
-                    (String stability) {
-                      return DropdownMenuItem<String>(
-                        value: stability,
-                        child: Text(
-                          stability,
-                          style: TextStyleManager.white16Regular,
-                        ),
-                      );
-                    },
-                  ).toList(),
+                  [kStabilityCreative, kStabilityNeutral, kStabilityRobust].map((String stability) {
+                    return DropdownMenuItem<String>(
+                      value: stability,
+                      child: Text(stability, style: TextStyleManager.white16Regular),
+                    );
+                  }).toList(),
               onChanged: (String? newValue) {
                 notifier.updateSelectedStability(newValue);
               },

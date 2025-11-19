@@ -3,9 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parlo/features/settings/logic/services/profile_service.dart';
 
 class SettingsNotifier extends StateNotifier<AsyncValue> {
-  SettingsNotifier({required ProfileService service})
-    : _service = service,
-      super(const AsyncData(null));
+  SettingsNotifier({required ProfileService service}) : _service = service, super(const AsyncData(null));
 
   final TextEditingController usernameController = TextEditingController();
   final ProfileService _service;
@@ -34,8 +32,5 @@ class SettingsNotifier extends StateNotifier<AsyncValue> {
   }
 }
 
-StateNotifierProvider<SettingsNotifier, AsyncValue> getSettingsProvider(
-  ProfileService service,
-) => StateNotifierProvider<SettingsNotifier, AsyncValue>(
-  (ref) => SettingsNotifier(service: service),
-);
+StateNotifierProvider<SettingsNotifier, AsyncValue> getSettingsProvider(ProfileService service) =>
+    StateNotifierProvider<SettingsNotifier, AsyncValue>((ref) => SettingsNotifier(service: service));

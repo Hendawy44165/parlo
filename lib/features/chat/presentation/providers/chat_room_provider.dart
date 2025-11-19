@@ -6,8 +6,7 @@ import 'package:parlo/features/chat/logic/services/chat_room_service.dart';
 import 'package:parlo/features/chat/presentation/providers/chat_room_state.dart';
 
 class ChatRoomNotifier extends StateNotifier<ChatRoomState> {
-  ChatRoomNotifier(this._service)
-    : super(ChatRoomState(providerState: ProviderState.initial));
+  ChatRoomNotifier(this._service) : super(ChatRoomState(providerState: ProviderState.initial));
 
   final TextEditingController messageController = TextEditingController();
 
@@ -19,23 +18,11 @@ class ChatRoomNotifier extends StateNotifier<ChatRoomState> {
     final response2 = await _service.getOtherAvatarUrl(conversationId);
 
     if (response1.isSuccess || response2.isSuccess) {
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        username: response1.data,
-        avatarUrl: response2.data,
-      );
+      state = state.copyWith(providerState: ProviderState.data, username: response1.data, avatarUrl: response2.data);
     } else if (response1.isFailure) {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        error: response1.error,
-        code: response1.errorCode,
-      );
+      state = state.copyWith(providerState: ProviderState.error, error: response1.error, code: response1.errorCode);
     } else if (response2.isFailure) {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        error: response2.error,
-        code: response2.errorCode,
-      );
+      state = state.copyWith(providerState: ProviderState.error, error: response2.error, code: response2.errorCode);
     }
   }
 
@@ -45,16 +32,9 @@ class ChatRoomNotifier extends StateNotifier<ChatRoomState> {
 
     final response = await _service.getUnreadMessages(conversationId);
     if (response.isSuccess) {
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        messages: response.data,
-      );
+      state = state.copyWith(providerState: ProviderState.data, messages: response.data);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        error: response.error,
-        code: response.errorCode,
-      );
+      state = state.copyWith(providerState: ProviderState.error, error: response.error, code: response.errorCode);
     }
   }
 
@@ -68,16 +48,9 @@ class ChatRoomNotifier extends StateNotifier<ChatRoomState> {
       end: state.messages.length + 5,
     );
     if (response.isSuccess) {
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        messages: [...state.messages, ...response.data!],
-      );
+      state = state.copyWith(providerState: ProviderState.data, messages: [...state.messages, ...response.data!]);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        error: response.error,
-        code: response.errorCode,
-      );
+      state = state.copyWith(providerState: ProviderState.error, error: response.error, code: response.errorCode);
     }
   }
 
@@ -91,25 +64,14 @@ class ChatRoomNotifier extends StateNotifier<ChatRoomState> {
 
     final response = await _service.sendTextMessage(conversationId, message);
     if (response.isSuccess) {
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        messages: [...state.messages, response.data!],
-      );
+      state = state.copyWith(providerState: ProviderState.data, messages: [...state.messages, response.data!]);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        error: response.error,
-        code: response.errorCode,
-      );
+      state = state.copyWith(providerState: ProviderState.error, error: response.error, code: response.errorCode);
     }
   }
 
   void setToDefaultState() {
-    state = state.copyWith(
-      providerState: ProviderState.data,
-      error: null,
-      code: null,
-    );
+    state = state.copyWith(providerState: ProviderState.data, error: null, code: null);
   }
 
   //! private members
@@ -123,6 +85,4 @@ class ChatRoomNotifier extends StateNotifier<ChatRoomState> {
 }
 
 StateNotifierProvider<ChatRoomNotifier, ChatRoomState> getChatRoomProvider() =>
-    StateNotifierProvider<ChatRoomNotifier, ChatRoomState>(
-      (ref) => ChatRoomNotifier(getIt<ChatRoomService>()),
-    );
+    StateNotifierProvider<ChatRoomNotifier, ChatRoomState>((ref) => ChatRoomNotifier(getIt<ChatRoomService>()));

@@ -35,29 +35,16 @@ class _AddApiKeyDialogState extends State<AddApiKeyDialog> {
             // Header
             Row(
               children: [
-                Expanded(
-                  child: Text(
-                    'Add API Key',
-                    style: TextStyleManager.white16Medium,
-                  ),
-                ),
+                Expanded(child: Text('Add API Key', style: TextStyleManager.white16Medium)),
                 GestureDetector(
                   onTap: () => Navigator.of(context).pop(),
-                  child: const Icon(
-                    Icons.close,
-                    color: ColorsManager.white,
-                    size: 20,
-                  ),
+                  child: const Icon(Icons.close, color: ColorsManager.white, size: 20),
                 ),
               ],
             ),
             const SizedBox(height: 24),
             // Key Name Input
-            CustomInputField(
-              hint: 'Key Name',
-              prefixIcon: 'assets/icons/user.svg',
-              controller: keyNameController,
-            ),
+            CustomInputField(hint: 'Key Name', prefixIcon: 'assets/icons/user.svg', controller: keyNameController),
             const SizedBox(height: 16),
             // API Key Input
             CustomInputField(
@@ -75,15 +62,10 @@ class _AddApiKeyDialogState extends State<AddApiKeyDialog> {
                     onPressed: () => Navigator.of(context).pop(),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorsManager.darkNavyBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: Text(
-                      'Cancel',
-                      style: TextStyleManager.white16Regular,
-                    ),
+                    child: Text('Cancel', style: TextStyleManager.white16Regular),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -94,16 +76,12 @@ class _AddApiKeyDialogState extends State<AddApiKeyDialog> {
                       final apiKey = apiKeyController.text.trim();
 
                       if (keyName.isNotEmpty && apiKey.isNotEmpty) {
-                        Navigator.of(
-                          context,
-                        ).pop({'name': keyName, 'key': apiKey});
+                        Navigator.of(context).pop({'name': keyName, 'key': apiKey});
                       }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorsManager.primaryPurple,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     child: Text('Add', style: TextStyleManager.white16Medium),

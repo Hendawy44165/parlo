@@ -13,16 +13,14 @@ class ApiKeysRepository {
 
   Future<void> addNewApiKey(ApiKeyEntity apiKey) async {
     final models = await _localDataSource.getAllApiKeys();
-    if (models.any((model) => model.id == apiKey.id))
-      throw Exception('API key with id ${apiKey.id} already exists');
+    if (models.any((model) => model.id == apiKey.id)) throw Exception('API key with id ${apiKey.id} already exists');
     models.add(apiKey.toModel());
     await _localDataSource.saveApiKeys(models);
   }
 
   Future<void> deleteApiKey(String id) async {
     final models = await _localDataSource.getAllApiKeys();
-    if (!models.any((model) => model.id == id))
-      throw Exception('API key with id $id does not exist');
+    if (!models.any((model) => model.id == id)) throw Exception('API key with id $id does not exist');
     models.removeWhere((model) => model.id == id);
     await _localDataSource.saveApiKeys(models);
   }

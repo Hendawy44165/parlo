@@ -10,31 +10,26 @@ import 'package:parlo/features/chat/logic/services/chat_service.dart';
 import 'package:parlo/features/chat/presentation/providers/chat_state.dart';
 
 class ChatNotifier extends StateNotifier<ChatState> {
-  ChatNotifier(this._service)
-    : super(const ChatState(providerState: ProviderState.initial)) {
+  ChatNotifier(this._chatService) : super(const ChatState(providerState: ProviderState.initial)) {
     searchController.addListener(_onSearchChanged);
   }
 
   final TextEditingController searchController = TextEditingController();
-  Timer? _debounce;
+
+  Future<void> setupStreams() async {
+    // TODO: Setup streams for new conversations and conversation changes.
+    // handle conversation changing in order
+  }
 
   Future<void> getChats() async {
     if (state.isLoading) return;
     state = state.copyWith(providerState: ProviderState.loading);
 
-    final response = await _service.getChats();
+    final response = await _chatService.getChats();
     if (response.isSuccess) {
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        chats: response.data,
-        code: null,
-      );
+      state = state.copyWith(providerState: ProviderState.data, chats: response.data, code: null);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
@@ -51,19 +46,11 @@ class ChatNotifier extends StateNotifier<ChatState> {
       return;
     }
 
-    final response = await _service.createNewConversation(email);
+    final response = await _chatService.createNewConversation(email);
     if (response.isSuccess) {
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        code: Codes.chatCreated,
-        extraData: response.data,
-      );
+      state = state.copyWith(providerState: ProviderState.data, code: Codes.chatCreated, extraData: response.data);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
@@ -75,29 +62,16 @@ class ChatNotifier extends StateNotifier<ChatState> {
 
     state = state.copyWith(providerState: ProviderState.loading);
 
-    final response = await _service.searchChat(chatName);
+    final response = await _chatService.searchChat(chatName);
     if (response.isSuccess) {
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        chats: response.data,
-        code: null,
-      );
+      state = state.copyWith(providerState: ProviderState.data, chats: response.data, code: null);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
   void setToDefaultState() {
-    state = state.copyWith(
-      providerState: ProviderState.data,
-      code: null,
-      error: null,
-      extraData: null,
-    );
+    state = state.copyWith(providerState: ProviderState.data, code: null, error: null, extraData: null);
   }
 
   void _onSearchChanged() {
@@ -115,10 +89,9 @@ class ChatNotifier extends StateNotifier<ChatState> {
   }
 
   //! private members
-  final ChatService _service;
+  Timer? _debounce;
+  final ChatService _chatService;
 }
 
 StateNotifierProvider<ChatNotifier, ChatState> getChatProvider() =>
-    StateNotifierProvider<ChatNotifier, ChatState>(
-      (ref) => ChatNotifier(getIt<ChatService>()),
-    );
+    StateNotifierProvider<ChatNotifier, ChatState>((ref) => ChatNotifier(getIt<ChatService>()));

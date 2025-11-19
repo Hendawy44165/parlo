@@ -57,8 +57,7 @@ class MessageModel {
 
   String toJson() => json.encode(toMap());
 
-  factory MessageModel.fromJson(String source) =>
-      MessageModel.fromMap(json.decode(source));
+  factory MessageModel.fromJson(String source) => MessageModel.fromMap(json.decode(source));
 
   MessageModel copyWith({
     String? id,
@@ -81,8 +80,7 @@ class MessageModel {
       createdAt: createdAt ?? this.createdAt,
       conversationId: conversationId ?? this.conversationId,
       text: text ?? this.text,
-      senderEphemeralPublicKey:
-          senderEphemeralPublicKey ?? this.senderEphemeralPublicKey,
+      senderEphemeralPublicKey: senderEphemeralPublicKey ?? this.senderEphemeralPublicKey,
       counter: counter ?? this.counter,
     );
   }

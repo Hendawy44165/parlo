@@ -25,26 +25,20 @@ class ChatEntryEntity {
     this.unreadCount = 0,
   });
 
-  static ChatEntryEntity? fromModels({
+  static ChatEntryEntity fromModels({
     required ConversationModel conversation,
-    required MessageModel? lastMessage,
+    required MessageModel lastMessage,
     required ConversationParticipantModel conversationParticipant,
     required UserModel user,
   }) {
-    if (lastMessage == null) return null;
-
-    final bool isAudioMessage =
-        lastMessage.audioUrl != null && lastMessage.audioUrl!.isNotEmpty;
+    final bool isAudioMessage = lastMessage.audioUrl != null && lastMessage.audioUrl!.isNotEmpty;
 
     final String messageContent =
-        isAudioMessage
-            ? _getAudioLengthString(lastMessage.audioLength ?? 0)
-            : lastMessage.text ?? '';
+        isAudioMessage ? _getAudioLengthString(lastMessage.audioLength ?? 0) : lastMessage.text ?? '';
 
     MessageStatus messageStatus = MessageStatus.received;
     if (lastMessage.senderId != user.id) // my message
-      messageStatus =
-          lastMessage.isSeen ? MessageStatus.read : MessageStatus.sent;
+      messageStatus = lastMessage.isSeen ? MessageStatus.read : MessageStatus.sent;
 
     return ChatEntryEntity(
       conversationId: conversation.id,

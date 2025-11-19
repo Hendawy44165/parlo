@@ -5,8 +5,7 @@ import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
-import 'package:parlo/features/auth/presentation/providers/auth_state.dart'
-    as m_auth_state;
+import 'package:parlo/features/auth/presentation/providers/auth_state.dart' as m_auth_state;
 import 'package:parlo/features/auth/presentation/providers/login_provider.dart';
 import 'package:parlo/features/auth/presentation/widgets/custom_input_field.dart';
 
@@ -22,22 +21,18 @@ class LoginScreen extends ConsumerWidget {
 
     if (state.isData && state.code == Codes.forgotPassword) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacementNamed(
-          Routes.otpVerification,
-          arguments: {'email': notifier.emailController.text.trim()},
-        );
+        Navigator.of(
+          context,
+        ).pushReplacementNamed(Routes.otpVerification, arguments: {'email': notifier.emailController.text.trim()});
         notifier.setToDefaultState();
       });
     }
 
     if (state.isError) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(state.error!),
-            duration: const Duration(seconds: 2),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(state.error!), duration: const Duration(seconds: 2)));
         notifier.setToDefaultState();
       });
     }
@@ -90,20 +85,13 @@ class LoginScreen extends ConsumerWidget {
   Widget _buildInputSection(LoginNotifier notifier) {
     return Column(
       children: [
-        CustomInputField(
-          hint: 'Email',
-          prefixIcon: 'assets/icons/mail.svg',
-          controller: notifier.emailController,
-        ),
+        CustomInputField(hint: 'Email', prefixIcon: 'assets/icons/mail.svg', controller: notifier.emailController),
         notifier.emailErrorMessage != null
             ? Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  notifier.emailErrorMessage!,
-                  style: TextStyleManager.error12Regular,
-                ),
+                child: Text(notifier.emailErrorMessage!, style: TextStyleManager.error12Regular),
               ),
             )
             : const SizedBox.shrink(),
@@ -119,10 +107,7 @@ class LoginScreen extends ConsumerWidget {
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  notifier.passwordErrorMessage!,
-                  style: TextStyleManager.error12Regular,
-                ),
+                child: Text(notifier.passwordErrorMessage!, style: TextStyleManager.error12Regular),
               ),
             )
             : const SizedBox.shrink(),
@@ -132,10 +117,7 @@ class LoginScreen extends ConsumerWidget {
           children: [
             GestureDetector(
               onTap: () => notifier.resetPassword(),
-              child: Text(
-                "Forgot Password?",
-                style: TextStyleManager.dimmed14Medium,
-              ),
+              child: Text("Forgot Password?", style: TextStyleManager.dimmed14Medium),
             ),
           ],
         ),
@@ -143,24 +125,15 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildLoginButton(
-    BuildContext context,
-    m_auth_state.AuthState state,
-    LoginNotifier notifier,
-  ) {
+  Widget _buildLoginButton(BuildContext context, m_auth_state.AuthState state, LoginNotifier notifier) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () => notifier.login(),
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.primaryPurple,
-          minimumSize: Size(
-            double.infinity,
-            MediaQuery.of(context).size.height * 0.06,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
-          ),
+          minimumSize: Size(double.infinity, MediaQuery.of(context).size.height * 0.06),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
           elevation: 0,
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
@@ -172,32 +145,19 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSocialLoginSection(
-    BuildContext context,
-    m_auth_state.AuthState state,
-    LoginNotifier notifier,
-  ) {
+  Widget _buildSocialLoginSection(BuildContext context, m_auth_state.AuthState state, LoginNotifier notifier) {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).size.height * 0.02,
-          ),
+          padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
           child: Row(
             children: [
-              const Expanded(
-                child: Divider(color: ColorsManager.darkGray, thickness: 1),
-              ),
+              const Expanded(child: Divider(color: ColorsManager.darkGray, thickness: 1)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'or sign in with',
-                  style: TextStyleManager.dimmed14Medium,
-                ),
+                child: Text('or sign in with', style: TextStyleManager.dimmed14Medium),
               ),
-              const Expanded(
-                child: Divider(color: ColorsManager.darkGray, thickness: 1),
-              ),
+              const Expanded(child: Divider(color: ColorsManager.darkGray, thickness: 1)),
             ],
           ),
         ),
@@ -206,11 +166,7 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSocialButton(
-    BuildContext context,
-    m_auth_state.AuthState state,
-    LoginNotifier notifier,
-  ) {
+  Widget _buildSocialButton(BuildContext context, m_auth_state.AuthState state, LoginNotifier notifier) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -218,9 +174,7 @@ class LoginScreen extends ConsumerWidget {
         onPressed: () => notifier.signInWithGoogle(),
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorsManager.darkNavyBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
         child:
@@ -231,35 +185,22 @@ class LoginScreen extends ConsumerWidget {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(right: 12),
-                      child: SvgPicture.asset(
-                        'assets/icons/google.svg',
-                        width: 20,
-                        height: 20,
-                      ),
+                      child: SvgPicture.asset('assets/icons/google.svg', width: 20, height: 20),
                     ),
-                    Text(
-                      'Sign in with Google',
-                      style: TextStyleManager.white16Regular,
-                    ),
+                    Text('Sign in with Google', style: TextStyleManager.white16Regular),
                   ],
                 ),
       ),
     );
   }
 
-  Widget _buildSignUpSection(
-    BuildContext context,
-    m_auth_state.AuthState state,
-  ) {
+  Widget _buildSignUpSection(BuildContext context, m_auth_state.AuthState state) {
     return Container(
       margin: const EdgeInsets.only(top: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Don\'t have an Account? ',
-            style: TextStyleManager.dimmed14Regular,
-          ),
+          Text('Don\'t have an Account? ', style: TextStyleManager.dimmed14Regular),
           TextButton(
             onPressed: () {
               if (state.isLoading) return;
@@ -270,10 +211,7 @@ class LoginScreen extends ConsumerWidget {
               minimumSize: const Size(50, 30),
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            child: Text(
-              'Sign up here',
-              style: TextStyleManager.primaryPurple14Bold,
-            ),
+            child: Text('Sign up here', style: TextStyleManager.primaryPurple14Bold),
           ),
         ],
       ),

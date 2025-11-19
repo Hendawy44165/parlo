@@ -388,6 +388,12 @@ class ErrorHandlingService {
         return 'Could not get other username. Please try again.';
       case Codes.couldNotGetOtherAvatarUrl:
         return 'Could not get other avatar URL. Please try again.';
+      case Codes.couldNotSubscribeToNewConversations:
+        return 'Could not subscribe to new conversations. Please try again.';
+      case Codes.couldNotGetConversationInfo:
+        return 'Could not get conversation info. Please try again.';
+      case Codes.couldNotSubscribeToConversationChanges:
+        return 'Could not subscribe to conversation changes. Please try again.';
       default:
         return 'Success or Unhandled code.';
     }

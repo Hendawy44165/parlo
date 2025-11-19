@@ -7,15 +7,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: AuthService.supabaseUrl,
-    anonKey: AuthService.anonkey,
-  );
+  await Supabase.initialize(url: AuthService.supabaseUrl, anonKey: AuthService.anonkey);
 
-  await AuthService().login(
-    email: 'test1@gmail.com',
-    password: 'test_password_1',
-  );
+  await AuthService().login(email: 'test1@gmail.com', password: 'test_password_1');
 
   final service1 = PresenceService();
   final service2 = PresenceService();

@@ -26,33 +26,19 @@ class AppRouter {
       case Routes.apiKeyManager:
         return MaterialPageRoute(builder: (_) => const ApiKeyManagerScreen());
       case Routes.otpVerification:
-        return MaterialPageRoute(
-          builder:
-              (_) => OtpVerificationScreen(email: (arguments as Map)['email']),
-        );
+        return MaterialPageRoute(builder: (_) => OtpVerificationScreen(email: (arguments as Map)['email']));
       case Routes.resetPassword:
         return MaterialPageRoute(builder: (_) => UpdatePasswordScreen());
       case Routes.home:
         return MaterialPageRoute(builder: (_) => ChatsScreen());
       case Routes.chatRoom:
-        return MaterialPageRoute(
-          builder:
-              (_) => ChatRoomScreen(
-                conversationId: (arguments as Map)['conversationId'],
-              ),
-        );
+        return MaterialPageRoute(builder: (_) => ChatRoomScreen(conversationId: (arguments as Map)['conversationId']));
 
       default:
         return MaterialPageRoute(
           builder:
-              (_) => const Scaffold(
-                body: Center(
-                  child: Text(
-                    "Page not found",
-                    style: TextStyleManager.white32Regular,
-                  ),
-                ),
-              ),
+              (_) =>
+                  const Scaffold(body: Center(child: Text("Page not found", style: TextStyleManager.white32Regular))),
         );
     }
   }

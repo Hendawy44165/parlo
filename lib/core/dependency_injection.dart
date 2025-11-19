@@ -17,33 +17,21 @@ final getIt = GetIt.instance;
 
 Future<void> setupDependencies() async {
   //! Core
-  getIt.registerLazySingleton<FlutterSecureStorage>(
-    () => const FlutterSecureStorage(),
-  );
+  getIt.registerLazySingleton<FlutterSecureStorage>(() => const FlutterSecureStorage());
 
   //! DataSources
-  getIt.registerLazySingleton<ApiKeysLocalDataSource>(
-    () => ApiKeysLocalDataSource(getIt<FlutterSecureStorage>()),
-  );
+  getIt.registerLazySingleton<ApiKeysLocalDataSource>(() => ApiKeysLocalDataSource(getIt<FlutterSecureStorage>()));
   getIt.registerLazySingleton<OnlineChatEntriesDataSource>(
     () => OnlineChatEntriesDataSource(supabase: Supabase.instance),
   );
-  getIt.registerLazySingleton<OnlineChatRoomDatasource>(
-    () => OnlineChatRoomDatasource(),
-  );
-  getIt.registerLazySingleton<OfflineChatRoomDatasource>(
-    () => OfflineChatRoomDatasource(),
-  );
+  getIt.registerLazySingleton<OnlineChatRoomDatasource>(() => OnlineChatRoomDatasource());
+  getIt.registerLazySingleton<OfflineChatRoomDatasource>(() => OfflineChatRoomDatasource());
 
   //! Repositories
-  getIt.registerLazySingleton<ApiKeysRepository>(
-    () => ApiKeysRepository(getIt<ApiKeysLocalDataSource>()),
-  );
+  getIt.registerLazySingleton<ApiKeysRepository>(() => ApiKeysRepository(getIt<ApiKeysLocalDataSource>()));
   getIt.registerLazySingleton<ChatEntryRepository>(
-    () => ChatEntryRepository(
-      onlineDataSource: getIt<OnlineChatEntriesDataSource>(),
-      supabase: Supabase.instance.client,
-    ),
+    () =>
+        ChatEntryRepository(onlineDataSource: getIt<OnlineChatEntriesDataSource>(), supabase: Supabase.instance.client),
   );
   getIt.registerLazySingleton<ChatRoomRepository>(
     () => ChatRoomRepository(
@@ -55,16 +43,9 @@ Future<void> setupDependencies() async {
 
   //! Services
   getIt.registerLazySingleton<AuthService>(() => AuthService());
-  getIt.registerLazySingleton<ApiKeysService>(
-    () => ApiKeysService(getIt<ApiKeysRepository>()),
-  );
-  getIt.registerLazySingleton<ChatService>(
-    () => ChatService(chatEntryRepository: getIt<ChatEntryRepository>()),
-  );
+  getIt.registerLazySingleton<ApiKeysService>(() => ApiKeysService(getIt<ApiKeysRepository>()));
+  getIt.registerLazySingleton<ChatService>(() => ChatService(chatEntryRepository: getIt<ChatEntryRepository>()));
   getIt.registerLazySingleton<ChatRoomService>(
-    () => ChatRoomService(
-      chatRoomRepository: getIt<ChatRoomRepository>(),
-      supabase: Supabase.instance.client,
-    ),
+    () => ChatRoomService(chatRoomRepository: getIt<ChatRoomRepository>(), supabase: Supabase.instance.client),
   );
 }

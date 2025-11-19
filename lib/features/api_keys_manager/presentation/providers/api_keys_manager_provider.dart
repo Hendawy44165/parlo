@@ -9,12 +9,7 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
   final ApiKeysService _service;
 
   ApiKeyManagerNotifier(this._service)
-    : super(
-        const ApiKeyManagerState(
-          apiKeys: [],
-          providerState: ProviderState.initial,
-        ),
-      ) {
+    : super(const ApiKeyManagerState(apiKeys: [], providerState: ProviderState.initial)) {
     _loadInitialKeys();
   }
 
@@ -27,10 +22,7 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
           return key.copyWith(isSelected: key.id == id);
         }).toList();
 
-    state = state.copyWith(
-      apiKeys: updatedKeys,
-      providerState: ProviderState.data,
-    );
+    state = state.copyWith(apiKeys: updatedKeys, providerState: ProviderState.data);
   }
 
   Future<void> deleteApiKey(String id) async {
@@ -45,11 +37,7 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
         providerState: ProviderState.data,
       );
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
@@ -62,43 +50,25 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
           return key.copyWith(isSelected: false);
         }).toList();
 
-    state = state.copyWith(
-      apiKeys: updatedKeys,
-      providerState: ProviderState.data,
-    );
+    state = state.copyWith(apiKeys: updatedKeys, providerState: ProviderState.data);
   }
 
   void setToDefaultState() {
-    state = state.copyWith(
-      providerState: ProviderState.data,
-      code: null,
-      error: null,
-    );
+    state = state.copyWith(providerState: ProviderState.data, code: null, error: null);
   }
 
   Future<void> addNewApiKey({required String name, required String key}) async {
     if (state.isLoading) return;
     state = state.copyWith(providerState: ProviderState.loading);
 
-    final newKey = ApiKeyEntity(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      name: name,
-      key: key,
-    );
+    final newKey = ApiKeyEntity(id: DateTime.now().millisecondsSinceEpoch.toString(), name: name, key: key);
 
     final response = await _service.addNewApiKey(newKey);
 
     if (response.isSuccess) {
-      state = state.copyWith(
-        apiKeys: [...state.apiKeys, newKey],
-        providerState: ProviderState.data,
-      );
+      state = state.copyWith(apiKeys: [...state.apiKeys, newKey], providerState: ProviderState.data);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
@@ -109,10 +79,7 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
     final response = await _service.getAllApiKeys();
 
     if (response.isSuccess) {
-      state = state.copyWith(
-        apiKeys: response.data,
-        providerState: ProviderState.data,
-      );
+      state = state.copyWith(apiKeys: response.data, providerState: ProviderState.data);
     } else {
       state = state.copyWith(
         apiKeys: [],
@@ -124,8 +91,7 @@ class ApiKeyManagerNotifier extends StateNotifier<ApiKeyManagerState> {
   }
 }
 
-StateNotifierProvider<ApiKeyManagerNotifier, ApiKeyManagerState>
-getApiKeyManagerProvider() =>
+StateNotifierProvider<ApiKeyManagerNotifier, ApiKeyManagerState> getApiKeyManagerProvider() =>
     StateNotifierProvider<ApiKeyManagerNotifier, ApiKeyManagerState>((ref) {
       return ApiKeyManagerNotifier(getIt<ApiKeysService>());
     });

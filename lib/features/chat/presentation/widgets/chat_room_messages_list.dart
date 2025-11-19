@@ -8,12 +8,7 @@ import 'package:parlo/features/chat/presentation/widgets/chat_room_day_separator
 import 'package:parlo/features/chat/presentation/widgets/chat_room_text_message_bubble.dart';
 
 class MessageEntitiesList extends StatelessWidget {
-  const MessageEntitiesList({
-    super.key,
-    required this.state,
-    required this.notifier,
-    required this.conversationId,
-  });
+  const MessageEntitiesList({super.key, required this.state, required this.notifier, required this.conversationId});
 
   final ChatRoomState state;
   final ChatRoomNotifier notifier;
@@ -25,9 +20,7 @@ class MessageEntitiesList extends StatelessWidget {
 
     return NotificationListener<ScrollNotification>(
       onNotification: (ScrollNotification notification) {
-        final bool isNearTop =
-            notification.metrics.pixels <=
-            notification.metrics.minScrollExtent + 24;
+        final bool isNearTop = notification.metrics.pixels <= notification.metrics.minScrollExtent + 24;
         if (isNearTop && !state.isLoading) {
           notifier.loadNextMessages(conversationId);
         }
@@ -50,9 +43,7 @@ class MessageEntitiesList extends StatelessWidget {
           return entry.map(
             message:
                 (MessageEntity message) => switch (message.type) {
-                  ChatMessageType.text => ChatRoomTextMessageBubble(
-                    message: message,
-                  ),
+                  ChatMessageType.text => ChatRoomTextMessageBubble(message: message),
                   ChatMessageType.audio => ChatRoomAudioMessageBubble(
                     message: message,
                     onTogglePlayback: () {
@@ -73,11 +64,7 @@ class MessageEntitiesList extends StatelessWidget {
     final List<_ChatListEntry> entries = [];
     DateTime? previousDate;
     for (final MessageEntity message in items) {
-      final DateTime date = DateTime(
-        message.timestamp.year,
-        message.timestamp.month,
-        message.timestamp.day,
-      );
+      final DateTime date = DateTime(message.timestamp.year, message.timestamp.month, message.timestamp.day);
       if (previousDate == null || date.isAfter(previousDate)) {
         entries.add(_ChatListEntry.separator(_resolveLabel(message.timestamp)));
         previousDate = date;
@@ -91,11 +78,7 @@ class MessageEntitiesList extends StatelessWidget {
     final DateTime now = DateTime.now();
     final DateTime today = DateTime(now.year, now.month, now.day);
     final DateTime yesterday = today.subtract(const Duration(days: 1));
-    final DateTime date = DateTime(
-      timestamp.year,
-      timestamp.month,
-      timestamp.day,
-    );
+    final DateTime date = DateTime(timestamp.year, timestamp.month, timestamp.day);
 
     if (date == today) return 'TODAY';
     if (date == yesterday) return 'YESTERDAY';
@@ -107,19 +90,14 @@ class MessageEntitiesList extends StatelessWidget {
 class _ChatListEntry {
   const _ChatListEntry._(this._message, this._label);
 
-  factory _ChatListEntry.message(MessageEntity message) =>
-      _ChatListEntry._(message, null);
+  factory _ChatListEntry.message(MessageEntity message) => _ChatListEntry._(message, null);
 
-  factory _ChatListEntry.separator(String label) =>
-      _ChatListEntry._(null, label);
+  factory _ChatListEntry.separator(String label) => _ChatListEntry._(null, label);
 
   final MessageEntity? _message;
   final String? _label;
 
-  T map<T>({
-    required T Function(MessageEntity message) message,
-    required T Function(String label) separator,
-  }) {
+  T map<T>({required T Function(MessageEntity message) message, required T Function(String label) separator}) {
     if (_message != null) {
       return message(_message);
     }

@@ -10,8 +10,7 @@ class ApiKeysLocalDataSource {
   ApiKeysLocalDataSource(this._secureStorage);
 
   Future<List<ApiKeyModel>> getAllApiKeys() async {
-    if (await _secureStorage.containsKey(key: _apiKeysStorageKey) == false)
-      return [];
+    if (await _secureStorage.containsKey(key: _apiKeysStorageKey) == false) return [];
     final jsonString = await _secureStorage.read(key: _apiKeysStorageKey);
     if (jsonString != null) {
       final List<dynamic> jsonList = json.decode(jsonString);

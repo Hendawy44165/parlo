@@ -5,9 +5,7 @@ class AuthFieldsValidatorService {
   }
 
   static bool isValidPassword(String password) {
-    final passwordRegex = RegExp(
-      r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$',
-    );
+    final passwordRegex = RegExp(r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$');
     return passwordRegex.hasMatch(password);
   }
 

@@ -18,20 +18,14 @@ void main() {
   });
 
   group('ApiKeysLocalDataSource', () {
-    const tApiKeyModel = ApiKeyModel(
-      id: '1',
-      name: 'Test Key',
-      key: 'test_key',
-      isSelected: false,
-    );
+    const tApiKeyModel = ApiKeyModel(id: '1', name: 'Test Key', key: 'test_key', isSelected: false);
     final tApiKeysList = [tApiKeyModel];
     final tApiKeysJson = json.encode([tApiKeyModel.toJson()]);
 
     group('getAllApiKeys', () {
       test('should return an empty list when no keys are stored', () async {
         // Arrange
-        when(() => mockSecureStorage.containsKey(key: any(named: 'key')))
-            .thenAnswer((_) async => false);
+        when(() => mockSecureStorage.containsKey(key: any(named: 'key'))).thenAnswer((_) async => false);
         // Act
         final result = await dataSource.getAllApiKeys();
         // Assert
@@ -40,10 +34,8 @@ void main() {
 
       test('should return list of ApiKeyModel when keys are stored', () async {
         // Arrange
-        when(() => mockSecureStorage.containsKey(key: any(named: 'key')))
-            .thenAnswer((_) async => true);
-        when(() => mockSecureStorage.read(key: any(named: 'key')))
-            .thenAnswer((_) async => tApiKeysJson);
+        when(() => mockSecureStorage.containsKey(key: any(named: 'key'))).thenAnswer((_) async => true);
+        when(() => mockSecureStorage.read(key: any(named: 'key'))).thenAnswer((_) async => tApiKeysJson);
         // Act
         final result = await dataSource.getAllApiKeys();
         // Assert
@@ -54,8 +46,9 @@ void main() {
     group('saveApiKeys', () {
       test('should call FlutterSecureStorage.write with the correct data', () async {
         // Arrange
-        when(() => mockSecureStorage.write(key: any(named: 'key'), value: any(named: 'value')))
-            .thenAnswer((_) async => {});
+        when(
+          () => mockSecureStorage.write(key: any(named: 'key'), value: any(named: 'value')),
+        ).thenAnswer((_) async => {});
         // Act
         await dataSource.saveApiKeys(tApiKeysList);
         // Assert

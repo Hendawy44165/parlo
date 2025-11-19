@@ -13,8 +13,7 @@ import 'package:parlo/features/chat/presentation/widgets/new_chat_dialog.dart';
 class ChatsScreen extends ConsumerWidget {
   ChatsScreen({super.key});
 
-  final StateNotifierProvider<ChatNotifier, ChatState> chatProvider =
-      getChatProvider();
+  final StateNotifierProvider<ChatNotifier, ChatState> chatProvider = getChatProvider();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,32 +24,22 @@ class ChatsScreen extends ConsumerWidget {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         notifier.getChats();
       });
-      return const Center(
-        child: CircularProgressIndicator(color: ColorsManager.primaryPurple),
-      );
+      return const Center(child: CircularProgressIndicator(color: ColorsManager.primaryPurple));
     } else if (state.isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(color: ColorsManager.primaryPurple),
-      );
+      return const Center(child: CircularProgressIndicator(color: ColorsManager.primaryPurple));
     }
 
     if (state.code == Codes.chatCreated) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushNamed(
-          Routes.chatRoom,
-          arguments: {'conversationId': state.extraData as String},
-        );
+        Navigator.of(context).pushNamed(Routes.chatRoom, arguments: {'conversationId': state.extraData as String});
       });
     }
 
     if (state.isError) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: ColorsManager.red,
-            content: Text(state.error ?? 'An error occurred'),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(backgroundColor: ColorsManager.red, content: Text(state.error ?? 'An error occurred')));
         notifier.setToDefaultState();
       });
     }
@@ -85,20 +74,13 @@ class ChatsScreen extends ConsumerWidget {
           onPressed: () {
             Navigator.of(context).pushNamed(Routes.settings);
           },
-          icon: const Icon(
-            Icons.settings,
-            color: ColorsManager.white,
-            size: 28,
-          ),
+          icon: const Icon(Icons.settings, color: ColorsManager.white, size: 28),
         ),
       ],
     );
   }
 
-  Widget _buildFloatingActionButton(
-    BuildContext context,
-    ChatNotifier notifier,
-  ) {
+  Widget _buildFloatingActionButton(BuildContext context, ChatNotifier notifier) {
     return FloatingActionButton(
       onPressed: () => _showNewChatDialog(context, notifier),
 
@@ -108,11 +90,7 @@ class ChatsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildChatList(
-    BuildContext context,
-    ChatState state,
-    ChatNotifier notifier,
-  ) {
+  Widget _buildChatList(BuildContext context, ChatState state, ChatNotifier notifier) {
     if (state.chats.isEmpty) {
       return Expanded(
         child: Center(
@@ -122,10 +100,7 @@ class ChatsScreen extends ConsumerWidget {
               Text('No chats available.', style: TextStyleManager.white14Bold),
               GestureDetector(
                 onTap: () => _showNewChatDialog(context, notifier),
-                child: Text(
-                  'Create a new chat!',
-                  style: TextStyleManager.primaryPurple14Bold,
-                ),
+                child: Text('Create a new chat!', style: TextStyleManager.primaryPurple14Bold),
               ),
             ],
           ),
@@ -139,10 +114,7 @@ class ChatsScreen extends ConsumerWidget {
           final chat = state.chats[index];
           return GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed(
-                Routes.chatRoom,
-                arguments: {'conversationId': chat.conversationId},
-              );
+              Navigator.of(context).pushNamed(Routes.chatRoom, arguments: {'conversationId': chat.conversationId});
             },
             child: ChatEntry(
               username: chat.username,

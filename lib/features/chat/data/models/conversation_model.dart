@@ -6,12 +6,7 @@ class ConversationModel {
   final DateTime createdAt;
   final DateTime? deletedAt;
 
-  ConversationModel({
-    required this.id,
-    this.lastMessageId,
-    required this.createdAt,
-    this.deletedAt,
-  });
+  ConversationModel({required this.id, this.lastMessageId, required this.createdAt, this.deletedAt});
 
   Map<String, dynamic> toMap() {
     return {
@@ -27,22 +22,15 @@ class ConversationModel {
       id: map['id'] ?? '',
       lastMessageId: map['last_message_id'],
       createdAt: DateTime.parse(map['created_at']),
-      deletedAt:
-          map['deleted_at'] != null ? DateTime.parse(map['deleted_at']) : null,
+      deletedAt: map['deleted_at'] != null ? DateTime.parse(map['deleted_at']) : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ConversationModel.fromJson(String source) =>
-      ConversationModel.fromMap(json.decode(source));
+  factory ConversationModel.fromJson(String source) => ConversationModel.fromMap(json.decode(source));
 
-  ConversationModel copyWith({
-    String? id,
-    String? lastMessageId,
-    DateTime? createdAt,
-    DateTime? deletedAt,
-  }) {
+  ConversationModel copyWith({String? id, String? lastMessageId, DateTime? createdAt, DateTime? deletedAt}) {
     return ConversationModel(
       id: id ?? this.id,
       lastMessageId: lastMessageId ?? this.lastMessageId,
@@ -69,9 +57,6 @@ class ConversationModel {
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        lastMessageId.hashCode ^
-        createdAt.hashCode ^
-        deletedAt.hashCode;
+    return id.hashCode ^ lastMessageId.hashCode ^ createdAt.hashCode ^ deletedAt.hashCode;
   }
 }

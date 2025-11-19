@@ -12,16 +12,10 @@ void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Supabase.initialize(
-    url: AuthService.supabaseUrl,
-    anonKey: AuthService.anonkey,
-  );
+  await Supabase.initialize(url: AuthService.supabaseUrl, anonKey: AuthService.anonkey);
   setupDependencies();
   SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: ColorsManager.black,
-      statusBarIconBrightness: Brightness.light,
-    ),
+    SystemUiOverlayStyle(statusBarColor: ColorsManager.black, statusBarIconBrightness: Brightness.light),
   );
   FlutterNativeSplash.remove();
 

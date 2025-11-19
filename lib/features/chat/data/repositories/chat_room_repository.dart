@@ -4,21 +4,13 @@ import 'package:parlo/features/chat/data/models/message_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ChatRoomRepository {
-  ChatRoomRepository({
-    required this.onlineDataSource,
-    required this.offlineDataSource,
-    required this.supabase,
-  });
+  ChatRoomRepository({required this.onlineDataSource, required this.offlineDataSource, required this.supabase});
 
   final OnlineChatRoomDatasource onlineDataSource;
   final OfflineChatRoomDatasource offlineDataSource;
   final SupabaseClient supabase;
 
-  Future<List<MessageModel>> getMessages(
-    String conversationId, {
-    int start = 0,
-    int end = 5,
-  }) async {
+  Future<List<MessageModel>> getMessages(String conversationId, {int start = 0, int end = 5}) async {
     // TODO: final app will only fetch from offline due to e2ee
     final messageModels = <MessageModel>[];
     final messages = await supabase

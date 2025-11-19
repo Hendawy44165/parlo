@@ -109,4 +109,7 @@ enum Codes {
   otpResentSuccessfully,
   couldNotGetOtherUsername,
   couldNotGetOtherAvatarUrl,
+  couldNotSubscribeToNewConversations,
+  couldNotGetConversationInfo,
+  couldNotSubscribeToConversationChanges,
 }

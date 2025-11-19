@@ -21,8 +21,7 @@ class AuthService {
 
   //! Methods
   Future<ResponseModel<void>> signInWithGoogle() async {
-    const webClientId =
-        '954144225523-45b2ak2gqf27rc3gtrt3hsrlo65qcilh.apps.googleusercontent.com';
+    const webClientId = '954144225523-45b2ak2gqf27rc3gtrt3hsrlo65qcilh.apps.googleusercontent.com';
 
     try {
       await GoogleSignIn.instance.initialize(serverClientId: webClientId);
@@ -36,8 +35,7 @@ class AuthService {
         );
       }
 
-      final authorization = await googleUser.authorizationClient
-          .authorizeScopes(['email', 'profile']);
+      final authorization = await googleUser.authorizationClient.authorizeScopes(['email', 'profile']);
       final accessToken = authorization.accessToken;
 
       final response = await Supabase.instance.client.auth.signInWithIdToken(
@@ -51,10 +49,7 @@ class AuthService {
       final code = ErrorHandlingService.getErrorCode(e.code!);
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
-      return ResponseModel.failure(
-        Codes.googleSignInFailed,
-        ErrorHandlingService.getMessage(Codes.googleSignInFailed),
-      );
+      return ResponseModel.failure(Codes.googleSignInFailed, ErrorHandlingService.getMessage(Codes.googleSignInFailed));
     }
   }
 
@@ -69,42 +64,27 @@ class AuthService {
         password: password,
         data: {'username': username},
       );
-      return ResponseModel.success(
-        "Sign-up successful. Please verify your email.",
-      );
+      return ResponseModel.success("Sign-up successful. Please verify your email.");
     } on AuthException catch (e) {
       final code = ErrorHandlingService.getErrorCode(e.code!);
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
-      return ResponseModel.failure(
-        Codes.unknown,
-        ErrorHandlingService.getMessage(Codes.unknown),
-      );
+      return ResponseModel.failure(Codes.unknown, ErrorHandlingService.getMessage(Codes.unknown));
     }
   }
 
-  Future<ResponseModel> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<ResponseModel> login({required String email, required String password}) async {
     try {
-      final AuthResponse supabaseResponse = await _supabase.auth
-          .signInWithPassword(email: email, password: password);
+      final AuthResponse supabaseResponse = await _supabase.auth.signInWithPassword(email: email, password: password);
       if (supabaseResponse.user == null) {
-        return ResponseModel.failure(
-          Codes.userNotFound,
-          ErrorHandlingService.getMessage(Codes.userNotFound),
-        );
+        return ResponseModel.failure(Codes.userNotFound, ErrorHandlingService.getMessage(Codes.userNotFound));
       }
       return ResponseModel.success(supabaseResponse.user);
     } on AuthException catch (e) {
       final code = ErrorHandlingService.getErrorCode(e.code!);
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
-      return ResponseModel.failure(
-        Codes.unknown,
-        ErrorHandlingService.getMessage(Codes.unknown),
-      );
+      return ResponseModel.failure(Codes.unknown, ErrorHandlingService.getMessage(Codes.unknown));
     }
   }
 
@@ -120,10 +100,7 @@ class AuthService {
       final code = ErrorHandlingService.getErrorCode(e.code!);
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
-      return ResponseModel.failure(
-        Codes.unknown,
-        ErrorHandlingService.getMessage(Codes.unknown),
-      );
+      return ResponseModel.failure(Codes.unknown, ErrorHandlingService.getMessage(Codes.unknown));
     }
   }
 
@@ -131,10 +108,7 @@ class AuthService {
     try {
       final isEmailRegistered = await _isEmailRegistered(email);
       if (!isEmailRegistered) {
-        return ResponseModel.failure(
-          Codes.userNotFound,
-          ErrorHandlingService.getMessage(Codes.userNotFound),
-        );
+        return ResponseModel.failure(Codes.userNotFound, ErrorHandlingService.getMessage(Codes.userNotFound));
       }
       await _supabase.auth.resetPasswordForEmail(email);
       return ResponseModel.success("Reset password sent to $email");
@@ -142,10 +116,7 @@ class AuthService {
       final code = ErrorHandlingService.getErrorCode(e.code!);
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
-      return ResponseModel.failure(
-        Codes.unknown,
-        ErrorHandlingService.getMessage(Codes.unknown),
-      );
+      return ResponseModel.failure(Codes.unknown, ErrorHandlingService.getMessage(Codes.unknown));
     }
   }
 
@@ -153,52 +124,34 @@ class AuthService {
     final supabase = Supabase.instance.client;
 
     try {
-      final res = await supabase.auth.verifyOTP(
-        type: OtpType.recovery,
-        token: otp,
-        email: email,
-      );
+      final res = await supabase.auth.verifyOTP(type: OtpType.recovery, token: otp, email: email);
       if (res.session != null) {
         return ResponseModel.success(null);
       } else {
-        return ResponseModel.failure(
-          Codes.otpExpired,
-          ErrorHandlingService.getMessage(Codes.otpExpired),
-        );
+        return ResponseModel.failure(Codes.otpExpired, ErrorHandlingService.getMessage(Codes.otpExpired));
       }
     } on AuthException catch (e) {
       final code = ErrorHandlingService.getErrorCode(e.code!);
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
-      return ResponseModel.failure(
-        Codes.unknown,
-        ErrorHandlingService.getMessage(Codes.unknown),
-      );
+      return ResponseModel.failure(Codes.unknown, ErrorHandlingService.getMessage(Codes.unknown));
     }
   }
 
   Future<ResponseModel> updatePassword(String newPassword) async {
     try {
-      final UserResponse user = await _supabase.auth.updateUser(
-        UserAttributes(password: newPassword),
-      );
+      final UserResponse user = await _supabase.auth.updateUser(UserAttributes(password: newPassword));
 
       return ResponseModel.success(user);
     } on AuthException catch (e) {
       final code = ErrorHandlingService.getErrorCode(e.code!);
       return ResponseModel.failure(code, ErrorHandlingService.getMessage(code));
     } catch (e) {
-      return ResponseModel.failure(
-        Codes.unknown,
-        ErrorHandlingService.getMessage(Codes.unknown),
-      );
+      return ResponseModel.failure(Codes.unknown, ErrorHandlingService.getMessage(Codes.unknown));
     }
   }
 
-  Future<ResponseModel> verifyAccount({
-    required String email,
-    required String token,
-  }) async {
+  Future<ResponseModel> verifyAccount({required String email, required String token}) async {
     throw UnimplementedError();
   }
 
@@ -215,12 +168,7 @@ class AuthService {
   }
 
   Future<bool> _isEmailRegistered(String email) async {
-    final response =
-        await _supabase
-            .from('users')
-            .select('email')
-            .eq('email', email)
-            .maybeSingle();
+    final response = await _supabase.from('users').select('email').eq('email', email).maybeSingle();
 
     return response == null ? false : true;
   }

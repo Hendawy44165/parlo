@@ -3,10 +3,7 @@ import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
 
 class ChatRoomDaySeparator extends StatelessWidget {
-  const ChatRoomDaySeparator({
-    super.key,
-    required this.label,
-  });
+  const ChatRoomDaySeparator({super.key, required this.label});
 
   final String label;
 
@@ -17,10 +14,7 @@ class ChatRoomDaySeparator extends StatelessWidget {
       child: Center(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: ColorsManager.lightNavyBlue,
-            borderRadius: BorderRadius.circular(14),
-          ),
+          decoration: BoxDecoration(color: ColorsManager.lightNavyBlue, borderRadius: BorderRadius.circular(14)),
           child: Text(label, style: TextStyleManager.white12Bold),
         ),
       ),

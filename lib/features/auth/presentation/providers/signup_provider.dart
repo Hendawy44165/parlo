@@ -4,12 +4,10 @@ import 'package:parlo/core/dependency_injection.dart';
 import 'package:parlo/features/auth/logic/services/auth_fields_validator_service.dart';
 import 'package:parlo/features/auth/logic/services/auth_service.dart';
 import 'package:parlo/core/enums/provider_state_enum.dart';
-import 'package:parlo/features/auth/presentation/providers/auth_state.dart'
-    as m_auth_state;
+import 'package:parlo/features/auth/presentation/providers/auth_state.dart' as m_auth_state;
 
 class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
-  SignupNotifier(this._service)
-    : super(const m_auth_state.AuthState(providerState: ProviderState.initial));
+  SignupNotifier(this._service) : super(const m_auth_state.AuthState(providerState: ProviderState.initial));
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -38,8 +36,7 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
     }
 
     if (!AuthFieldsValidatorService.isValidPassword(password)) {
-      _passwordErrorMessage =
-          'Password must be at least 8 characters and include uppercase, lowercase, and a number.';
+      _passwordErrorMessage = 'Password must be at least 8 characters and include uppercase, lowercase, and a number.';
       state = state.copyWith(providerState: ProviderState.initial);
       return;
     }
@@ -51,20 +48,12 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
       return;
     }
 
-    final response = await _service.signUp(
-      email: email,
-      password: password,
-      username: username,
-    );
+    final response = await _service.signUp(email: email, password: password, username: username);
 
     if (response.isSuccess) {
       state = state.copyWith(providerState: ProviderState.data);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
@@ -77,20 +66,12 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
     if (response.isSuccess) {
       state = state.copyWith(providerState: ProviderState.data, code: null);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
   void setToDefaultState() {
-    state = state.copyWith(
-      providerState: ProviderState.data,
-      code: null,
-      error: null,
-    );
+    state = state.copyWith(providerState: ProviderState.data, code: null, error: null);
   }
 
   //! private members
@@ -100,8 +81,5 @@ class SignupNotifier extends StateNotifier<m_auth_state.AuthState> {
   String? _usernameErrorMessage;
 }
 
-StateNotifierProvider<SignupNotifier, m_auth_state.AuthState>
-getSignupProvider() =>
-    StateNotifierProvider<SignupNotifier, m_auth_state.AuthState>(
-      (ref) => SignupNotifier(getIt<AuthService>()),
-    );
+StateNotifierProvider<SignupNotifier, m_auth_state.AuthState> getSignupProvider() =>
+    StateNotifierProvider<SignupNotifier, m_auth_state.AuthState>((ref) => SignupNotifier(getIt<AuthService>()));

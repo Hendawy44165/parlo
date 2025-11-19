@@ -31,24 +31,14 @@ class ChatEntry extends StatelessWidget {
       leading: CircleAvatar(
         radius: 28,
         backgroundColor: Colors.white24,
-        backgroundImage:
-            profileImageUrl != null ? NetworkImage(profileImageUrl!) : null,
-        child:
-            profileImageUrl == null
-                ? const Icon(Icons.person, color: Colors.white, size: 30)
-                : null,
+        backgroundImage: profileImageUrl != null ? NetworkImage(profileImageUrl!) : null,
+        child: profileImageUrl == null ? const Icon(Icons.person, color: Colors.white, size: 30) : null,
       ),
       title: Text(username, style: TextStyleManager.white16Bold),
       subtitle: Row(
         children: [
-          if (status != null) ...[
-            _buildStatusIcon(status!, ColorsManager.lightGray),
-            const SizedBox(width: 4),
-          ],
-          if (isAudio) ...[
-            const Icon(Icons.mic, color: ColorsManager.lightGray, size: 18),
-            const SizedBox(width: 4),
-          ],
+          if (status != null) ...[_buildStatusIcon(status!, ColorsManager.lightGray), const SizedBox(width: 4)],
+          if (isAudio) ...[const Icon(Icons.mic, color: ColorsManager.lightGray, size: 18), const SizedBox(width: 4)],
           Expanded(
             child: Text(
               lastMessage,
@@ -63,25 +53,16 @@ class ChatEntry extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
-            TimeService.formatMessageTime(time),
-            style: TextStyleManager.dimmed12Regular,
-          ),
+          Text(TimeService.formatMessageTime(time), style: TextStyleManager.dimmed12Regular),
           const SizedBox(height: 6),
           if (unreadCount > 0)
             Container(
               height: 22,
               width: unreadCount < 10 ? 22 : 38,
               padding: const EdgeInsets.symmetric(horizontal: 7),
-              decoration: BoxDecoration(
-                color: ColorsManager.primaryPurple,
-                borderRadius: BorderRadius.circular(100),
-              ),
+              decoration: BoxDecoration(color: ColorsManager.primaryPurple, borderRadius: BorderRadius.circular(100)),
               child: Center(
-                child: Text(
-                  unreadCount < 100 ? '$unreadCount' : '99+',
-                  style: TextStyleManager.white12Bold,
-                ),
+                child: Text(unreadCount < 100 ? '$unreadCount' : '99+', style: TextStyleManager.white12Bold),
               ),
             )
           else
@@ -101,11 +82,7 @@ class ChatEntry extends StatelessWidget {
         iconData = Icons.done_all;
         break;
       case MessageStatus.read:
-        return Icon(
-          Icons.done_all,
-          size: 18,
-          color: ColorsManager.primaryPurple,
-        );
+        return Icon(Icons.done_all, size: 18, color: ColorsManager.primaryPurple);
       case MessageStatus.received:
         return const SizedBox.shrink();
     }

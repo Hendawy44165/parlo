@@ -31,13 +31,7 @@ class ApiKeyItem extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color:
-                      isSelected
-                          ? ColorsManager.primaryPurple
-                          : ColorsManager.white,
-                  width: 2,
-                ),
+                border: Border.all(color: isSelected ? ColorsManager.primaryPurple : ColorsManager.white, width: 2),
                 color: Colors.transparent,
               ),
               child:
@@ -46,10 +40,7 @@ class ApiKeyItem extends StatelessWidget {
                         child: Container(
                           width: 8,
                           height: 8,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ColorsManager.primaryPurple,
-                          ),
+                          decoration: const BoxDecoration(shape: BoxShape.circle, color: ColorsManager.primaryPurple),
                         ),
                       )
                       : null,
@@ -57,9 +48,7 @@ class ApiKeyItem extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           // Key name
-          Expanded(
-            child: Text(keyName, style: TextStyleManager.white16Regular),
-          ),
+          Expanded(child: Text(keyName, style: TextStyleManager.white16Regular)),
           // Delete button
           GestureDetector(
             onTap: onDelete,

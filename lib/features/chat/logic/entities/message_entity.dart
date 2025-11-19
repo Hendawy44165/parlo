@@ -44,14 +44,8 @@ class MessageEntity {
   }
 
   factory MessageEntity.fromModel(MessageModel model, bool isMine) {
-    final type =
-        model.audioLength == null
-            ? ChatMessageType.text
-            : ChatMessageType.audio;
-    final audioDuration =
-        model.audioLength != null
-            ? Duration(seconds: model.audioLength!)
-            : null;
+    final type = model.audioLength == null ? ChatMessageType.text : ChatMessageType.audio;
+    final audioDuration = model.audioLength != null ? Duration(seconds: model.audioLength!) : null;
     final String text = model.text ?? model.audioLength as String;
 
     return MessageEntity(

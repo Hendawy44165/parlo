@@ -4,11 +4,7 @@ import 'package:parlo/core/themes/text.dart';
 import 'package:parlo/features/chat/presentation/providers/chat_room_provider.dart';
 
 class ChatRoomInputBar extends StatefulWidget {
-  const ChatRoomInputBar({
-    super.key,
-    required this.notifier,
-    required this.conversationId,
-  });
+  const ChatRoomInputBar({super.key, required this.notifier, required this.conversationId});
 
   final ChatRoomNotifier notifier;
   final String conversationId;
@@ -17,8 +13,7 @@ class ChatRoomInputBar extends StatefulWidget {
   State<ChatRoomInputBar> createState() => _ChatRoomInputBarState();
 }
 
-class _ChatRoomInputBarState extends State<ChatRoomInputBar>
-    with SingleTickerProviderStateMixin {
+class _ChatRoomInputBarState extends State<ChatRoomInputBar> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _sendScaleAnimation;
   late final Animation<double> _sendFadeAnimation;
@@ -92,10 +87,7 @@ class _ChatRoomInputBarState extends State<ChatRoomInputBar>
     super.initState();
     _messageController = widget.notifier.messageController;
     _messageController.addListener(_handleMessageControllerChange);
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
     _sendScaleAnimation = Tween<double>(
       begin: 0.7,
       end: 1,
@@ -119,12 +111,9 @@ class _ChatRoomInputBarState extends State<ChatRoomInputBar>
   void didUpdateWidget(ChatRoomInputBar oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.notifier.messageController.text.isNotEmpty &&
-        !_controller.isAnimating &&
-        !_controller.isCompleted) {
+    if (widget.notifier.messageController.text.isNotEmpty && !_controller.isAnimating && !_controller.isCompleted) {
       _controller.forward();
-    } else if (widget.notifier.messageController.text.isEmpty &&
-        _controller.isCompleted) {
+    } else if (widget.notifier.messageController.text.isEmpty && _controller.isCompleted) {
       _controller.reverse();
     }
   }
@@ -142,13 +131,11 @@ class _ChatRoomInputBarState extends State<ChatRoomInputBar>
     }
     final hasText = _messageController.text.isNotEmpty;
     if (hasText) {
-      if (_controller.status != AnimationStatus.forward &&
-          _controller.status != AnimationStatus.completed) {
+      if (_controller.status != AnimationStatus.forward && _controller.status != AnimationStatus.completed) {
         _controller.forward();
       }
     } else {
-      if (_controller.status != AnimationStatus.reverse &&
-          _controller.status != AnimationStatus.dismissed) {
+      if (_controller.status != AnimationStatus.reverse && _controller.status != AnimationStatus.dismissed) {
         _controller.reverse();
       }
     }
@@ -173,10 +160,7 @@ class _ChatRoomInputBarState extends State<ChatRoomInputBar>
       },
       child: ScaleTransition(
         scale: _sendScaleAnimation,
-        child: FadeTransition(
-          opacity: _sendFadeAnimation,
-          child: _buildSendButton(widget.notifier),
-        ),
+        child: FadeTransition(opacity: _sendFadeAnimation, child: _buildSendButton(widget.notifier)),
       ),
     );
   }
@@ -206,15 +190,8 @@ class _FloatingAudioHintButton extends StatelessWidget {
     return Container(
       height: 40,
       width: 40,
-      decoration: const BoxDecoration(
-        color: ColorsManager.lightNavyBlue,
-        shape: BoxShape.circle,
-      ),
-      child: const Icon(
-        Icons.multitrack_audio,
-        color: ColorsManager.white,
-        size: 28,
-      ),
+      decoration: const BoxDecoration(color: ColorsManager.lightNavyBlue, shape: BoxShape.circle),
+      child: const Icon(Icons.multitrack_audio, color: ColorsManager.white, size: 28),
     );
   }
 }

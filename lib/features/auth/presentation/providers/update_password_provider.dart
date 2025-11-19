@@ -5,16 +5,13 @@ import 'package:parlo/core/enums/codes_enum.dart';
 import 'package:parlo/core/enums/provider_state_enum.dart';
 import 'package:parlo/features/auth/logic/services/auth_fields_validator_service.dart';
 import 'package:parlo/features/auth/logic/services/auth_service.dart';
-import 'package:parlo/features/auth/presentation/providers/auth_state.dart'
-    as m_auth_state;
+import 'package:parlo/features/auth/presentation/providers/auth_state.dart' as m_auth_state;
 
 class UpdatePasswordNotifier extends StateNotifier<m_auth_state.AuthState> {
-  UpdatePasswordNotifier(this._service)
-    : super(const m_auth_state.AuthState(providerState: ProviderState.initial));
+  UpdatePasswordNotifier(this._service) : super(const m_auth_state.AuthState(providerState: ProviderState.initial));
 
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   String? get newPasswordErrorMessage => _newPasswordErrorMessage;
   String? get confirmPasswordErrorMessage => _confirmPasswordErrorMessage;
 
@@ -43,16 +40,9 @@ class UpdatePasswordNotifier extends StateNotifier<m_auth_state.AuthState> {
 
     final response = await _service.updatePassword(newPassword);
     if (response.isSuccess) {
-      state = state.copyWith(
-        providerState: ProviderState.data,
-        code: Codes.passwordUpdatedSuccessfully,
-      );
+      state = state.copyWith(providerState: ProviderState.data, code: Codes.passwordUpdatedSuccessfully);
     } else {
-      state = state.copyWith(
-        providerState: ProviderState.error,
-        code: response.errorCode,
-        error: response.error,
-      );
+      state = state.copyWith(providerState: ProviderState.error, code: response.errorCode, error: response.error);
     }
   }
 
@@ -61,11 +51,7 @@ class UpdatePasswordNotifier extends StateNotifier<m_auth_state.AuthState> {
   }
 
   void setToDefaultState() {
-    state = state.copyWith(
-      providerState: ProviderState.data,
-      code: null,
-      error: null,
-    );
+    state = state.copyWith(providerState: ProviderState.data, code: null, error: null);
   }
 
   @override
@@ -81,8 +67,7 @@ class UpdatePasswordNotifier extends StateNotifier<m_auth_state.AuthState> {
   String? _confirmPasswordErrorMessage;
 }
 
-StateNotifierProvider<UpdatePasswordNotifier, m_auth_state.AuthState>
-getUpdatePasswordProvider() =>
+StateNotifierProvider<UpdatePasswordNotifier, m_auth_state.AuthState> getUpdatePasswordProvider() =>
     StateNotifierProvider<UpdatePasswordNotifier, m_auth_state.AuthState>(
       (ref) => UpdatePasswordNotifier(getIt<AuthService>()),
     );

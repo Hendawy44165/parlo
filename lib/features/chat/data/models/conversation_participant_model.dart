@@ -38,8 +38,7 @@ class ConversationParticipantModel {
       unreadCount: map['unread_count']?.toInt() ?? 0,
       createdAt: DateTime.parse(map['created_at']),
       isBlocked: map['is_blocked'] ?? false,
-      lastOpen:
-          map['last_open'] != null ? DateTime.parse(map['last_open']) : null,
+      lastOpen: map['last_open'] != null ? DateTime.parse(map['last_open']) : null,
       conversationId: map['conversation_id'] ?? '',
     );
   }

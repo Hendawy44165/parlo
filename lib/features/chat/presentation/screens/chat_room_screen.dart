@@ -13,8 +13,7 @@ class ChatRoomScreen extends ConsumerWidget {
 
   final String conversationId;
 
-  final StateNotifierProvider<ChatRoomNotifier, ChatRoomState>
-  chatRoomProvider = getChatRoomProvider();
+  final StateNotifierProvider<ChatRoomNotifier, ChatRoomState> chatRoomProvider = getChatRoomProvider();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,11 +40,7 @@ class ChatRoomScreen extends ConsumerWidget {
             Expanded(
               child:
                   state.isLoading && state.messages.isEmpty
-                      ? const Center(
-                        child: CircularProgressIndicator(
-                          color: ColorsManager.primaryPurple,
-                        ),
-                      )
+                      ? const Center(child: CircularProgressIndicator(color: ColorsManager.primaryPurple))
                       : _buildMessages(state, notifier),
             ),
             _buildInputBar(notifier),
@@ -69,21 +64,13 @@ class ChatRoomScreen extends ConsumerWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                color: ColorsManager.white,
-                size: 20,
-              ),
+              icon: const Icon(Icons.arrow_back_ios_new, color: ColorsManager.white, size: 20),
             ),
             CircleAvatar(
               radius: 22,
               backgroundColor: ColorsManager.lightNavyBlue,
-              backgroundImage:
-                  avatarUrl != null ? NetworkImage(avatarUrl) : null,
-              child:
-                  avatarUrl == null
-                      ? const Icon(Icons.person, color: ColorsManager.white)
-                      : null,
+              backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
+              child: avatarUrl == null ? const Icon(Icons.person, color: ColorsManager.white) : null,
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -97,10 +84,7 @@ class ChatRoomScreen extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    isOnline ? 'Online' : 'Offline',
-                    style: TextStyleManager.dimmed12Regular,
-                  ),
+                  Text(isOnline ? 'Online' : 'Offline', style: TextStyleManager.dimmed12Regular),
                 ],
               ),
             ),
@@ -113,11 +97,7 @@ class ChatRoomScreen extends ConsumerWidget {
   }
 
   Widget _buildMessages(ChatRoomState state, ChatRoomNotifier notifier) {
-    return MessageEntitiesList(
-      state: state,
-      notifier: notifier,
-      conversationId: conversationId,
-    );
+    return MessageEntitiesList(state: state, notifier: notifier, conversationId: conversationId);
   }
 
   Widget _buildInputBar(ChatRoomNotifier notifier) {

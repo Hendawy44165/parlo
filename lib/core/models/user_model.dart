@@ -39,13 +39,11 @@ class UserModel {
       coinsBalance: map['coins_balance']?.toInt() ?? 0,
       createdAt: DateTime.parse(map['created_at']),
       updatedAt: DateTime.parse(map['updated_at']),
-      lastSeen:
-          map['last_seen'] != null ? DateTime.parse(map['last_seen']) : null,
+      lastSeen: map['last_seen'] != null ? DateTime.parse(map['last_seen']) : null,
       identityPublicKey: map['identity_public_key'],
       signedIdentityPublicKey: map['signed_identity_public_key'],
     );
   }
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source));
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source));
 }
