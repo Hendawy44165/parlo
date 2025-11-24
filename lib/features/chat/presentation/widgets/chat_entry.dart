@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:parlo/core/enums/message_status_enum.dart';
 import 'package:parlo/core/services/time_service.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
+import 'package:parlo/features/chat/presentation/providers/chat_state.dart';
+import 'package:parlo/features/chat/presentation/providers/chats_provider.dart';
 
-class ChatEntry extends StatelessWidget {
+class ChatEntry extends ConsumerWidget {
   const ChatEntry({
     super.key,
+    required this.provider,
+    required this.conversationId,
     required this.username,
     required this.lastMessage,
     required this.time,
@@ -16,6 +22,8 @@ class ChatEntry extends StatelessWidget {
     this.isAudio = false,
   });
 
+  final StateNotifierProvider<ChatNotifier, ChatState> provider;
+  final String conversationId;
   final String username;
   final String lastMessage;
   final DateTime time;
@@ -25,7 +33,9 @@ class ChatEntry extends StatelessWidget {
   final bool isAudio;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(provider.select((s) => s.chatsMap[conversationId]));
+
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       leading: CircleAvatar(

@@ -21,21 +21,27 @@ class ChatEntryRepository {
     return await onlineDataSource.getChatEntry(conversationId);
   }
 
-  Stream<String> listenToNewConversations() {
+  Stream<String> listenToConversationsChanges() {
     final StreamController<String> controller = StreamController.broadcast();
     final channel = supabase.channel(Supabase.instance.client.auth.currentUser!.id);
     channel
         .onBroadcast(
           event: 'conversation_participant_created',
           callback: (payload) {
-            controller.add(payload['conversation_id']);
+            controller.add(payload['payload']['conversation_id']);
+          },
+        )
+        .onBroadcast(
+          event: 'conversation_has_new_message',
+          callback: (payload) {
+            controller.add(payload['payload']['conversation_id']);
           },
         )
         .subscribe();
     return controller.stream;
   }
 
-  Stream<Map<String, dynamic>> listenToConversationChanges(String conversationId) {
+  Stream<Map<String, dynamic>> listenToNewMessages(String conversationId) {
     final StreamController<Map<String, dynamic>> controller = StreamController.broadcast();
     final channel = supabase.channel(conversationId);
     channel

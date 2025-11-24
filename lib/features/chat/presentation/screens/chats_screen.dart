@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:parlo/core/enums/codes_enum.dart';
+import 'package:parlo/core/enums/provider_state_enum.dart';
 import 'package:parlo/core/routing/routes.dart';
 import 'package:parlo/core/themes/color.dart';
 import 'package:parlo/core/themes/text.dart';
+import 'package:parlo/features/chat/logic/entities/chat_entry_entity.dart';
 import 'package:parlo/features/chat/presentation/providers/chat_state.dart';
 import 'package:parlo/features/chat/presentation/providers/chats_provider.dart';
 import 'package:parlo/features/chat/presentation/widgets/chat_entry.dart';
 import 'package:parlo/features/chat/presentation/widgets/chat_search_field.dart';
+import 'package:parlo/features/chat/presentation/widgets/chats_animated_list.dart';
 import 'package:parlo/features/chat/presentation/widgets/new_chat_dialog.dart';
 
 class ChatsScreen extends ConsumerWidget {
@@ -17,29 +20,37 @@ class ChatsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(chatProvider);
+    final chats = ref.watch(chatProvider.select((state) => state.chats));
+    final providerState = ref.watch(chatProvider.select((state) => state.providerState));
+    final animatingIndex = ref.watch(chatProvider.select((state) => state.animatingIndex));
+    final code = ref.watch(chatProvider.select((state) => state.code));
+    final extraData = ref.watch(chatProvider.select((state) => state.extraData));
+    final error = ref.watch(chatProvider.select((state) => state.error));
+    //! careful of updaing the chatsMap here because it will get triggered everywhere for no reason
+    final chatsMap = ref.watch(chatProvider.select((state) => state.chatsMap));
+
     final notifier = ref.read(chatProvider.notifier);
 
-    if (state.isInitial) {
+    if (providerState == ProviderState.initial) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         notifier.getChats();
       });
       return const Center(child: CircularProgressIndicator(color: ColorsManager.primaryPurple));
-    } else if (state.isLoading) {
+    } else if (providerState == ProviderState.loading) {
       return const Center(child: CircularProgressIndicator(color: ColorsManager.primaryPurple));
     }
 
-    if (state.code == Codes.chatCreated) {
+    if (code == Codes.chatCreated) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushNamed(Routes.chatRoom, arguments: {'conversationId': state.extraData as String});
+        Navigator.of(context).pushNamed(Routes.chatRoom, arguments: {'conversationId': extraData as String});
       });
     }
 
-    if (state.isError) {
+    if (providerState == ProviderState.error) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(backgroundColor: ColorsManager.red, content: Text(state.error ?? 'An error occurred')));
+        ).showSnackBar(SnackBar(backgroundColor: ColorsManager.red, content: Text(error ?? 'An error occurred')));
         notifier.setToDefaultState();
       });
     }
@@ -56,7 +67,7 @@ class ChatsScreen extends ConsumerWidget {
               const SizedBox(height: 24),
               ChatSearchField(controller: notifier.searchController),
               const SizedBox(height: 16),
-              _buildChatList(context, state, notifier),
+              _buildChatList(context, chats, providerState, animatingIndex, notifier, chatsMap),
             ],
           ),
         ),
@@ -90,8 +101,15 @@ class ChatsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildChatList(BuildContext context, ChatState state, ChatNotifier notifier) {
-    if (state.chats.isEmpty) {
+  Widget _buildChatList(
+    BuildContext context,
+    List<ChatEntryEntity> chats,
+    ProviderState providerState,
+    int? animatingIndex,
+    ChatNotifier notifier,
+    Map<String, ChatEntryEntity> chatsMap,
+  ) {
+    if (chats.isEmpty) {
       return Expanded(
         child: Center(
           child: Column(
@@ -107,16 +125,30 @@ class ChatsScreen extends ConsumerWidget {
         ),
       );
     }
+
+    if (providerState == ProviderState.animating) {
+      // TODO: allow chat animated list to accept only the needed info for clean code
+      final state = ChatState(
+        providerState: providerState,
+        chats: chats,
+        animatingIndex: animatingIndex,
+        chatsMap: chatsMap,
+      );
+      return Expanded(child: ChatsAnimatedList(provider: chatProvider, state: state, notifier: notifier));
+    }
+
     return Expanded(
       child: ListView.builder(
-        itemCount: state.chats.length,
+        itemCount: chats.length,
         itemBuilder: (context, index) {
-          final chat = state.chats[index];
+          final chat = chats[index];
           return GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(Routes.chatRoom, arguments: {'conversationId': chat.conversationId});
             },
             child: ChatEntry(
+              provider: chatProvider,
+              conversationId: chat.conversationId,
               username: chat.username,
               lastMessage: chat.lastMessage,
               time: chat.lastMessageTimestamp,

@@ -1,1 +1,1 @@
-enum ProviderState { initial, loading, data, error }
+enum ProviderState { initial, loading, data, error, animating }

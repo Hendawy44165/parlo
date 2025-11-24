@@ -53,11 +53,11 @@ class ChatService {
     throw UnimplementedError();
   }
 
-  ResponseModel<Stream<ResponseModel<ChatEntryEntity>>> listenToNewConversations() {
+  ResponseModel<Stream<ResponseModel<ChatEntryEntity>>> listenToConversationsChanges() {
     try {
       final streamController = StreamController<ResponseModel<ChatEntryEntity>>.broadcast();
 
-      chatEntryRepository.listenToNewConversations().listen((conversationId) async {
+      chatEntryRepository.listenToConversationsChanges().listen((conversationId) async {
         final conversationModels = await chatEntryRepository.getConversationInfo(conversationId);
         if (conversationModels == null)
           ResponseModel.failure(
@@ -82,10 +82,10 @@ class ChatService {
     }
   }
 
-  ResponseModel<Stream<ResponseModel<ChatEntryEntity>>> listenToConversationChanges(String conversationId) {
+  ResponseModel<Stream<ResponseModel<ChatEntryEntity>>> listenToNewMessages(String conversationId) {
     try {
       final streamController = StreamController<ResponseModel<ChatEntryEntity>>.broadcast();
-      chatEntryRepository.listenToConversationChanges(conversationId).listen((messageModel) async {
+      chatEntryRepository.listenToNewMessages(conversationId).listen((messageModel) async {
         // get the conversation info of the current new message
         final conversationModels = await chatEntryRepository.getConversationInfo(conversationId);
         // stream it back
