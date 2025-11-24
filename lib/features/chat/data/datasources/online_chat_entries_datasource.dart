@@ -65,6 +65,7 @@ class OnlineChatEntriesDataSource {
     if (conversationMap == null) return null;
 
     final conversation = ConversationModel.fromMap(conversationMap);
+
     if (conversation.lastMessageId == null) return null;
 
     // 2 get message

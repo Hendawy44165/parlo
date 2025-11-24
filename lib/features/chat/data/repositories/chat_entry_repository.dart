@@ -25,12 +25,14 @@ class ChatEntryRepository {
     final StreamController<String> controller = StreamController.broadcast();
     final channel = supabase.channel(Supabase.instance.client.auth.currentUser!.id);
     channel
-        .onBroadcast(
-          event: 'conversation_participant_created',
-          callback: (payload) {
-            controller.add(payload['payload']['conversation_id']);
-          },
-        )
+        //! This only gets triggered when an empty conversation is created so it's useless.
+        //! However, if in the future we create a participant for another reason, this must be reactivated
+        // .onBroadcast(
+        //   event: 'conversation_participant_created',
+        //   callback: (payload) {
+        //     controller.add(payload['payload']['conversation_id']);
+        //   },
+        // )
         .onBroadcast(
           event: 'conversation_has_new_message',
           callback: (payload) {

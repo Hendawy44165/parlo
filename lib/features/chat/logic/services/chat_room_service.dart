@@ -44,10 +44,10 @@ class ChatRoomService {
       final message = await supabase.rpc(
         'send_message',
         params: {
-          'conversation_id': conversationId,
-          'content': text,
-          'sender_ephemeral_key': 'LDJFALSDKJF', // TODO: send the actual one for e2ee
-          'message_counter': 5, // TODO: send the actual one for e2ee
+          'p_conversation_id': conversationId,
+          'p_content': text,
+          'p_sender_ephemeral_key': 'LDJFALSDKJF', // TODO: send the actual one for e2ee
+          'p_message_counter': 5, // TODO: send the actual one for e2ee
         },
       );
       final messageModel = MessageModel.fromMap(message);

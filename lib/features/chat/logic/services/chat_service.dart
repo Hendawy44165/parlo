@@ -59,13 +59,18 @@ class ChatService {
 
       chatEntryRepository.listenToConversationsChanges().listen((conversationId) async {
         final conversationModels = await chatEntryRepository.getConversationInfo(conversationId);
-        if (conversationModels == null)
-          ResponseModel.failure(
-            Codes.couldNotGetConversationInfo,
-            ErrorHandlingService.getMessage(Codes.couldNotGetConversationInfo),
+        if (conversationModels == null) {
+          streamController.add(
+            ResponseModel.failure(
+              Codes.couldNotGetConversationInfo,
+              ErrorHandlingService.getMessage(Codes.couldNotGetConversationInfo),
+            ),
           );
+          return;
+        }
+
         final conversationEntity = ChatEntryEntity.fromModels(
-          conversation: conversationModels!['conversation'],
+          conversation: conversationModels['conversation'],
           conversationParticipant: conversationModels['participant'],
           lastMessage: conversationModels['message'],
           user: conversationModels['user'],
@@ -89,15 +94,18 @@ class ChatService {
         // get the conversation info of the current new message
         final conversationModels = await chatEntryRepository.getConversationInfo(conversationId);
         // stream it back
-        if (conversationModels == null)
+        if (conversationModels == null) {
           streamController.add(
             ResponseModel.failure(
               Codes.couldNotGetConversationInfo,
               ErrorHandlingService.getMessage(Codes.couldNotGetConversationInfo),
             ),
           );
+          return;
+        }
+
         final conversationEntity = ChatEntryEntity.fromModels(
-          conversation: conversationModels!['conversation'],
+          conversation: conversationModels['conversation'],
           conversationParticipant: conversationModels['participant'],
           lastMessage: conversationModels['message'],
           user: conversationModels['user'],
